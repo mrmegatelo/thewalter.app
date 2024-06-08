@@ -9,6 +9,6 @@ repos:
 
     - id: format
       name: format
-      entry: format check
+      entry: ruff check
       language: python
       types: [python]
