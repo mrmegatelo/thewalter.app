@@ -1,0 +1,14 @@
+repos:
+- repo: local
+  hooks:
+    - id: lint
+      name: lint
+      entry: ruff check
+      language: python
+      types: [python]
+
+    - id: format
+      name: format
+      entry: format check
+      language: python
+      types: [python]
