@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Add new feed{% endblock %}
+{% block content %}
+    <h1>Add new feed</h1>
+    <form action="{% url 'new_feed' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add feed</button>
+    </form>
+{% endblock %}
