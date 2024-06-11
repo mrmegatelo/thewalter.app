@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}Walter{% endblock %}
-
 {% block content %}
     <h1>Walter</h1>
     <p>Walter is a feed reader.</p>
     <a href="{% url 'new_feed' %}">Add new feed</a>
+    {% for feed in feed_list %}
+        <section>
+            <h2>{{ feed.title }}</h2>
+            <ul>
+                {% for entry in feed.feeditem_set.all|slice:":10" %}
+                    <li>
+                        <a href="{{ entry.link }}" target="_blank">{{ entry.title }}</a>
+                        <p>{{ entry.summary }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endfor %}
 {% endblock %}
