@@ -12,6 +12,8 @@ psycopg2-binary = "^2.9.9"
 celery = "^5.4.0"
 flower = "^2.0.1"
 redis = "^5.0.5"
+feedparser = "^6.0.11"
+watchfiles = "^0.22.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.8"

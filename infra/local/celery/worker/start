@@ -3,4 +3,6 @@
 set -o errexit
 set -o nounset
 
-celery -A walter worker -l INFO
+watchfiles \
+  --filter python \
+  'celery -A walter worker -l INFO'
