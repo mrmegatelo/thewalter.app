@@ -25,8 +25,3 @@ class NewFeed(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'New Feed'
         return context
-
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        # form.save()
-        return super().form_valid(form)
