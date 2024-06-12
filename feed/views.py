@@ -1,11 +1,16 @@
 from django.views.generic import TemplateView, CreateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from feed.forms import FeedForm
 from feed.models import Feed
 
 
+class ProtectedViewMixin(LoginRequiredMixin):
+    login_url = '/login/'
+
+
 # Create your views here.
-class IndexView(ListView):
+class IndexView(ProtectedViewMixin, ListView):
     model = Feed
     template_name = 'index.html'
 
@@ -15,11 +20,11 @@ class IndexView(ListView):
         return context
 
 
-class FeedSuccess(TemplateView):
+class FeedSuccess(ProtectedViewMixin, TemplateView):
     template_name = 'feed/success.html'
 
 
-class NewFeed(CreateView):
+class NewFeed(ProtectedViewMixin, CreateView):
     form_class = FeedForm
     template_name = 'feed/new.html'
     success_url = '/feed_success/'
