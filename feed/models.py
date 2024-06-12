@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 
@@ -12,6 +13,7 @@ class Feed(models.Model):
     url = models.URLField()
     rss_url = models.URLField()
     pub_date = models.DateTimeField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

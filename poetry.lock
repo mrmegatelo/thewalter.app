@@ -727,6 +727,17 @@ files = [
 ]
 
 [[package]]
+name = "rules"
+version = "3.4"
+description = "Awesome Django authorization, without the database"
+optional = false
+python-versions = "*"
+files = [
+    {file = "rules-3.4-py2.py3-none-any.whl", hash = "sha256:e906114d9b3cce73871213c6311b94cb26a5bc2c3b00aa2f13d3633a65447817"},
+    {file = "rules-3.4.tar.gz", hash = "sha256:c4702c1d60ca43e97d4dfced31e98274c652dea3c461105d8df6186d663e3212"},
+]
+
+[[package]]
 name = "sgmllib3k"
 version = "1.0.0"
 description = "Py3k port of sgmllib."
@@ -947,4 +958,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e33dd51bf379fa18e199c6041d4d1592d9084a1c524dbd456a8eec66fce75ddb"
+content-hash = "21daa65282546eab4b563afd4653c7f1e010bbc4e850d1c5d82715085b294034"

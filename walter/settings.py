@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'feed',
+    'rules',
     'django_celery_beat',
 ]
 
@@ -72,6 +73,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'walter.wsgi.application'
 
+# Auth settings
+AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
