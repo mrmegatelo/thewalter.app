@@ -7,7 +7,9 @@
     <a href="{% url 'new_feed' %}">Add new feed</a>
     {% for feed in feed_list %}
         <section>
-            <h2>{{ feed.title }}</h2>
+            <h2>
+                <a href="{{ feed.url }}" target="_blank">{{ feed.title }}</a>
+            </h2>
             <ul>
                 {% for entry in feed.feeditem_set.all|slice:":10" %}
                     <li>
