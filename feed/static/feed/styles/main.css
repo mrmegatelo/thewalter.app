@@ -1,0 +1,85 @@
+/*
+* Josh's Custom CSS Reset
+* https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+#root, #__next {
+    isolation: isolate;
+}
+
+/**
+* Vars
+ */
+:root {
+    --feed-columns-count: 3
+}
+
+/**
+* Global styles
+*/
+
+body {
+    font-size: 16px;
+}
+
+/**
+* Main components styles
+*/
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin: 48px 0;
+}
+
+/**
+* Atomic components
+*/
+.feed-list {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(var(--feed-columns-count), minmax(0, 1fr));
+    gap: 32px /*TODO replace with var*/
+}
+
+.feed-menu {
+    margin: 64px 0 48px;
+}
+
+.feed-links-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.feed-links-list__item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Walter{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
 </head>
-<body>
-<header>
+<body class="container">
+<header class="header">
     <h1>
         <a href="{% url 'index' %}">Walter</a>
     </h1>
@@ -15,7 +17,7 @@
         {% include 'blocks/header/anonym.html' %}
     {% endif %}
 </header>
-<main>
+<main class="content">
     {% block content %}
     {% endblock %}
 </main>
