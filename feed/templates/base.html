@@ -5,7 +5,19 @@
     <title>{% block title %}Walter{% endblock %}</title>
 </head>
 <body>
-{% block content %}
-{% endblock %}
+<header>
+    <h1>
+        <a href="{% url 'index' %}">Walter</a>
+    </h1>
+    {% if user.is_authenticated %}
+        {% include 'blocks/header/authenticated.html' %}
+    {% else %}
+        {% include 'blocks/header/anonym.html' %}
+    {% endif %}
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
 </body>
 </html>

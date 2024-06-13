@@ -2,9 +2,8 @@
 
 {% block title %}Walter{% endblock %}
 {% block content %}
-    <h1>Walter</h1>
-    <p>Walter is a feed reader.</p>
-    <a href="{% url 'new_feed' %}">Add new feed</a>
+    <h1>Your feed</h1>
+    <a href="{% url 'new_feed' %}">Add new feed source</a>
     {% for feed in feed_list %}
         <section>
             <h2>

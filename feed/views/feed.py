@@ -23,7 +23,10 @@ class Created(ProtectedViewMixin, TemplateView):
 class Create(ProtectedViewMixin, CreateView):
     form_class = FeedForm
     template_name = 'feed/new.html'
-    success_url = '/feed/success/'
+    success_url = '/feed/new/success/'
+
+    def get_initial(self):
+        return {'created_by': self.request.user}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
