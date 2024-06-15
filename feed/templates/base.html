@@ -8,9 +8,9 @@
 </head>
 <body class="container">
 <header class="header">
-    <h1>
+    <span class="header-logo">
         <a href="{% url 'index' %}">Walter</a>
-    </h1>
+    </span>
     {% if user.is_authenticated %}
         {% include 'blocks/header/authenticated.html' %}
     {% else %}

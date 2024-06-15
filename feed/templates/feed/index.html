@@ -5,26 +5,28 @@
     <header class="page-header">
         <h1>Your feed</h1>
     </header>
-    <section class="feed-menu">
-        <a href="{% url 'new_feed' %}">Add new feed source</a>
-    </section>
-    <section class="feed-list">
-        {% for feed in feed_list %}
-            <section class="feed">
-                <header class="feed-header">
-                    <h2>
-                        <a href="{{ feed.url }}" target="_blank">{{ feed.title }}</a>
-                    </h2>
-                </header>
-                <ul class="feed-links-list">
-                    {% for entry in feed.feeditem_set.all|slice:":10" %}
-                        <li class="feed-links-list__item">
-                            <a href="{{ entry.link }}" target="_blank">{{ entry.title }}</a>
-                            <p>{{ entry.summary }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
-        {% endfor %}
-    </section>
+    <div class="feed-wrapper">
+        <section class="feed-menu">
+            <a href="{% url 'new_feed' %}">Add new feed source</a>
+        </section>
+        <section class="feed-list">
+            {% for feed in feed_list %}
+                <section class="feed">
+                    <header class="feed-header">
+                        <h2>
+                            <a href="{{ feed.url }}" target="_blank">{{ feed.title }}</a>
+                        </h2>
+                    </header>
+                    <ul class="feed-links-list">
+                        {% for entry in feed.feeditem_set.all|slice:":10" %}
+                            <li class="feed-links-list__item">
+                                <a href="{{ entry.link }}" target="_blank">{{ entry.title }}</a>
+                                <p>{{ entry.summary }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endfor %}
+        </section>
+    </div>
 {% endblock %}
