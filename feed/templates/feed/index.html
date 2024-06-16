@@ -2,18 +2,21 @@
 
 {% block title %}Walter{% endblock %}
 {% block content %}
-    <header class="page-header">
-        <h1>Your feed</h1>
-    </header>
-    <div class="feed-wrapper">
-        <section class="feed-menu">
-            <a href="{% url 'new_feed' %}">Add new feed source</a>
+    {% include 'blocks/page-heading.html' with heading='Your feed'%}
+    <div class="feed-wrapper subgrid spread">
+        <section class="feed-menu spread">
+            <a
+                class="button"
+                href="{% url 'new_feed' %}"
+            >
+                Add new feed source
+            </a>
         </section>
-        <section class="feed-list">
+        <section class="feed-list subgrid spread">
             {% for feed in feed_list %}
                 <section class="feed">
                     <header class="feed-header">
-                        <h2>
+                        <h2  class="heading">
                             <a href="{{ feed.url }}" target="_blank">{{ feed.title }}</a>
                         </h2>
                     </header>

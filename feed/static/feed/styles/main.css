@@ -36,9 +36,18 @@ p, h1, h2, h3, h4, h5, h6 {
 * Vars
  */
 :root {
+    /* Grid system */
     --grid-columns: 12;
     --grid-step: 8px;
     --grid-column-gap: calc(var(--grid-step) * 4);
+
+    /* Colors */
+    --color-text: #2C353A;
+    --color-background: #F5F5F5;
+    --color-primary: #FF6340;
+
+    /* Shadows */
+    --shadow-primary: 0 0 12px -4px rgba(255, 99, 64, 0.9);
 }
 
 /**
@@ -46,7 +55,14 @@ p, h1, h2, h3, h4, h5, h6 {
 */
 
 body {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
     font-size: 16px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    color: var(--color-text);
 }
 
 /**
@@ -65,14 +81,25 @@ body {
     grid-row-gap: calc(var(--grid-step) * 10);
 }
 
-.page-header {
+.subgrid {
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
+.spread {
     grid-column: span var(--grid-columns);
 }
 
+.page-header {
+}
+
+.heading {
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
 .header {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: span var(--grid-columns);
     align-items: center;
 }
 
@@ -96,21 +123,14 @@ body {
 */
 
 .feed-wrapper {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: span var(--grid-columns);
     grid-row-gap: calc(var(--grid-step) * 6);
 }
 
 .feed-list {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: span var(--grid-columns);
     grid-row-gap: calc(var(--grid-step) * 4);
 }
 
 .feed-menu {
-    grid-column: span var(--grid-columns);
 }
 
 .feed {
@@ -118,7 +138,14 @@ body {
     grid-column: span calc(var(--grid-columns) / var(--feed-columns-count));
 }
 
+.feed-header {
+    margin-bottom: calc(var(--grid-step) * 1.5);
+}
+
 .feed-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 0.5);
     padding-left: 0;
     list-style: none;
 }
@@ -127,4 +154,31 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 2);
+    border: none;
+    border-radius: calc(var(--grid-step) * 1.5);
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-primary);
+}
+
+/* Forms and inputs */
+.form {
+    display: grid;
+    grid-row-gap: calc(var(--grid-step) * 2);
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 0.5);
 }

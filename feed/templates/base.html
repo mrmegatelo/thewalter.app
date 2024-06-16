@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Walter{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&family=Source+Serif+4:opsz@8..60&display=swap" rel="stylesheet">
     {% load static %}
     <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
 </head>
 <body class="container">
-<header class="header">
+<header class="header subgrid spread">
     <span class="header-logo">
         <a href="{% url 'index' %}">Walter</a>
     </span>
