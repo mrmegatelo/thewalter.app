@@ -1,14 +1,15 @@
 from django.views.generic import TemplateView, CreateView, ListView
 
 from feed.forms import FeedForm
-from feed.models import Feed
+from feed.models import FeedItem
 from feed.views.mixins import ProtectedViewMixin
 
 
 # Create your views here.
 class Index(ProtectedViewMixin, ListView):
-    model = Feed
+    model = FeedItem
     template_name = 'feed/index.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

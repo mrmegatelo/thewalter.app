@@ -36,5 +36,13 @@ class FeedItem(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def pub_day(self):
+        """
+        Return the publication date without the time. This could be a perfomance issue if the database is large.
+        :return:
+        """
+        return self.pub_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
     class Meta:
         ordering = ['-pub_date']

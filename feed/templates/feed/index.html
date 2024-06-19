@@ -1,30 +1,36 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block title %}Walter{% endblock %}
+
 {% block content %}
-    {% include 'blocks/page-heading.html' with heading='Your feed'%}
+    {% include 'blocks/page-heading.html' with heading='Your feed' %}
     <div class="feed-wrapper subgrid spread">
         <section class="feed-menu spread">
             <a
-                class="button"
-                href="{% url 'new_feed' %}"
+                    class="button"
+                    href="{% url 'new_feed' %}"
             >
                 Add new feed source
             </a>
         </section>
         <section class="feed-list subgrid spread">
-            {% for feed in feed_list %}
+            {% regroup feeditem_list by pub_day as feeditems %}
+            {% for date, feed_items in feeditems %}
                 <section class="feed">
                     <header class="feed-header">
-                        <h2  class="heading">
-                            <a href="{{ feed.url }}" target="_blank">{{ feed.title }}</a>
+                        <h2 class="heading">
+                            {{ date|naturalday|title }}
                         </h2>
                     </header>
                     <ul class="feed-links-list">
-                        {% for entry in feed.feeditem_set.all|slice:":10" %}
-                            <li class="feed-links-list__item">
-                                <a href="{{ entry.link }}" target="_blank">{{ entry.title }}</a>
-                                <p>{{ entry.summary }}</p>
+                        {% for entry in feed_items %}
+                            <li class="feed-links-list-item">
+                                <div class="feed-links-list-item__link">
+                                    <a href="{{ entry.link }}" target="_blank">{{ entry.title }}</a>
+                                </div>
+                                <div class="feed-links-list-item__controls">
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
