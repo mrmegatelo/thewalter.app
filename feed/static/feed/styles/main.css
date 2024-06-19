@@ -224,3 +224,37 @@ body {
     flex-direction: column;
     gap: calc(var(--grid-step) * 0.5);
 }
+
+.pagination {
+    position: sticky;
+    display: flex;
+    gap: calc(var(--grid-step) * 3);
+    bottom: 0;
+    padding: 24px 0;
+    background-image: linear-gradient(transparent, white 30%);
+}
+
+.pagination-list {
+    display: flex;
+    gap: calc(var(--grid-step) * 1);
+    padding-left: 0;
+    list-style: none;
+}
+
+.pagination-item {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.pagination-item a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.pagination-item:hover {
+    --color-text: var(--color-blue);
+}
+
+.pagination-item--active {
+    font-weight: 700;
+}

@@ -14,6 +14,8 @@ class Index(ProtectedViewMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Walter'
+        page = context['page_obj']
+        context['paginator_range'] = page.paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         return context
 
 

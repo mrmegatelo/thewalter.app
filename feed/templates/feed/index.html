@@ -38,4 +38,70 @@
             {% endfor %}
         </section>
     </div>
+    <nav class="pagination spread">
+        {% if page_obj.has_previous %}
+            <ul class="pagination-list">
+                <li class="pagination-item">
+                    <a
+                            class="pagination-link"
+                            href="?page=1"
+                    >
+                        First
+                    </a>
+                </li>
+                <li class="pagination-item">
+                    <a
+                            class="pagination-link"
+                            href="?page={{ page_obj.previous_page_number }}"
+                    >
+                        Previous
+                    </a>
+                </li>
+            </ul>
+        {% endif %}
+        <ul class="pagination-list">
+            {% for num in paginator_range %}
+                <li class="pagination-item
+            {% if num == page_obj.number %}
+            pagination-item--active
+            {% endif %}
+            ">
+                    {% if num == "…" %}
+                        {{ num }}
+                    {% else %}
+                        <a
+                                class="pagination-link"
+                                href="?page={{ num }}"
+                        >
+                            {{ num }}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        {% if page_obj.has_next %}
+            <ul class="pagination-list">
+                <li class="pagination-item">
+                    <a
+                            class="pagination-link"
+                            href="?page={{ page_obj.next_page_number }}"
+                    >
+                        Next
+                    </a>
+                </li>
+                <li class="pagination-item
+                    {% if page_obj.paginator.num_pages == page_obj.number %}
+                        pagination-item--active
+                    {% endif %}
+                ">
+                    <a
+                            class="pagination-link"
+                            href="?page={{ page_obj.paginator.num_pages }}"
+                    >
+                        Last
+                    </a>
+                </li>
+            </ul>
+        {% endif %}
+    </nav>
 {% endblock %}
