@@ -1,0 +1,70 @@
+{% load humanize %}
+
+{% regroup feeditem_list by pub_day as feeditems %}
+<section class="feed-menu spread">
+    <a
+            class="button"
+            href="{% url 'new_feed' %}"
+    >
+        Add new feed source
+    </a>
+</section>
+<section class="spread">
+    {% include 'blocks/feed/filters.html' %}
+</section>
+<section class="feed-list subgrid spread">
+    {% for date, feed_items in feeditems %}
+        <div class="feed">
+            <header class="feed-header">
+                <h2 class="heading">
+                    {{ date|naturalday|title }}
+                </h2>
+            </header>
+            <ul class="feed-links-list">
+                {% for entry in feed_items %}
+                    <li class="feed-links-list-item">
+                        <div class="feed-links-list-item__link">
+                            <a
+                                    title="{{ entry.title }}"
+                                    href="{{ entry.link }}" target="_blank"
+                            >
+                                {{ entry.title }}
+                            </a>
+                        </div>
+                        <div class="feed-links-list-item-controls">
+                            <form
+                                    method="post"
+                                    id="feed-item-controls"
+                                    hx-target="#feed"
+                            >
+                                {% csrf_token %}
+                                <button
+                                        class="feed-links-list-item-controls__button"
+                                        {% if entry in hidden_feed_items %}
+                                        title="Unmark as not interesting"
+                                        {% else %}
+                                        title="Mark as not interesting"
+                                        {% endif %}
+                                        type="submit"
+                                        formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
+                                        hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
+                                >
+                                <span
+                                        class="material-symbols-outlined feed-links-list-item-controls__icon"
+                                >
+                                    {% if entry in hidden_feed_items %}
+                                        visibility
+                                    {% else %}
+                                        visibility_off
+                                    {% endif %}
+                                </span>
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</section>
+{% include 'blocks/feed/pagination.html' %}

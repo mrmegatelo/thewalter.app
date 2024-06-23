@@ -1,5 +1,3 @@
-from . import index
-from . import feed
+from . import index, api, feed
 
-__all__ = ['feed', 'index']
-
+__all__ = ['feed', 'api', 'index']

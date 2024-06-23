@@ -1,0 +1,26 @@
+<div class="feed-filters">
+    <h4>Filter:</h4>
+    <form
+            id="feed-filters"
+            class="feed-filters-form"
+            method="post"
+            hx-trigger="change"
+            hx-target="#feed"
+            hx-get="{% url 'api_feed_list' %}"
+    >
+        <input type="hidden" name="filter" value="enabled"/>
+        <div class="feed-filters-item">
+            <input
+                    type="checkbox"
+                    name="filter"
+                    id="filter_by_interesting"
+                    value="only_interesting"
+                    {% if applied_filters.only_interesting %}
+                    checked
+                    {% endif %}
+            />
+            <label for="filter_by_interesting" class="feed-filters-item__title">Only interesting</label>
+        </div>
+        <a class="link" href="{% url 'feed_index' %}">Reset filters</a>
+    </form>
+</div>

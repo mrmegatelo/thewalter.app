@@ -46,3 +46,10 @@ class FeedItem(models.Model):
 
     class Meta:
         ordering = ['-pub_date']
+
+
+class UserSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    hidden_feed_items = models.ManyToManyField(FeedItem, blank=True)
+
+
