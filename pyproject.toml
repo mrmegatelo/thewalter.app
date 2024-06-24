@@ -16,6 +16,7 @@ feedparser = "^6.0.11"
 watchfiles = "^0.22.0"
 django-celery-beat = "^2.6.0"
 rules = "^3.4"
+gunicorn = "^22.0.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.8"
