@@ -7,4 +7,4 @@ set -o nounset
 python /app/manage.py collectstatic --noinput
 python /app/manage.py migrate
 
-/usr/local/bin/gunicorn walter.asgi:application
+gunicorn walter.wsgi:application --bind 0.0.0.0:8000 --workers 3
