@@ -4,6 +4,7 @@ from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
 from django.utils.translation import gettext as _
 
+from feed.models import UserSettings
 from feed.views.feed.generic_feed_items_list import GenericFeedItemListView
 
 
@@ -78,9 +79,14 @@ class FeedItemActions(GenericApiFeedItemListView):
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)
-        hidden_feed_items_qs = user.usersettings.hidden_feed_items
-        if hidden_feed_items_qs.contains(feed_item):
-            hidden_feed_items_qs.remove(feed_item)
+        if hasattr(user, 'usersettings'):
+            hidden_feed_items_qs = user.usersettings.hidden_feed_items
+            if hidden_feed_items_qs.contains(feed_item):
+                hidden_feed_items_qs.remove(feed_item)
+            else:
+                hidden_feed_items_qs.add(feed_item)
         else:
-            hidden_feed_items_qs.add(feed_item)
+            usersettings = UserSettings(user=user)
+            usersettings.save()
+            usersettings.hidden_feed_items.add(feed_item)
         return feed_item

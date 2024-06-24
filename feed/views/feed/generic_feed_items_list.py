@@ -29,7 +29,9 @@ class GenericFeedItemListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Walter'
         page = context['page_obj']
-        context['hidden_feed_items'] = self.request.user.usersettings.hidden_feed_items.all()
+
+        if hasattr(self.request.user, 'usersettings'):
+            context['hidden_feed_items'] = self.request.user.usersettings.hidden_feed_items.all()
         context['paginator_range'] = page.paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         context['applied_filters'] = self.applied_filters
         context['applied_filters_str'] = self.applied_filters_str
