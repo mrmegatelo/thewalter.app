@@ -19,7 +19,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./infra/production/django/Dockerfile
+      dockerfile: infra/production/django/Dockerfile
     command: /start
     volumes:
       - staticfiles:/app/staticfiles
@@ -50,7 +50,7 @@ services:
   celery_worker:
     build:
       context: .
-      dockerfile: ./infra/production/django/Dockerfile
+      dockerfile: infra/production/django/Dockerfile
     image: walter_celery_worker
     command: /start-celeryworker
     volumes:
@@ -65,7 +65,7 @@ services:
   celery_beat:
     build:
       context: .
-      dockerfile: ./infra/production/django/Dockerfile
+      dockerfile: infra/production/django/Dockerfile
     image: walter_celery_beat
     command: /start-celerybeat
     volumes:
@@ -80,7 +80,7 @@ services:
   flower:
     build:
       context: .
-      dockerfile: ./infra/production/django/Dockerfile
+      dockerfile: infra/production/django/Dockerfile
     image: walter_celery_flower
     command: /start-flower
     volumes:
