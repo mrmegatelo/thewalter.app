@@ -25,6 +25,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", 'very_secret_key')
 DEBUG = int(os.environ.get("DEBUG", 1))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(" ")
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
