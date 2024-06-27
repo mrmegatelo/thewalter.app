@@ -3,7 +3,9 @@
 {% block title %}Success{% endblock %}
 
 {% block content %}
-    <h1>Success</h1>
-    <p>Feed has been added.</p>
-    <a href="{% url 'feed_index' %}">Back to feed</a>
+    {% include 'blocks/page-heading.html' with heading='Success' %}
+    <div id="feed" class="spread">
+        <p>Feed has been added.</p>
+        <a href="{% url 'feed_index' %}">Back to feed</a>
+    </div>
 {% endblock %}

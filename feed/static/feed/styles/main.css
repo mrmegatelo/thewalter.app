@@ -44,6 +44,7 @@ p, h1, h2, h3, h4, h5, h6 {
     /* Colors */
     --color-text: #2C353A;
     --color-paragraph: #46555D;
+    --color-grey-light: #D0D8DC;
     --color-background: #F5F5F5;
     --color-primary: #FF6340;
     --color-blue: #4464AD;
@@ -74,13 +75,16 @@ body {
     --base-max-width: 1280px;
     --side-padding: calc(var(--grid-step) * 6);
     --vertical-padding: calc(var(--grid-step) * 4);
+    --row-gap: calc(var(--grid-step) * 10);
     max-width: calc(var(--base-max-width) + (var(--side-padding) * 2));
     padding: var(--vertical-padding) var(--side-padding);
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    grid-template-rows: auto 1fr;
     grid-column-gap: var(--grid-column-gap);
-    grid-row-gap: calc(var(--grid-step) * 10);
+    grid-row-gap: var(--row-gap);
+    min-height: 100vh;
 }
 
 .subgrid {
@@ -128,6 +132,13 @@ body {
 
 .link:hover {
     color: var(--color-blue);
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 /**
@@ -263,6 +274,12 @@ body {
     gap: var(--grid-step);
 }
 
+.input {
+    border: 1px solid var(--color-grey-light);
+    padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 2);
+    border-radius: calc(var(--grid-step) * 1.5);
+}
+
 /* Pagination */
 .pagination {
     position: sticky;
@@ -296,4 +313,19 @@ body {
 
 .pagination-item--active {
     font-weight: 700;
+}
+
+.landing-hero {
+    gap: 32px;
+}
+
+.landing-caption {
+}
+
+.landing-form {
+    gap: 16px;
+}
+
+.paragraph {
+    color: var(--color-paragraph);
 }

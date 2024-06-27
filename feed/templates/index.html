@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="spread">
-        <h1 class="heading">The only feed you need.</h1>
-        <p>Get what matters, skip the rest.</p>
+    <div class="spread v-full center landing-hero">
+        <div class="landing-caption center">
+            <h1 class="heading">The only feed you need.</h1>
+            <p class="paragraph">Get what matters, skip the rest.</p>
+        </div>
+        <div class="landing-form center">
+            <form>
+                <input class="input" type="email" name="email" placeholder="Enter your email">
+                <button class="button" type="submit">Join the waitlist</button>
+            </form>
+            <span class="paragraph">2 000 people already joined.</span>
+        </div>
     </div>
 {% endblock %}
