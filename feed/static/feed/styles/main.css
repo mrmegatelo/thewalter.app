@@ -43,7 +43,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
     /* Colors */
     --color-text: #2C353A;
-    --color-paragraph: #46555D;
+    --color-paragraph: #69808C;
     --color-grey-light: #D0D8DC;
     --color-background: #F5F5F5;
     --color-primary: #FF6340;
@@ -101,7 +101,7 @@ body {
 
 .heading {
     font-optical-sizing: auto;
-    font-weight: 700;
+    font-weight: 900;
     font-style: normal;
 }
 
