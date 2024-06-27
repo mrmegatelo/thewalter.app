@@ -19,7 +19,9 @@
 <body class="container">
 <header class="header subgrid spread">
     <span class="header-logo">
-        <a href="{% url 'index' %}">Walter</a>
+        <a href="{% url 'index' %}">
+            <img src="{% static 'feed/img/logo.svg' %}" alt="Walter" class="logo">
+        </a>
     </span>
     {% if user.is_authenticated %}
         {% include 'blocks/header/authenticated.html' %}
