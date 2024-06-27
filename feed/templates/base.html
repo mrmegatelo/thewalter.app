@@ -3,18 +3,18 @@
 <head>
     <title>{{ title }}</title>
     <meta name="og:title" content="{{ title }}">
+	<meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% if description %}
-        <meta name="description" content="{{ description }}">
-        <meta name="og:description" content="{{ description }}">
-        <meta name="twitter:description" content="{{ description }}">
-    {% endif %}
-    {% if cover_img %}
-        <meta name="og:image" content="{{ cover_img }}">
-        <meta name="twitter:image" content="{{ cover_img }}">
+    <meta name="description" content="{{ description }}">
+    <meta name="og:description" content="{{ description }}">
+    <meta name="twitter:description" content="{{ description }}">
     {% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +32,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'feed/favicon/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'feed/favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'feed/site.webmanifest' %}">
+    {% if cover_img %}
+    <meta name="og:image" content="{% static cover_img %}">
+    <meta name="twitter:image" content="{% static cover_img %}">
+    {% endif %}
 </head>
 <body class="container">
 <header class="header subgrid spread">
