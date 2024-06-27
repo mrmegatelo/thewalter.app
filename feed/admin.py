@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
 # Register your models here.
-from .models import Feed, FeedItem, UserSettings
+from .models import Feed, FeedItem, UserSettings, WaitlistRequest
 
 
 class UserSettingsInline(admin.StackedInline):
@@ -32,3 +32,4 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Feed, FeedAdmin)
 admin.site.register(FeedItem, FeedItemAdmin)
+admin.site.register(WaitlistRequest)

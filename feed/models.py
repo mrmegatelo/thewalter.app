@@ -53,3 +53,8 @@ class UserSettings(models.Model):
     hidden_feed_items = models.ManyToManyField(FeedItem, blank=True)
 
 
+class WaitlistRequest(models.Model):
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email

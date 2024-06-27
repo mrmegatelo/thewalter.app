@@ -278,6 +278,23 @@ body {
     border: 1px solid var(--color-grey-light);
     padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 2);
     border-radius: calc(var(--grid-step) * 1.5);
+
+    &.error {
+        border-color: red;
+    }
+}
+
+.field-row {
+    position: relative;
+
+    & > .error-text {
+        position: absolute;
+        top: 100%;
+        left: 17px;
+        bottom: -20px;
+        color: red;
+        font-size: 0.75rem;
+    }
 }
 
 /* Pagination */
@@ -328,4 +345,9 @@ body {
 
 .paragraph {
     color: var(--color-paragraph);
+}
+
+.waitlist-form {
+    display: flex;
+    gap: var(--grid-step);
 }

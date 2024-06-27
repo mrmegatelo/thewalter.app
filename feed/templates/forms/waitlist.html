@@ -1,0 +1,16 @@
+<form
+        class="waitlist-form"
+        action="{% url 'waitlist' %}" method="post"
+        hx-post="{% url 'waitlist' %}"
+        hx-trigger="submit"
+        hx-target="#waitlist-form-wrapper"
+>
+    {% csrf_token %}
+    <div class="field-row">
+        <input class="input {% if error %}error{% endif %}" type="email" name="email" placeholder="Enter your email" value="{{ email }}" required>
+        {% if error %}
+            <div class="error-text error">{{ error }}</div>
+        {% endif %}
+    </div>
+    <button class="button" type="submit">Join the waitlist</button>
+</form>

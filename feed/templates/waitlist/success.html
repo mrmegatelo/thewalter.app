@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="spread v-full center landing-hero">
+        <div class="landing-caption center">
+            <h1 class="heading">You're in the waitlist.</h1>
+            <p class="paragraph">Yoo will receive an email with further instructions.</p>
+            <a href="{% url 'index' %}">Go back</a>
+        </div>
+    </div>
+{% endblock %}

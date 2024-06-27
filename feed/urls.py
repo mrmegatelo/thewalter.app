@@ -2,7 +2,6 @@ from django.contrib.auth.views import LoginView
 from django.urls import path
 
 import feed.views.feed.feed_create
-import feed.views.feed.feed_items_list
 import feed.views.feed.feed_success
 from . import views
 
@@ -16,6 +15,10 @@ urlpatterns = [
 
     # Auth URLs
     path('login/', LoginView.as_view(next_page='feed_index'), name='login'),
+
+    # Waitlist URLs
+    path('waitlist/', feed.views.waitlist.WaitlistView.as_view(), name='waitlist'),
+    path('waitlist/success/', feed.views.waitlist.WaitlistSuccessView.as_view(), name='waitlist_success'),
 
     # API URLs
     path('api/v1/feed/', feed.views.api.FeedItemListView.as_view(), name='api_feed_list'),
