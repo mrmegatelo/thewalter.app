@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>{{ title }}</title>
+    <meta name="og:title" content="{{ title }}">
+    <meta name="twitter:title" content="{{ title }}">
     <meta charset="UTF-8">
-    <title>{% block title %}Walter{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% if description %}
+        <meta name="description" content="{{ description }}">
+        <meta name="og:description" content="{{ description }}">
+        <meta name="twitter:description" content="{{ description }}">
+    {% endif %}
+    {% if cover_img %}
+        <meta name="og:image" content="{{ cover_img }}">
+        <meta name="twitter:image" content="{{ cover_img }}">
+    {% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@700&family=Source+Serif+4:opsz@8..60&display=swap"
@@ -39,9 +52,9 @@
 </main>
 <footer class="spread">
     <footer class="footer">
-    © {% now "Y" %} | Walter by
-    <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>
-</footer>
+        © {% now "Y" %} | Walter by
+        <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>
+    </footer>
 </footer>
 </body>
 </html>

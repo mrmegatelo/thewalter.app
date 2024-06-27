@@ -7,4 +7,6 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Walter'
+        context['description'] = 'The only feed you need.'
+        context['cover_img'] = '/static/feed/img/cover.jpg'
         return context
