@@ -333,14 +333,17 @@ body {
 }
 
 .landing-hero {
-    gap: 32px;
+    gap: 48px;
 }
 
 .landing-caption {
+    h1 {
+        font-size: 48px;
+    }
 }
 
 .landing-form {
-    gap: 16px;
+    gap: 24px;
 }
 
 .paragraph {
