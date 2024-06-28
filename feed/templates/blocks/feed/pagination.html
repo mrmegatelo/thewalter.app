@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load url_with_filters %}
 <nav class="pagination spread">
         {% if page_obj.has_previous %}
@@ -5,17 +6,9 @@
                 <li class="pagination-item">
                     <a
                             class="pagination-link"
-                            href="{% page_url_with_filters 1 %}"
-                    >
-                        First
-                    </a>
-                </li>
-                <li class="pagination-item">
-                    <a
-                            class="pagination-link"
                             href="{% page_url_with_filters page_obj.previous_page_number %}"
                     >
-                        Previous
+                        {% translate 'Previous' noop %}
                     </a>
                 </li>
             </ul>
@@ -47,19 +40,7 @@
                             class="pagination-link"
                             href="{% page_url_with_filters page_obj.next_page_number %}"
                     >
-                        Next
-                    </a>
-                </li>
-                <li class="pagination-item
-                    {% if page_obj.paginator.num_pages == page_obj.number %}
-                        pagination-item--active
-                    {% endif %}
-                ">
-                    <a
-                            class="pagination-link"
-                            href="{% page_url_with_filters page_obj.paginator.num_pages %}"
-                    >
-                        Last
+                        {% translate 'Next' noop %}
                     </a>
                 </li>
             </ul>

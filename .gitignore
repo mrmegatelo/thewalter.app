@@ -3,3 +3,6 @@
 __pycache__/
 celerybeat-schedule
 .env
+
+# Compiled translations. We don't want to track these files in git.
+*.mo

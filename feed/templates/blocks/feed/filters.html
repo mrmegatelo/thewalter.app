@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="feed-filters">
     <h4>Filter:</h4>
     <form
@@ -19,7 +20,7 @@
                     checked
                     {% endif %}
             />
-            <label for="filter_by_interesting" class="feed-filters-item__title">Only interesting</label>
+            <label for="filter_by_interesting" class="feed-filters-item__title">{% translate 'Only interesting' noop %}</label>
         </div>
         <a class="link" href="{% url 'feed_index' %}">Reset filters</a>
     </form>

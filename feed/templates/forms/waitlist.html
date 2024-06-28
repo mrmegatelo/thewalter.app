@@ -1,3 +1,4 @@
+{% load i18n %}
 <form
         class="waitlist-form"
         action="{% url 'waitlist' %}" method="post"
@@ -7,10 +8,16 @@
 >
     {% csrf_token %}
     <div class="field-row">
-        <input class="input {% if error %}error{% endif %}" type="email" name="email" placeholder="Enter your email" value="{{ email }}" required>
+        <input
+                class="input {% if error %}error{% endif %}"
+                type="email" name="email"
+                placeholder="{% translate 'Enter your email' noop %}"
+                value="{{ email }}"
+                required
+        >
         {% if error %}
             <div class="error-text error">{{ error }}</div>
         {% endif %}
     </div>
-    <button class="button" type="submit">Join the waitlist</button>
+    <button class="button" type="submit">{% translate 'Join the waitlist' noop %}</button>
 </form>

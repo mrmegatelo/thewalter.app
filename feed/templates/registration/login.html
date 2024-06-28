@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-
-{% block title %}Login{% endblock %}
+{% load i18n %}
+{% block title %}{% translate 'Login' noop %}{% endblock %}
 
 {% block content %}
     <h1>Login</h1>
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Login</button>
+        <button type="submit">{% translate 'Login' noop %}</button>
     </form>
 {% endblock %}

@@ -1,0 +1,111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-28 08:44+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+#: feed/templates/blocks/feed/filters.html:23
+msgid "Only interesting"
+msgstr ""
+
+#: feed/templates/blocks/feed/list.html:10
+msgid "Add new feed source"
+msgstr ""
+
+#: feed/templates/blocks/feed/list.html:45
+msgid "Show in feed"
+msgstr ""
+
+#: feed/templates/blocks/feed/list.html:47
+msgid "Hide from feed"
+msgstr ""
+
+#: feed/templates/blocks/feed/pagination.html:11
+msgid "Previous"
+msgstr ""
+
+#: feed/templates/blocks/feed/pagination.html:43
+msgid "Next"
+msgstr ""
+
+#: feed/templates/blocks/header/authenticated.html:4
+msgid "My feed"
+msgstr ""
+
+#: feed/templates/feed/new.html:11
+msgid "Add feed"
+msgstr ""
+
+#: feed/templates/feed/success.html:8
+msgid "Feed has been added."
+msgstr ""
+
+#: feed/templates/feed/success.html:9
+msgid "Back to my feed"
+msgstr ""
+
+#: feed/templates/forms/waitlist.html:14
+msgid "Enter your email"
+msgstr ""
+
+#: feed/templates/forms/waitlist.html:22
+msgid "Join the waitlist"
+msgstr ""
+
+#: feed/templates/index.html:6
+msgid "The only feed you need."
+msgstr ""
+
+#: feed/templates/index.html:7
+msgid "Get what matters, skip the rest."
+msgstr ""
+
+#: feed/templates/index.html:14
+#, python-format
+msgid "%(subscribers_count)s people already joined."
+msgstr ""
+
+#: feed/templates/registration/login.html:3
+#: feed/templates/registration/login.html:10
+msgid "Login"
+msgstr ""
+
+#: feed/templates/waitlist/success.html:6
+msgid "You're in the waitlist."
+msgstr ""
+
+#: feed/templates/waitlist/success.html:7
+msgid "Yoo will receive an email with further instructions."
+msgstr ""
+
+#: feed/templates/waitlist/success.html:8
+msgid "Go back"
+msgstr ""
+
+#: feed/views/api.py:33
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: feed/views/api.py:40
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#, python-format
+#~ msgid "subscribers_joined"
+#~ msgstr "%(subscribers_count)s people already joined."

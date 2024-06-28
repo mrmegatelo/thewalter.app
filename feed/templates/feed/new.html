@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block title %}Add new feed{% endblock %}
 {% block content %}
-    {% include 'blocks/page-heading.html' with heading='Add new feed' %}
+    {% include 'blocks/page-heading.html' with heading='New feed' %}
     <div class="spread">
         <form class="form" method="post" action="{% url 'new_feed' %}">
             {% csrf_token %}
             {{ form.as_div }}
-            <button class="button" type="submit">Add feed</button>
+            <button class="button" type="submit">
+                {% translate 'Add feed' noop %}
+            </button>
         </form>
     </div>
 {% endblock %}

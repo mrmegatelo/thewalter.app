@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load humanize %}
 
 {% regroup feeditem_list by pub_day as feeditems %}
@@ -6,7 +7,7 @@
             class="button"
             href="{% url 'new_feed' %}"
     >
-        Add new feed source
+        {%  translate 'Add new feed source' noop %}
     </a>
 </section>
 <section class="spread">
@@ -41,9 +42,9 @@
                                 <button
                                         class="feed-links-list-item-controls__button"
                                         {% if entry in hidden_feed_items %}
-                                        title="Unmark as not interesting"
+                                        title="{% translate 'Show in feed' noop %}"
                                         {% else %}
-                                        title="Mark as not interesting"
+                                        title="{% translate 'Hide from feed' noop %}"
                                         {% endif %}
                                         type="submit"
                                         formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"

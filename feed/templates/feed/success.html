@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block title %}Success{% endblock %}
 
 {% block content %}
     {% include 'blocks/page-heading.html' with heading='Success' %}
     <div id="feed" class="spread">
-        <p>Feed has been added.</p>
-        <a href="{% url 'feed_index' %}">Back to feed</a>
+        <p>{% translate 'Feed has been added.' noop %}</p>
+        <a href="{% url 'feed_index' %}">{% translate 'Back to my feed' noop %}</a>
     </div>
 {% endblock %}

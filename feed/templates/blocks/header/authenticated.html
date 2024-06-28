@@ -1,3 +1,6 @@
+{% load i18n %}
 <nav class="header-nav">
-    <a class="link" href="{% url 'feed_index' %}">Feed</a>
+    <a class="link" href="{% url 'feed_index' %}">
+        {% translate 'My feed' noop %}
+    </a>
 </nav>
