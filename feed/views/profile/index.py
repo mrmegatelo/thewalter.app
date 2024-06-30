@@ -1,10 +1,7 @@
 from django.views.generic import TemplateView
+from django.utils.translation import gettext_noop as _
 
 
 class ProfileIndexView(TemplateView):
     template_name = 'profile/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Profile'
-        return context
+    title = _('Profile')

@@ -1,12 +1,15 @@
 from django.views.generic import ListView
+from django.utils.translation import gettext_noop as _
 
 from feed.models import FeedItem
+from feed.views.mixins import PageMetaMixin
 
 
-class GenericFeedItemListView(ListView):
+class GenericFeedItemListView(ListView, PageMetaMixin):
     model = FeedItem
     paginate_by = 20
     applied_filters = {'only_interesting': True}
+    title = _('Feed')
 
     def setup(self, request, *args, **kwargs):
         filters = self.init_filters(request)
@@ -27,7 +30,6 @@ class GenericFeedItemListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'My feed'
         page = context['page_obj']
 
         if hasattr(self.request.user, 'usersettings'):

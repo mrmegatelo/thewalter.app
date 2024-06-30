@@ -33,9 +33,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'feed/favicon/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'feed/favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'feed/site.webmanifest' %}">
-    {% if cover_img %}
-        <meta name="og:image" content="{% static cover_img %}">
-        <meta name="twitter:image" content="{% static cover_img %}">
+    {% if cover %}
+        <meta name="og:image" content="{% static cover %}">
+        <meta name="twitter:image" content="{% static cover %}">
     {% endif %}
     {% if not debug %}
         <!-- Google tag (gtag.js) -->
