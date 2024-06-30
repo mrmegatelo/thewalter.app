@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'feed',
     'rules',
     'django_celery_beat',
+    'django.forms',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'walter.urls'
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 TEMPLATES = [
     {
@@ -82,6 +85,10 @@ AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+LOGIN_REDIRECT_URL = '/feed/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/profile/login/'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

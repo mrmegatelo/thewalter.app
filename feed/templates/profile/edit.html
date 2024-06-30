@@ -1,0 +1,10 @@
+{% extends 'profile/index.html' %}
+
+{% block profile_content %}
+    {% include 'blocks/page-heading.html' %}
+    <form class="form" method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button class="button" type="submit">Save</button>
+    </form>
+{% endblock %}

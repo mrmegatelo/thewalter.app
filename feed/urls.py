@@ -1,5 +1,7 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, \
+    PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 
 import feed.views.feed.feed_create
 import feed.views.feed.feed_success
@@ -14,7 +16,30 @@ urlpatterns = [
     path('feed/new/success/', feed.views.feed.feed_success.Created.as_view(), name='feed_success'),
 
     # Auth URLs
-    path('login/', LoginView.as_view(next_page='feed_index'), name='login'),
+    path('profile/', login_required(feed.views.profile.index.ProfileIndexView.as_view()),
+         name='profile'),
+    path('profile/edit/', login_required(feed.views.profile.edit.ProfileEditView.as_view()),
+         name='profile_edit'),
+    path('profile/login/', LoginView.as_view(), name='login'),
+    path('profile/logout/', LogoutView.as_view(), name='logout'),
+    path('profile/password_change/', PasswordChangeView.as_view(), name='password_change'),
+    path('profile/password_change/done/', PasswordChangeDoneView.as_view(), name='password_change_done'),
+    path("profile/password_reset/", PasswordResetView.as_view(), name="password_reset"),
+    path(
+        "profile/password_reset/done/",
+        PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "rofile/reset/<uidb64>/<token>/",
+        PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "profile/reset/done/",
+        PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
 
     # Waitlist URLs
     path('waitlist/', feed.views.waitlist.WaitlistView.as_view(), name='waitlist'),

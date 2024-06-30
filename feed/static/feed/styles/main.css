@@ -47,7 +47,9 @@ p, h1, h2, h3, h4, h5, h6 {
     --color-grey-light: #D0D8DC;
     --color-background: #F5F5F5;
     --color-primary: #FF6340;
-    --color-blue: #4464AD;
+    --color-error: #E02900;
+    --color-blue: #2C67F2;
+    --color-blue-dark: #1A4FDB;
 
     /* Shadows */
     --shadow-primary: 0 0 12px -4px rgba(255, 99, 64, 0.9);
@@ -110,12 +112,24 @@ body {
 }
 
 .header-logo {
-    grid-column: span 4
+    grid-column: span calc(var(--grid-columns) / 3);
 }
 
 .header-nav {
-    grid-column-start: 5;
+    grid-column-start: calc(var(--grid-columns) / 3);
+    grid-column: span calc(var(--grid-columns) / 3);
+}
+
+.header-right {
     font-weight: 500;
+    display: flex;
+    grid-column-start: calc(var(--grid-columns) / 3 * 2);
+    justify-content: flex-end;
+    grid-column: span calc(var(--grid-columns) / 3);
+}
+
+.header-nav-menu {
+    font-weight: 600;
 }
 
 .content {
@@ -125,13 +139,42 @@ body {
     grid-row-gap: calc(var(--grid-step) * 8);
 }
 
-.link {
-    color: var(--color-text);
+.content-inner {
+    grid-template-rows: min-content;
+}
+
+.nav-list {
+    display: flex;
+    gap: calc(var(--grid-step) * 3);
+    list-style: none;
+    padding: 0;
+
+    &.vertical {
+        flex-direction: column;
+        gap: calc(var(--grid-step) * 2);
+    }
+}
+
+.nav-list__link {
     text-decoration: none;
+
+    &.link {
+        color: var(--color-text);
+    }
+
+    &.active {
+        color: var(--color-paragraph);
+    }
+}
+
+.link {
+    color: var(--color-blue);
+    text-decoration: none;
+    transition: color 0.15s;
 }
 
 .link:hover {
-    color: var(--color-blue);
+    color: var(--color-blue-dark);
 }
 
 .center {
@@ -139,6 +182,58 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+/**
+* Grid system
+ */
+
+.cols-1 {
+    grid-column: span 1;
+}
+
+.cols-2 {
+    grid-column: span 2;
+}
+
+.cols-3 {
+    grid-column: span 3;
+}
+
+.cols-4 {
+    grid-column: span 4;
+}
+
+.cols-5 {
+    grid-column: span 5;
+}
+
+.cols-6 {
+    grid-column: span 6;
+}
+
+.cols-7 {
+    grid-column: span 7;
+}
+
+.cols-8 {
+    grid-column: span 8;
+}
+
+.cols-9 {
+    grid-column: span 9;
+}
+
+.cols-10 {
+    grid-column: span 10;
+}
+
+.cols-11 {
+    grid-column: span 11;
+}
+
+.cols-12 {
+    grid-column: span 12;
 }
 
 /**
@@ -179,9 +274,10 @@ body {
 }
 
 .feed-links-list-item__link {
-    color: var(--color-paragraph);
+    color: var(--color-text);
     display: flex;
     max-width: calc(var(--grid-step) * 80);
+    transition: color 0.15s;
 
     & a {
         color: inherit;
@@ -216,7 +312,7 @@ body {
 }
 
 .feed-links-list-item:hover {
-    --color-paragraph: var(--color-blue);
+    --color-text: var(--color-blue);
 
     & .feed-links-list-item-controls {
         opacity: 1;
@@ -266,7 +362,35 @@ body {
     display: flex;
     flex-direction: column;
     gap: calc(var(--grid-step) * 0.5);
+
+    &.has-errors {
+        & .input {
+            border-color: var(--color-error);
+        }
+    }
 }
+
+.form-label {
+    margin-left: calc(var(--grid-step) * 2);
+    font-weight: 600;
+}
+
+.form-input-help {
+    margin-left: calc(var(--grid-step) * 2);
+    color: var(--color-paragraph);
+}
+
+
+.form-errors {
+    display: flex;
+    flex-direction: column;
+    margin-left: calc(var(--grid-step) * 2);
+    gap: calc(var(--grid-step) * 0.5);
+    list-style: none;
+    padding-left: 0;
+    color: var(--color-error);
+}
+
 
 .feed-filters-item {
     display: flex;
@@ -280,7 +404,7 @@ body {
     border-radius: calc(var(--grid-step) * 1.5);
 
     &.error {
-        border-color: red;
+        border-color: var(--color-error);
     }
 }
 
@@ -337,6 +461,8 @@ body {
 }
 
 .landing-caption {
+    text-align: center;
+
     h1 {
         font-size: 48px;
     }
@@ -353,4 +479,28 @@ body {
 .waitlist-form {
     display: flex;
     gap: var(--grid-step);
+}
+
+
+/**
+* Responsive styles
+ */
+@media screen and (max-width: 768px) {
+    :root {
+        --grid-column-gap: calc(var(--grid-step) * 2);
+    }
+
+    .container {
+        --side-padding: calc(var(--grid-step) * 4);
+    }
+
+    .cols-mobile-12 {
+        grid-column: span 12;
+    }
+
+
+    /* Main components styles */
+    .waitlist-form {
+        flex-direction: column;
+    }
 }
