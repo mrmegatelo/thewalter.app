@@ -378,6 +378,11 @@ body {
 .form-input-help {
     margin-left: calc(var(--grid-step) * 2);
     color: var(--color-paragraph);
+
+    & > ul {
+        padding-left: 0;
+        list-style: none;
+    }
 }
 
 
