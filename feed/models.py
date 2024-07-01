@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.text import slugify
+from slugify import slugify
 
 
 # Create your models here.
@@ -23,6 +23,7 @@ class Feed(models.Model):
         # Create a slug if it is not provided. Just to make it easier for the user.
         if not self.slug:
             self.slug = slugify(self.title)
+
         super().save(*args, **kwargs)
 
 
