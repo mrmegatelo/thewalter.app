@@ -7,9 +7,9 @@ import feed.views.feed.feed_create
 import feed.views.feed.feed_success
 from . import views
 
+
 urlpatterns = [
     path('', views.index.Index.as_view(), name='index'),
-
     # Feed  URLs
     path('feed/', feed.views.feed.feed_items_list.FeedItemsListView.as_view(), name='feed_index'),
     path('feed/new/', feed.views.feed.feed_create.Create.as_view(), name='new_feed'),
