@@ -8,7 +8,7 @@ class ProtectedViewMixin(LoginRequiredMixin):
 
 
 class PageMetaMixin(ContextMixin):
-    title = 'Walter'
+    title = 'thewalter.app'
     description = _('The only feed you need.')
     cover = 'feed/img/cover.jpg'
 
