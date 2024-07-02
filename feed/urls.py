@@ -31,7 +31,7 @@ urlpatterns = [
         name="password_reset_done",
     ),
     path(
-        "rofile/reset/<uidb64>/<token>/",
+        "profile/reset/<uidb64>/<token>/",
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
