@@ -2,6 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
     PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import path
 from django.contrib.auth.decorators import login_required
+from django.views.generic import RedirectView
 
 import feed.views.feed.feed_create
 import feed.views.feed.feed_success
@@ -16,7 +17,7 @@ urlpatterns = [
     path('feed/new/success/', feed.views.feed.feed_success.Created.as_view(), name='feed_success'),
 
     # Auth URLs
-    path('profile/', login_required(feed.views.profile.index.ProfileIndexView.as_view()),
+    path('profile/', login_required(RedirectView.as_view(url='/profile/edit/')),
          name='profile'),
     path('profile/edit/', login_required(feed.views.profile.edit.ProfileEditView.as_view()),
          name='profile_edit'),

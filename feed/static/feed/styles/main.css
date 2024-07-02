@@ -340,7 +340,7 @@ body {
 /* Buttons */
 .button {
     display: inline-block;
-    padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 2);
+    padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 3);
     border: none;
     border-radius: calc(var(--grid-step) * 1.5);
     background-color: var(--color-primary);
@@ -352,15 +352,24 @@ body {
     box-shadow: var(--shadow-primary);
 }
 
+.button_blank {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
 /* Forms and inputs */
 .form {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     grid-row-gap: calc(var(--grid-step) * 2);
+    align-items: flex-start;
 }
 
 .form-row {
     display: flex;
     flex-direction: column;
+    align-self: stretch;
     gap: calc(var(--grid-step) * 0.5);
 
     &.has-errors {
@@ -394,6 +403,10 @@ body {
     list-style: none;
     padding-left: 0;
     color: var(--color-error);
+}
+
+.form-submit {
+    margin-top: calc(var(--grid-step) * 3);
 }
 
 

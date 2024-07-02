@@ -1,9 +1,9 @@
 {% extends 'profile/index.html' %}
-
+{% load i18n %}
 {% block profile_content %}
     <form class="form" method="post">
         {% csrf_token %}
         {{ form.as_div }}
-        <button class="button" type="submit">Save</button>
+        <button class="button form-submit" type="submit">{% translate 'Save changes' noop %}</button>
     </form>
 {% endblock %}
