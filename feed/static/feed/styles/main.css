@@ -99,6 +99,9 @@ body {
 }
 
 .page-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: calc(var(--grid-step) * 2);
 }
 
 .heading {
