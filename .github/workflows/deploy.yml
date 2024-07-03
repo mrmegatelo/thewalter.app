@@ -47,6 +47,11 @@ jobs:
           secret_CELERY_FLOWER_USER: ${{ secrets.CELERY_FLOWER_USER }}
           secret_CELERY_FLOWER_PASSWORD: ${{ secrets.CELERY_FLOWER_PASSWORD }}
           secret_CHANNELS_REDIS: ${{ vars.CHANNELS_REDIS }}
+          secret_EMAIL_HOST: ${{ vars.EMAIL_HOST }}
+          secret_EMAIL_PORT: ${{ vars.EMAIL_PORT }}
+          secret_EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          secret_EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          secret_EMAIL_USE_TLS: ${{ vars.EMAIL_USE_TLS }}
       - run: echo "GITHUB_SHA=$GITHUB_SHA" >> .env
       - run: echo "${{ secrets.PRODUCTION_SSH_KEY }}" > ${{ env.SSH_KEY_PATH }} && chmod 600 ${{ env.SSH_KEY_PATH }}
       - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY_PATH }} -r $(pwd)/* ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/walter/walter
