@@ -1,11 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import ContextMixin
 from django.utils.translation import gettext_noop as _
-
-
-class ProtectedViewMixin(LoginRequiredMixin):
-    login_url = '/profile/login/'
-
 
 class PageMetaMixin(ContextMixin):
     title = 'thewalter.app'
