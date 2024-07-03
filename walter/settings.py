@@ -166,8 +166,6 @@ if not DEBUG:
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
     DEFAULT_FROM_EMAIL = 'no-reply@thewalter.app'
 
-    print(EMAIL_HOST, EMAIL_PORT, EMAIL_USE_TLS, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, DEFAULT_FROM_EMAIL)
-
     if SENTRY_DSN:
         sentry_sdk.init(
             dsn=SENTRY_DSN,

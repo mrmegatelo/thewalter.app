@@ -3,12 +3,16 @@
 {% block title %}{% translate 'Login' noop %}{% endblock %}
 
 {% block content %}
-    <div>
-        {% include 'blocks/page-heading.html' %}
-        <form class="form" action="{% url 'login' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="button form-submit" type="submit">{% translate 'Login' noop %}</button>
-        </form>
+    <div class="content content-inner">
+        <div class="cols-12">
+            {% include 'blocks/page-heading.html' %}
+        </div>
+        <div class="cols-4 cols-mobile-12">
+            <form class="form" action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <button class="button form-submit" type="submit">{% translate 'Login' noop %}</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

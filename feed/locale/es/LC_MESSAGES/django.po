@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-28 08:44+0200\n"
+"POT-Creation-Date: 2024-07-03 17:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,8 +43,17 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: feed/templates/blocks/header/authenticated.html:4
+#: feed/templates/blocks/header/authenticated.html:3
 msgid "My feed"
+msgstr ""
+
+#: feed/templates/blocks/header/authenticated.html:5
+#: feed/views/profile/index.py:7
+msgid "Profile"
+msgstr ""
+
+#: feed/templates/blocks/logout.html:4
+msgid "Log out"
 msgstr ""
 
 #: feed/templates/feed/new.html:11
@@ -67,7 +76,7 @@ msgstr ""
 msgid "Join the waitlist"
 msgstr ""
 
-#: feed/templates/index.html:6
+#: feed/templates/index.html:6 feed/views/mixins.py:6
 msgid "The only feed you need."
 msgstr ""
 
@@ -80,9 +89,72 @@ msgstr ""
 msgid "%(subscribers_count)s people already joined."
 msgstr ""
 
+#: feed/templates/profile/edit.html:7
+msgid "Save changes"
+msgstr ""
+
+#: feed/templates/profile/index.html:5
+msgid "Edit profile"
+msgstr ""
+
+#: feed/templates/profile/index.html:7
+msgid "Change password"
+msgstr ""
+
 #: feed/templates/registration/login.html:3
-#: feed/templates/registration/login.html:10
+#: feed/templates/registration/login.html:14
 msgid "Login"
+msgstr ""
+
+#: feed/templates/registration/password_change_done.html:7
+msgid "Your password has been changed successfully."
+msgstr ""
+
+#: feed/templates/registration/password_change_form.html:7
+#: feed/templates/registration/password_reset_confirm.html:19
+msgid "Change my password"
+msgstr ""
+
+#: feed/templates/registration/password_reset_complete.html:8
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: feed/templates/registration/password_reset_complete.html:10
+msgid "Log in"
+msgstr ""
+
+#: feed/templates/registration/password_reset_confirm.html:8
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: feed/templates/registration/password_reset_confirm.html:10
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+
+#: feed/templates/registration/password_reset_done.html:7
+msgid ""
+"We’ve emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: feed/templates/registration/password_reset_done.html:8
+msgid ""
+"If you don’t receive an email, please make sure you’ve entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: feed/templates/registration/password_reset_form.html:7
+msgid ""
+"Forgotten your password? Enter your email address below, and we’ll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: feed/templates/registration/password_reset_form.html:13
+msgid "Reset my password"
 msgstr ""
 
 #: feed/templates/waitlist/success.html:6
@@ -104,6 +176,18 @@ msgstr ""
 #: feed/views/api.py:40
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: feed/views/feed/feed_create.py:12
+msgid "New Feed"
+msgstr ""
+
+#: feed/views/feed/generic_feed_items_list.py:12
+msgid "Feed"
+msgstr ""
+
+#: feed/views/profile/edit.py:22
+msgid "Edit Profile"
 msgstr ""
 
 #, python-format

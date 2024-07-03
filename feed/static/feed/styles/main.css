@@ -365,7 +365,7 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    grid-row-gap: calc(var(--grid-step) * 2);
+    grid-row-gap: calc(var(--grid-step) * 4);
     align-items: flex-start;
 }
 
@@ -373,7 +373,7 @@ body {
     display: flex;
     flex-direction: column;
     align-self: stretch;
-    gap: calc(var(--grid-step) * 0.5);
+    gap: calc(var(--grid-step) * 1.5);
 
     &.has-errors {
         & .input {
@@ -409,7 +409,7 @@ body {
 }
 
 .form-submit {
-    margin-top: calc(var(--grid-step) * 3);
+    margin-top: calc(var(--grid-step) * 2);
 }
 
 
