@@ -1,0 +1,65 @@
+{% extends 'emails/base.html' %}
+{% block content %}
+    <div style="font-weight:normal;padding:0px 24px 16px 24px">
+        <p>Hi👋 I&#39;m Mikhail, creator of thewalter.app.</p>
+    </div>
+    <div style="font-weight:normal;padding:16px 24px 16px 24px">
+        I hope this message finds you well! First and foremost, I want
+        to extend my heartfelt thanks for your patience and enthusiasm.
+        It means the world to me that you’re excited to be a part of
+        thewalter.app.
+    </div>
+    <div style="font-weight:normal;padding:16px 24px 16px 24px">
+        I’m thrilled to inform you that your wait is over – your
+        invitation to join thewalter.app is here! 🎉
+    </div>
+    <div style="font-weight:normal;padding:16px 24px 16px 24px">
+        To get started, simply click the link below and follow the
+        prompts to set up your account:
+    </div>
+    <div style="padding:16px 24px 24px 24px">
+        <a
+                href="{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}"
+                style="color:#FFFFFF;font-size:14px;font-weight:bold;background-color:#0079cc;border-radius:4px;display:inline-block;padding:12px 20px;text-decoration:none"
+                target="_blank"
+        ><span
+        ><!--[if mso
+                      ]><i
+                        style="letter-spacing: 20px;mso-font-width:-100%;mso-text-raise:30"
+                        hidden
+                        >&nbsp;</i
+                      ><!
+                    [endif]--></span
+        ><span>Join</span
+        ><span
+        ><!--[if mso
+                      ]><i
+                        style="letter-spacing: 20px;mso-font-width:-100%"
+                        hidden
+                        >&nbsp;</i
+                      ><!
+                    [endif]--></span
+        ></a
+        >
+    </div>
+    <div style="font-weight:normal;padding:16px 24px 16px 24px">
+        <p>
+            If you have any questions or need assistance, don&#39;t
+            hesitate to reach out to me directly via
+            <a href="https://t.me/mrmike24" target="_blank">Telegram</a>
+            or
+            <a href="https://x.com/mrmegatelo" target="_blank">Twitter</a
+            >. Your feedback is invaluable as the service continues to
+            improve. I genuinely look forward to hearing about your
+            experiences and how thewalter.app is making a difference for
+            you.
+        </p>
+    </div>
+    <div style="font-weight:normal;padding:16px 24px 16px 24px">
+        Thank you once again for joining us on this journey. Welcome to
+        the Walter community – we’re so happy to have you here!
+    </div>
+    <div style="font-weight:normal;padding:16px 24px 16px 24px">
+        Warm regards, Mikhail
+    </div>
+{% endblock %}

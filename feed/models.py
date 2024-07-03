@@ -56,6 +56,7 @@ class UserSettings(models.Model):
 
 class WaitlistRequest(models.Model):
     email = models.EmailField()
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.email
