@@ -25,7 +25,10 @@ urlpatterns = [
     path('profile/logout/', login_required(LogoutView.as_view()), name='logout'),
     path('profile/password_change/', login_required(PasswordChangeView.as_view()), name='password_change'),
     path('profile/password_change/done/', login_required(PasswordChangeDoneView.as_view()), name='password_change_done'),
-    path("profile/password_reset/", anonym_required(PasswordResetView.as_view()), name="password_reset"),
+    path("profile/password_reset/",
+         anonym_required(PasswordResetView.as_view(html_email_template_name="emails/registration/password_reset_email.html")),
+         name="password_reset"
+         ),
     path(
         "profile/password_reset/done/",
         anonym_required(PasswordResetDoneView.as_view()),
