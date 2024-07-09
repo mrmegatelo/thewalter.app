@@ -19,7 +19,7 @@
     </div>
     <div style="padding:16px 24px 24px 24px">
         <a
-                href="{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}"
+                href="{{ protocol }}://{{ domain }}{% url 'invite_accept_username' uidb64=uid token=token %}"
                 style="color:#FFFFFF;font-size:14px;font-weight:bold;background-color:#0079cc;border-radius:4px;display:inline-block;padding:12px 20px;text-decoration:none"
                 target="_blank"
         ><span

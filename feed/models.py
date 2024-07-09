@@ -54,9 +54,37 @@ class UserSettings(models.Model):
     hidden_feed_items = models.ManyToManyField(FeedItem, blank=True)
 
 
+class Invite(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'Pending'
+        SENT = 'Sent'
+        ACCEPTED = 'Accepted'
+        ACTIVATED = 'Activated'
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
+    created_at = models.DateTimeField(auto_now_add=True)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    accepted_at = models.DateTimeField(null=True, blank=True)
+    activated_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        match self.status:
+            case Invite.Status.PENDING:
+                return f'{self.status} at {self.created_at}'
+            case Invite.Status.SENT:
+                return f'{self.status} at {self.sent_at}'
+            case Invite.Status.ACCEPTED:
+                return f'{self.status} at {self.accepted_at}'
+            case Invite.Status.ACTIVATED:
+                return f'{self.status} at {self.activated_at}'
+
+
 class WaitlistRequest(models.Model):
     email = models.EmailField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    invite = models.OneToOneField('Invite', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.email

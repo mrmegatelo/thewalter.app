@@ -23,10 +23,16 @@ urlpatterns = [
          name='profile_edit'),
     path('profile/login/', anonym_required(LoginView.as_view()), name='login'),
     path('profile/logout/', login_required(LogoutView.as_view()), name='logout'),
+
+    # Password change URLs
     path('profile/password_change/', login_required(PasswordChangeView.as_view()), name='password_change'),
-    path('profile/password_change/done/', login_required(PasswordChangeDoneView.as_view()), name='password_change_done'),
+    path('profile/password_change/done/', login_required(PasswordChangeDoneView.as_view()),
+         name='password_change_done'),
+
+    # Password reset URLs
     path("profile/password_reset/",
-         anonym_required(PasswordResetView.as_view(html_email_template_name="emails/registration/password_reset_email.html")),
+         anonym_required(
+             PasswordResetView.as_view(html_email_template_name="emails/registration/password_reset_email.html")),
          name="password_reset"
          ),
     path(
@@ -43,6 +49,23 @@ urlpatterns = [
         "profile/reset/done/",
         anonym_required(PasswordResetCompleteView.as_view()),
         name="password_reset_complete",
+    ),
+
+    # Invite accept URLs
+    path(
+        "profile/invite/<uidb64>/<token>/set_username",
+        anonym_required(feed.views.profile.invite_username.InviteUsernameView.as_view()),
+        name="invite_accept_username"
+    ),
+    path(
+        "profile/invite/<uidb64>/<token>/set_password",
+        anonym_required(PasswordResetConfirmView.as_view()),
+        name="invite_accept_password"
+    ),
+    path(
+        "profile/invite/<uidb64>/<token>/done",
+        anonym_required(PasswordResetCompleteView.as_view()),
+        name="invite_accept_complete"
     ),
 
     # Waitlist URLs

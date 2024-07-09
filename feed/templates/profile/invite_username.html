@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    <div class="content content-inner">
+        <div class="cols-12">
+            {% include 'blocks/page-heading.html' %}
+            {% if validlink %}
+                <p>{% translate "Please enter your username." %}</p>
+            {% else %}
+                <p>{% translate 'The invite link was invalid, possibly because it has already been used. Please request a new invite.' %}</p>
+            {% endif %}
+        </div>
+        <div class="cols-12">
+            {% if form %}
+                <form class="form" method="post">
+                    {% csrf_token %}
+                    {{ form.as_div }}
+                    <button class="button form-submit" type="submit">{% translate 'Save my username' noop %}</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

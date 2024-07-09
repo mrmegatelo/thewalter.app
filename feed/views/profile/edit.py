@@ -7,8 +7,6 @@ from feed.views.mixins import PageMetaMixin
 
 
 class ProfileEditForm(ModelForm):
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
 
     class Meta:
         model = User
