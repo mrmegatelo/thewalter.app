@@ -19,6 +19,7 @@ rules = "^3.4"
 gunicorn = "^22.0.0"
 python-slugify = "^8.0.4"
 sentry-sdk = "^2.7.1"
+articulo = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.8"

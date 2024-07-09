@@ -13,7 +13,7 @@ class Feed(models.Model):
     url = models.URLField()
     rss_url = models.URLField()
     pub_date = models.DateTimeField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    subscribers = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.title

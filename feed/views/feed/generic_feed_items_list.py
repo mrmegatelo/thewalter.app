@@ -23,10 +23,12 @@ class GenericFeedItemListView(ListView, PageMetaMixin):
 
     def get_queryset(self):
         only_interesting = self.applied_filters.get('only_interesting', False)
+        base_queryset = self.model.objects.filter(feed__subscribers=self.request.user)
         if only_interesting:
-            return self.model.objects.exclude(usersettings__user=self.request.user)
+            return base_queryset.exclude(
+                usersettings__user=self.request.user)
 
-        return self.model.objects.all()
+        return base_queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

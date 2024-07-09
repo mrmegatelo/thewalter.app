@@ -1,12 +1,21 @@
+from urllib.parse import urljoin
+
 from django import forms
-from django.forms.widgets import HiddenInput
 from feed.models import Feed
+from articulo import Articulo
 
 
 class FeedForm(forms.ModelForm):
+
+    def save(self, commit=True):
+        base_url = self.cleaned_data['url']
+        article = Articulo(base_url)
+        rss = article.rss
+        self.instance.title = article.title
+        self.instance.description = article.description
+        self.instance.rss_url = urljoin(base_url, rss)
+        return super().save(commit=commit)
+
     class Meta:
         model = Feed
-        fields = ['url', 'rss_url', 'title', 'description', 'created_by']
-        widgets = {
-            'created_by': HiddenInput()
-        }
+        fields = ['url']
