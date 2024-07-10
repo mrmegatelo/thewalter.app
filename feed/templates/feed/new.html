@@ -2,14 +2,18 @@
 {% load i18n %}
 {% block title %}Add new feed{% endblock %}
 {% block content %}
-    {% include 'blocks/page-heading.html' with heading='New feed' %}
-    <div class="spread">
-        <form class="form" method="post" action="{% url 'new_feed' %}">
-            {% csrf_token %}
-            {{ form.as_div }}
-            <button class="button form-submit" type="submit">
-                {% translate 'Add feed' noop %}
-            </button>
-        </form>
+    <div class="content content-inner">
+        <div class="cols-12">
+            {% include 'blocks/page-heading.html' with heading='New feed' %}
+        </div>
+        <div class="cols-4 cols-mobile-12">
+            <form class="form" method="post" action="{% url 'new_feed' %}">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <button class="button form-submit" type="submit">
+                    {% translate 'Add feed' noop %}
+                </button>
+            </form>
+        </div>
     </div>
 {% endblock %}

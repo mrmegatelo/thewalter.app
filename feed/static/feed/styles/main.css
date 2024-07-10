@@ -294,9 +294,7 @@ body {
 .feed-links-list-item-controls {
     display: flex;
     gap: calc(var(--grid-step) * 0.5);
-    opacity: 0.25;
     pointer-events: none;
-    transition: opacity 0.15s;
     align-items: center;
 }
 
@@ -312,13 +310,26 @@ body {
 
 .feed-links-list-item-controls__icon {
     font-size: 1rem;
+    transition: opacity 0.15s;
+    opacity: 0.25;
+
+    &.active {
+        opacity: 0.75;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &:hover {
+        opacity: 0.5;
+    }
 }
 
 .feed-links-list-item:hover {
     --color-text: var(--color-blue);
 
     & .feed-links-list-item-controls {
-        opacity: 1;
         pointer-events: auto;
     }
 }

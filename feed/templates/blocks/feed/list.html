@@ -7,7 +7,7 @@
             class="button"
             href="{% url 'new_feed' %}"
     >
-        {%  translate 'Add new feed source' noop %}
+        {% translate 'Add new feed source' noop %}
     </a>
 </section>
 <section class="spread">
@@ -50,15 +50,11 @@
                                         formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
                                         hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
                                 >
-                                <span
-                                        class="material-symbols-outlined feed-links-list-item-controls__icon"
-                                >
-                                    {% if entry in hidden_feed_items %}
-                                        visibility
-                                    {% else %}
-                                        visibility_off
-                                    {% endif %}
-                                </span>
+                                    <span
+                                            class="feed-links-list-item-controls__icon {% if entry in hidden_feed_items %}active{% endif %}"
+                                    >
+                                        👎
+                                    </span>
                                 </button>
                             </form>
                         </div>

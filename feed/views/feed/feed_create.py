@@ -21,8 +21,11 @@ class Create(CreateView, PageMetaMixin):
         kwargs = super().get_form_kwargs()
         url = self.request.POST.get('url')
         if url is not None:
-            existing_feed = Feed.objects.get(url=url)
-            if existing_feed:
-                kwargs['instance'] = existing_feed
+            try:
+                existing_feed = Feed.objects.get(url=url)
+            except Feed.DoesNotExist:
+                existing_feed = Feed.objects.create(url=url)
+
+            kwargs['instance'] = existing_feed
 
         return kwargs
