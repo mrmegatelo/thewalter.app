@@ -24,14 +24,15 @@
             <ul class="feed-links-list">
                 {% for entry in feed_items %}
                     <li class="feed-links-list-item">
-                        <div class="feed-links-list-item__link">
+                        <h3 class="feed-links-list-item__link">
                             <a
                                     title="{{ entry.title }}"
                                     href="{{ entry.link }}" target="_blank"
                             >
                                 {{ entry.title }}
                             </a>
-                        </div>
+                        </h3>
+                        <p>{{ entry.description|striptags|truncatechars:300 }}</p>
                         <div class="feed-links-list-item-controls">
                             <form
                                     method="post"

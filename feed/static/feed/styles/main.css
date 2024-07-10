@@ -266,14 +266,15 @@ body {
 .feed-links-list {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 0.5);
+    gap: calc(var(--grid-step) * 2);
     padding-left: 0;
     list-style: none;
 }
 
 .feed-links-list-item {
     display: flex;
-    gap: calc(var(--grid-step) * 1);
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 0.5);
 }
 
 .feed-links-list-item__link {
