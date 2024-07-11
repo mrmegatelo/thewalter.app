@@ -14,6 +14,7 @@ class FeedForm(forms.ModelForm):
         self.instance.title = article.title
         self.instance.description = article.description
         self.instance.rss_url = urljoin(base_url, rss)
+        self.instance.icon = article.icon
         return super().save(commit=commit)
 
     class Meta:

@@ -12,6 +12,7 @@ class Feed(models.Model):
     description = models.TextField()
     url = models.URLField()
     rss_url = models.URLField()
+    icon = models.URLField(max_length=500, blank=True)
     pub_date = models.DateTimeField()
     subscribers = models.ManyToManyField(User, blank=True)
 

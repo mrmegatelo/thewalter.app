@@ -1,68 +1,61 @@
 {% load i18n %}
 {% load humanize %}
 
-{% regroup feeditem_list by pub_day as feeditems %}
-<section class="feed-menu spread">
-    <a
-            class="button"
-            href="{% url 'new_feed' %}"
-    >
-        {% translate 'Add new feed source' noop %}
-    </a>
+<section class="cols-3 cols-mobile-12 relative">
+    <div class="feed-sidebar">
+        <a
+                class="button"
+                href="{% url 'new_feed' %}"
+        >
+            {% translate 'Add new feed source' noop %}
+        </a>
+        {% include 'blocks/feed/filters.html' %}
+    </div>
 </section>
-<section class="spread">
-    {% include 'blocks/feed/filters.html' %}
-</section>
-<section class="feed-list subgrid spread">
-    {% for date, feed_items in feeditems %}
-        <div class="feed">
-            <header class="feed-header">
-                <h2 class="heading">
-                    {{ date|naturalday|title }}
-                </h2>
-            </header>
-            <ul class="feed-links-list">
-                {% for entry in feed_items %}
-                    <li class="feed-links-list-item">
-                        <h3 class="feed-links-list-item__link">
-                            <a
-                                    title="{{ entry.title }}"
-                                    href="{{ entry.link }}" target="_blank"
+<section class="feed-list cols-6 cols-mobile-12">
+    <ul class="feed-links-list">
+        {% for entry in feeditem_list %}
+            <li class="feed-links-list-item">
+                <a class="feed-links-list-item-link"
+                   title="{{ entry.title }}"
+                   href="{{ entry.link }}" target="_blank"
+                >
+                    <h3 class="heading feed-links-list-item__title">
+                        {{ entry.title }}
+                    </h3>
+                </a>
+                <div class="feed-links-list-item-bloginfo">
+                    <img class="feed-links-list-item-bloginfo__icon " src="{{ entry.feed.icon }}"/>
+                    <span class="paragraph">{{ entry.feed }}</span>
+                </div>
+                <p>{{ entry.description|striptags|truncatechars:300 }}</p>
+                <footer class="feed-links-list-item-footer">
+                    <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
+                    <div class="feed-links-list-item-controls">
+                        <form method="post"
+                              id="feed-item-controls"
+                              hx-target="#feed"
+                        >
+                            {% csrf_token %}
+                            <button class="feed-links-list-item-controls__button"
+                                    {% if entry in hidden_feed_items %}
+                                    title="{% translate 'Show in feed' noop %}"
+                                    {% else %}
+                                    title="{% translate 'Hide from feed' noop %}"
+                                    {% endif %}
+                                    type="submit"
+                                    formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
+                                    hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
                             >
-                                {{ entry.title }}
-                            </a>
-                        </h3>
-                        <p>{{ entry.description|striptags|truncatechars:300 }}</p>
-                        <div class="feed-links-list-item-controls">
-                            <form
-                                    method="post"
-                                    id="feed-item-controls"
-                                    hx-target="#feed"
-                            >
-                                {% csrf_token %}
-                                <button
-                                        class="feed-links-list-item-controls__button"
-                                        {% if entry in hidden_feed_items %}
-                                        title="{% translate 'Show in feed' noop %}"
-                                        {% else %}
-                                        title="{% translate 'Hide from feed' noop %}"
-                                        {% endif %}
-                                        type="submit"
-                                        formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
-                                        hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
-                                >
-                                    <span
-                                            class="feed-links-list-item-controls__icon {% if entry in hidden_feed_items %}active{% endif %}"
-                                    >
+                                    <span class="feed-links-list-item-controls__icon {% if entry in hidden_feed_items %}active{% endif %}">
                                         👎
                                     </span>
-                                </button>
-                            </form>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
+                            </button>
+                        </form>
+                    </div>
+                </footer>
+            </li>
+        {% endfor %}
+    </ul>
+    {% include 'blocks/feed/pagination.html' %}
 </section>
-{% include 'blocks/feed/pagination.html' %}

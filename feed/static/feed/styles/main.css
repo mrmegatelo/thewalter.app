@@ -187,6 +187,10 @@ body {
     flex-direction: column;
 }
 
+.relative {
+    position: relative;
+}
+
 /**
 * Grid system
  */
@@ -260,13 +264,13 @@ body {
 }
 
 .feed-header {
-    margin-bottom: calc(var(--grid-step) * 1.5);
+    margin-bottom: calc(var(--grid-step) * 4);
 }
 
 .feed-links-list {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 2);
+    gap: calc(var(--grid-step) * 4);
     padding-left: 0;
     list-style: none;
 }
@@ -274,22 +278,40 @@ body {
 .feed-links-list-item {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 0.5);
+    gap: calc(var(--grid-step) * 1);
 }
 
-.feed-links-list-item__link {
-    color: var(--color-text);
+.feed-links-list-item-bloginfo {
     display: flex;
-    max-width: calc(var(--grid-step) * 80);
+    gap: calc(var(--grid-step) * 1);
+    align-items: center;
+}
+
+.feed-links-list-item-bloginfo__icon {
+    width: 20px;
+    height: 20px;
+}
+
+.feed-links-list-item-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.feed-links-list-item-link {
+    color: var(--color-text);
+    text-decoration: none;
     transition: color 0.15s;
 
-    & a {
-        color: inherit;
-        text-decoration: none;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+    &:hover {
+        --color-text: var(--color-blue);
     }
+}
+
+.feed-links-list-item__title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 1rem;
 }
 
 .feed-links-list-item-controls {
@@ -310,7 +332,7 @@ body {
 }
 
 .feed-links-list-item-controls__icon {
-    font-size: 1rem;
+    font-size: 20px;
     transition: opacity 0.15s;
     opacity: 0.25;
 
@@ -328,8 +350,6 @@ body {
 }
 
 .feed-links-list-item:hover {
-    --color-text: var(--color-blue);
-
     & .feed-links-list-item-controls {
         pointer-events: auto;
     }
@@ -341,9 +361,19 @@ body {
     gap: calc(var(--grid-step) * 1);
 }
 
+.feed-sidebar {
+    position: sticky;
+    top: var(--vertical-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--grid-step) * 6);
+}
+
 .feed-filters-form {
     display: flex;
-    gap: calc(var(--grid-step) * 4);
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 2);
 }
 
 .feed-filters-item {
