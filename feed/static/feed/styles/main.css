@@ -311,6 +311,10 @@ body {
 
 .feed-links-list-item__description {}
 
+.feed-links-list-item__attachment {
+    width: 100%;
+}
+
 .feed-links-list-item-controls {
     display: flex;
     gap: calc(var(--grid-step) * 0.5);

@@ -9,13 +9,19 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 # Register your models here.
-from .models import Feed, FeedItem, UserSettings, WaitlistRequest, Invite
+from .models import Feed, FeedItem, UserSettings, WaitlistRequest, Invite, Attachment
 
 
 class UserSettingsInline(admin.StackedInline):
     model = UserSettings
     can_delete = False
     verbose_name_plural = 'User Settings'
+
+
+class AttachmentInline(admin.TabularInline):
+    model = Attachment
+    can_delete = True
+    verbose_name_plural = 'Attachments'
 
 
 class UserAdmin(BaseUserAdmin):
@@ -31,6 +37,7 @@ class FeedItemAdmin(admin.ModelAdmin):
     list_display = ['title', 'feed', 'pub_date']
     list_filter = ['feed']
     search_fields = ['title', 'description']
+    inlines = [AttachmentInline]
 
 
 @admin.action(description='Send selected invites')

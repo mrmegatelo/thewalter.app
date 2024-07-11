@@ -50,6 +50,15 @@ class FeedItem(models.Model):
         ordering = ['-pub_date']
 
 
+class Attachment(models.Model):
+    class Type(models.TextChoices):
+        AUDIO = 'audio'
+
+    feed_item = models.ForeignKey(FeedItem, related_name='attachments', on_delete=models.CASCADE)
+    type = models.CharField(max_length=20, choices=Type.choices, blank=True)
+    url = models.URLField()
+
+
 class UserSettings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     hidden_feed_items = models.ManyToManyField(FeedItem, blank=True)

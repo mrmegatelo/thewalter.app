@@ -28,6 +28,15 @@
                     <span class="paragraph">{{ entry.feed }}</span>
                 </div>
                 <p class="feed-links-list-item__description">{{ entry.description|striptags|truncatechars:200 }}</p>
+                {% for attachment in entry.attachments.all %}
+                    {% if attachment.type == 'audio' %}
+                        <audio class="feed-links-list-item__attachment"
+                               src="{{ attachment.url }}"
+                               controls
+                        >
+                        </audio>
+                    {% endif %}
+                {% endfor %}
                 <footer class="feed-links-list-item-footer">
                     <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
                     <div class="feed-links-list-item-controls">
