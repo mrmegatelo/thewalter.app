@@ -9,7 +9,7 @@ class GenericFeedItemListView(ListView, PageMetaMixin):
     model = FeedItem
     paginate_by = 20
     applied_filters = {'only_interesting': True}
-    title = _('Feed')
+    title = _('My feed')
 
     def setup(self, request, *args, **kwargs):
         filters = self.init_filters(request)

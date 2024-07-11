@@ -1,13 +1,12 @@
 {% load i18n %}
 {% load humanize %}
-
+{% include 'blocks/page-heading.html' %}
 <section class="cols-3 cols-mobile-12 relative">
     <div class="feed-sidebar">
-        <a
-                class="button"
-                href="{% url 'new_feed' %}"
+        <a class="button"
+           href="{% url 'new_feed' %}"
         >
-            {% translate 'Add new feed source' noop %}
+            {% translate 'Add new source' noop %}
         </a>
         {% include 'blocks/feed/filters.html' %}
     </div>
@@ -28,7 +27,7 @@
                     <img class="feed-links-list-item-bloginfo__icon " src="{{ entry.feed.icon }}"/>
                     <span class="paragraph">{{ entry.feed }}</span>
                 </div>
-                <p>{{ entry.description|striptags|truncatechars:300 }}</p>
+                <p class="feed-links-list-item__description">{{ entry.description|striptags|truncatechars:200 }}</p>
                 <footer class="feed-links-list-item-footer">
                     <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
                     <div class="feed-links-list-item-controls">

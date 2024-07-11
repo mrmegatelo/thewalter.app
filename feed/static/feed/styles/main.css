@@ -307,12 +307,9 @@ body {
     }
 }
 
-.feed-links-list-item__title {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 1rem;
-}
+.feed-links-list-item__title {}
+
+.feed-links-list-item__description {}
 
 .feed-links-list-item-controls {
     display: flex;
@@ -334,18 +331,14 @@ body {
 .feed-links-list-item-controls__icon {
     font-size: 20px;
     transition: opacity 0.15s;
-    opacity: 0.25;
+    opacity: 0.2;
 
     &.active {
-        opacity: 0.75;
-
-        &:hover {
-            opacity: 1;
-        }
+        opacity: 1;
     }
 
     &:hover {
-        opacity: 0.5;
+        opacity: 0.6;
     }
 }
 
@@ -486,10 +479,8 @@ body {
 
 /* Pagination */
 .pagination {
-    position: sticky;
     display: flex;
     gap: calc(var(--grid-step) * 3);
-    bottom: 0;
     padding: 24px 0;
     background-image: linear-gradient(transparent, white 30%);
 }
