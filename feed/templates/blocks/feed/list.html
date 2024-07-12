@@ -6,6 +6,7 @@
         <a class="button"
            href="{% url 'new_feed' %}"
         >
+            <span class="material-symbols-outlined button__icon">add_circle</span>
             {% translate 'Add new source' noop %}
         </a>
         {% include 'blocks/feed/filters.html' %}
@@ -21,13 +22,17 @@
                 >
                     <h3 class="heading feed-links-list-item__title">
                         {{ entry.title }}
+                        {% if entry.has_paid_content %}
+                            <span title="There may be paid content">🔒</span>
+                        {% endif %}
                     </h3>
                 </a>
                 <div class="feed-links-list-item-bloginfo">
                     <img class="feed-links-list-item-bloginfo__icon "
                          src="{{ entry.feed.icon }}"
                     />
-                    <a class="link paragraph"
+                    <a class="feed-links-list-item-bloginfo__link link paragraph"
+                       title="{{ entry.feed }}"
                        href="{{ entry.feed.url }}"
                        target="_blank"
                     >

@@ -32,8 +32,9 @@ class FeedItem(models.Model):
     title = models.CharField(max_length=200)
     feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
     description = models.TextField()
-    link = models.URLField()
+    link = models.URLField(max_length=500)
     pub_date = models.DateTimeField()
+    has_paid_content = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

@@ -285,6 +285,13 @@ body {
     display: flex;
     gap: calc(var(--grid-step) * 1);
     align-items: center;
+    white-space: nowrap;
+}
+
+.feed-links-list-item-bloginfo__link {
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .feed-links-list-item-bloginfo__icon {
@@ -381,7 +388,8 @@ body {
 
 /* Buttons */
 .button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 3);
     border: none;
     border-radius: calc(var(--grid-step) * 1.5);
@@ -392,6 +400,11 @@ body {
     text-decoration: none;
     cursor: pointer;
     box-shadow: var(--shadow-primary);
+}
+
+.button__icon {
+    margin-right: calc(var(--grid-step) * 1.5);
+    margin-left: calc(var(--grid-step) * -1.5);
 }
 
 .button_blank {
