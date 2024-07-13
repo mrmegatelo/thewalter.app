@@ -433,6 +433,14 @@ body {
     }
 }
 
+.button_text {
+    background: transparent;
+    color: var(--color-text);
+    box-shadow: none;
+    border: none;
+    padding: 0;
+}
+
 /* Forms and inputs */
 .form {
     display: flex;
