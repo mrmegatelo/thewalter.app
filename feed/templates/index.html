@@ -1,18 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'layouts/centered.html' %}
 {% load i18n %}
-{% block content %}
-    <div class="spread v-full center landing-hero">
-        <div class="landing-caption center">
-            <h1 class="heading">{% translate 'The only feed you need.' noop %}</h1>
-            <p class="paragraph">{% translate 'Get what matters, skip the rest.' noop %}</p>
+{% block main %}
+    <div class="landing-caption center">
+        <h1 class="heading">{% translate 'The only feed you need.' noop %}</h1>
+        <p class="paragraph">{% translate 'Get what matters, skip the rest.' noop %}</p>
+    </div>
+    <div class="landing-form center">
+        <div id="waitlist-form-wrapper">
+            {% include 'forms/waitlist.html' %}
         </div>
-        <div class="landing-form center">
-            <div id="waitlist-form-wrapper">
-                {% include 'forms/waitlist.html' %}
-            </div>
-            <span class="paragraph">
+        <span class="paragraph">
                 {% blocktranslate %}{{ subscribers_count }} people already joined.{% endblocktranslate %}
             </span>
-        </div>
     </div>
 {% endblock %}

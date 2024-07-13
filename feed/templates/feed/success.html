@@ -1,11 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'layouts/centered.html' %}
 {% load i18n %}
 {% block title %}Success{% endblock %}
 
 {% block content %}
-    {% include 'blocks/page-heading.html' with heading='Success' %}
-    <div id="feed" class="spread">
-        <p>{% translate 'Feed has been added.' noop %}</p>
-        <a href="{% url 'feed_index' %}">{% translate 'Back to my feed' noop %}</a>
+    <div class="content content-inner">
+        <div class="cols-12">
+            {% include 'blocks/page-heading.html' with title='New feed' %}
+        </div>
+        <div class="cols-3 cols-mobile-12 relative">
+            <div class="feed-sidebar-buttons">
+                <a class="button"
+                   href="{% url 'new_feed' %}"
+                >
+                    <span class="material-symbols-outlined button__icon">add_circle</span>
+                    {% translate 'Add new source' noop %}
+                </a>
+                <a class="button button_blank" href="{% url 'feed_index' %}">
+                    <span class="material-symbols-outlined button__icon">arrow_back</span>
+                    Back to feed
+                </a>
+            </div>
+        </div>
+        <div class="cols-4 cols-mobile-12">
+            <div class="centered-form-wrapper">
+                {% include 'blocks/page-heading.html' with title='Success' %}
+                <p class="paragraph">{% translate 'New feed source has been added. Your feed will be updated soon.' noop %}</p>
+                <a class="button button_blank" href="{% url 'feed_index' %}">
+                    <span class="material-symbols-outlined button__icon">arrow_back</span>
+                    {% translate 'Back to my feed' noop %}
+                </a>
+            </div>
+        </div>
     </div>
 {% endblock %}
