@@ -1,4 +1,5 @@
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils import timezone
 from django.contrib import admin
@@ -42,11 +43,17 @@ class FeedItemAdmin(admin.ModelAdmin):
 
 @admin.action(description='Send selected invites')
 def send_invite(modeladmin, request, queryset):
+    current_site = get_current_site(request)
+    site_name = current_site.name
+    domain = current_site.domain
     for invite in queryset:
         user = invite.user
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
         context = {
+            'domain': domain,
+            'site_name': site_name,
+            "protocol": "https",
             'uid': uid,
             'token': token
         }
