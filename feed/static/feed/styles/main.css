@@ -425,7 +425,7 @@ body {
     display: flex;
     flex-direction: column;
     align-self: stretch;
-    gap: calc(var(--grid-step) * 1.5);
+    gap: calc(var(--grid-step) * 0.5);
 
     &.has-errors {
         & .input {
@@ -435,13 +435,12 @@ body {
 }
 
 .form-label {
-    margin-left: calc(var(--grid-step) * 2);
-    font-weight: 600;
+    font-weight: 900;
 }
 
 .form-input-help {
-    margin-left: calc(var(--grid-step) * 2);
     color: var(--color-paragraph);
+    font-size: 12px;
 
     & > ul {
         padding-left: 0;
@@ -453,11 +452,10 @@ body {
 .form-errors {
     display: flex;
     flex-direction: column;
-    margin-left: calc(var(--grid-step) * 2);
-    gap: calc(var(--grid-step) * 0.5);
     list-style: none;
     padding-left: 0;
     color: var(--color-error);
+    font-size: 12px;
 }
 
 .form-submit {
