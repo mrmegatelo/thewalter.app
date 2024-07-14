@@ -62,7 +62,7 @@
                                   hx-target="#feed"
                             >
                                 {% csrf_token %}
-                                <button class="feed-links-list-item-controls__button"
+                                <button class="feed-links-list-item-controls__button button button_blank button_sm"
                                         {% if entry in hidden_feed_items %}
                                         title="{% translate 'Show in feed' noop %}"
                                         {% else %}
