@@ -2,19 +2,45 @@
 {% load i18n %}
 {% load static %}
 {% block main %}
-    <div class="center">
-        <img width="200" src="{% static 'feed/img/landing-main.svg' %}" />
-    </div>
-    <div class="landing-caption center">
+    <section class="center">
+        <img width="200" src="{% static 'feed/img/landing-main.svg' %}"/>
+    </section>
+    <secion class="landing-caption center">
         <h1 class="heading">{% translate 'The only feed you need.' noop %}</h1>
         <p class="paragraph">{% translate 'Get what matters, skip the rest.' noop %}</p>
-    </div>
-    <div class="landing-form center">
+    </secion>
+    <section class="landing-form center">
         <div id="waitlist-form-wrapper">
             {% include 'forms/waitlist.html' %}
         </div>
         <span class="paragraph">
                 {% blocktranslate %}{{ subscribers_count }} people already joined.{% endblocktranslate %}
             </span>
-    </div>
+    </section>
+    <section class="landing-advantages">
+        <div class="landing-advantages-item">
+            <h2 class="heading">⚙️ Simplified Management</h2>
+            <p class="paragraph">
+                Combine all your favorite sources into one easy-to-use feed. No more switching between websites or apps.
+                Organize and prioritize content effortlessly, saving time and making your daily reading routine more
+                efficient.
+            </p>
+        </div>
+        <div class="landing-advantages-item">
+            <h2 class="heading">📖 Your Content, Your Way</h2>
+            <p class="paragraph">
+                Take charge of your feed by handpicking the sources that matter most. Enjoy a personalized experience
+                without unwanted recommendations or irrelevant content. Say goodbye to algorithm-driven feeds and hello
+                to focused, relevant content.
+            </p>
+        </div>
+        <div class="landing-advantages-item">
+            <h2 class="heading">🔒 Privacy Focused</h2>
+            <p class="paragraph">
+                Enjoy a secure, ad-free browsing experience with no data tracking. Stay focused on the content that
+                matters without concerns about privacy or unwanted distractions. Keep your reading experience productive
+                and enjoyable.
+            </p>
+        </div>
+    </section>
 {% endblock %}
