@@ -10,7 +10,7 @@ class Create(CreateView, PageMetaMixin):
     form_class = FeedForm
     template_name = 'feed/new.html'
     success_url = '/feed/new/success/'
-    title = _('New Feed')
+    title = _('My feed')
 
     def form_valid(self, form):
         result = super().form_valid(form)

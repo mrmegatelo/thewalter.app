@@ -4,24 +4,28 @@
 {% block content %}
     <div class="content content-inner">
         <div class="cols-12">
-            {% include 'blocks/page-heading.html' with heading='New feed' %}
+            {% include 'blocks/page-heading.html' %}
         </div>
         <div class="cols-3 cols-mobile-12">
-             <div class="feed-sidebar-buttons">
+            <div class="feed-sidebar-buttons">
+
+            </div>
+        </div>
+        <div class="cols-4 cols-mobile-12">
+            <div class="centered-form-wrapper">
                 <a class="button button_blank" href="{% url 'feed_index' %}">
                     <span class="material-symbols-outlined button__icon">arrow_back</span>
                     Back to feed
                 </a>
+                {% include 'blocks/page-heading.html' with title='New feed source' %}
+                <form class="form" method="post" action="{% url 'new_feed' %}">
+                    {% csrf_token %}
+                    {{ form.as_div }}
+                    <button class="button form-submit" type="submit">
+                        {% translate 'Add feed' noop %}
+                    </button>
+                </form>
             </div>
-        </div>
-        <div class="cols-4 cols-mobile-12">
-            <form class="form" method="post" action="{% url 'new_feed' %}">
-                {% csrf_token %}
-                {{ form.as_div }}
-                <button class="button form-submit" type="submit">
-                    {% translate 'Add feed' noop %}
-                </button>
-            </form>
         </div>
     </div>
 {% endblock %}
