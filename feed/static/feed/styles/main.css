@@ -42,9 +42,9 @@ p, h1, h2, h3, h4, h5, h6 {
     --grid-column-gap: calc(var(--grid-step) * 4);
 
     /* Colors */
-    --color-text: #2C353A;
-    --color-paragraph: #69808C;
-    --color-grey-light: #D0D8DC;
+    --color-text: #2F2E41;
+    --color-paragraph: #727099;
+    --color-grey-light: #D0CFDD;
     --color-background: #E6E9F0;
     --color-primary: #FF6340;
     --color-error: #E02900;

@@ -1,6 +1,10 @@
 {% extends 'layouts/centered.html' %}
 {% load i18n %}
+{% load static %}
 {% block main %}
+    <div class="center">
+        <img width="200" src="{% static 'feed/img/landing-main.svg' %}" />
+    </div>
     <div class="landing-caption center">
         <h1 class="heading">{% translate 'The only feed you need.' noop %}</h1>
         <p class="paragraph">{% translate 'Get what matters, skip the rest.' noop %}</p>
