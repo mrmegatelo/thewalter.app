@@ -1,23 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'layouts/centered.html' %}
 {% load i18n %}
-{% block content %}
-    <div class="content content-inner">
-        <div class="cols-12">
-            {% include 'blocks/page-heading.html' %}
+{% block main %}
+    <div class="centered-form-wrapper">
+        <div>
+            {% include 'blocks/page-heading.html' with title='Set your username' %}
             {% if validlink %}
-                <p>{% translate "Please enter your username." %}</p>
+                <p class="paragraph">{% translate "Your username was generated from your email. Change it if you want to." %}</p>
             {% else %}
-                <p>{% translate 'The invite link was invalid, possibly because it has already been used. Please request a new invite.' %}</p>
+                <p class="paragraph">{% translate 'The invite link was invalid, possibly because it has already been used. Please request a new invite.' %}</p>
             {% endif %}
         </div>
-        <div class="cols-12">
-            {% if form %}
-                <form class="form" method="post">
-                    {% csrf_token %}
-                    {{ form.as_div }}
-                    <button class="button form-submit" type="submit">{% translate 'Save my username' noop %}</button>
-                </form>
-            {% endif %}
-        </div>
+        {% if form %}
+            <form class="form" method="post">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <button class="button form-submit" type="submit">{% translate 'Save my username' noop %}</button>
+            </form>
+        {% endif %}
     </div>
 {% endblock %}

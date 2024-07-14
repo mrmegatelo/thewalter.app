@@ -1,11 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'layouts/centered.html' %}
 {% load i18n %}
-{% block content %}
-    <div class="spread v-full center landing-hero">
-        <div class="landing-caption center">
+{% block main %}
+    <div class="centered-form-wrapper">
+        <div>
             <h1 class="heading">{% translate "You're in the waitlist." noop %}</h1>
-            <p class="paragraph">{% translate 'You will receive an email with further instructions.' noop %}</p>
-            <a href="{% url 'index' %}">{% translate 'Go back' noop %}</a>
+        <p class="paragraph">{% translate 'You will receive an email with further instructions.' noop %}</p>
         </div>
+        <a class="button button_blank" href="{% url 'index' %}">
+            <span class="material-symbols-outlined button__icon">arrow_back</span>
+            {% translate 'Go back' noop %}
+        </a>
     </div>
 {% endblock %}

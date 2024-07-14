@@ -31,3 +31,7 @@ class InviteUsernameView(FormView):
         # TODO: need to make a proper link validation
         context['validlink'] = True
         return context
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
