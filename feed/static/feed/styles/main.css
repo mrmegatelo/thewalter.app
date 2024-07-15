@@ -367,7 +367,8 @@ body {
 .feed-filters {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 1);
+    align-items: flex-start;
+    gap: calc(var(--grid-step) * 2);
 }
 
 .feed-sidebar {
