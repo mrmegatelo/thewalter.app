@@ -26,6 +26,22 @@
                 {% translate 'Not interesting' noop %}
             </label>
         </div>
+        <div class="feed-filters-item">
+            <input type="checkbox"
+                   class="feed-filters-item__checkbox"
+                   name="filter"
+                   id="filter_by_liked"
+                   value="liked"
+                    {% if applied_filters.liked %}
+                   checked
+                    {% endif %}
+            />
+            <label for="filter_by_liked"
+                   class="feed-filters-item__title  button button_sm button_outline">
+                <span>❤️</span>
+                {% translate 'Liked' noop %}
+            </label>
+        </div>
     </form>
     <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
 </div>

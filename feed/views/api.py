@@ -70,6 +70,8 @@ class FeedItemActions(GenericApiFeedItemListView):
         match action:
             case 'toggle_interesting':
                 self.toggle_interesting(request, *args, **kwargs)
+            case 'toggle_liked':
+                self.toggle_liked(request, *args, **kwargs)
             case _:
                 pass
         return super().get(request, *args, **kwargs)
@@ -89,4 +91,21 @@ class FeedItemActions(GenericApiFeedItemListView):
             usersettings = UserSettings(user=user)
             usersettings.save()
             usersettings.hidden_feed_items.add(feed_item)
+        return feed_item
+
+    def toggle_liked(self, request, *args, **kwargs):
+        feed_item_id = kwargs.get('id')
+        user = request.user
+
+        feed_item = self.model.objects.get(pk=feed_item_id)
+        if hasattr(user, 'usersettings'):
+            liked_qs = user.usersettings.liked_feed_items
+            if liked_qs.contains(feed_item):
+                liked_qs.remove(feed_item)
+            else:
+                liked_qs.add(feed_item)
+        else:
+            usersettings = UserSettings(user=user)
+            usersettings.save()
+            usersettings.liked_feed_items.add(feed_item)
         return feed_item

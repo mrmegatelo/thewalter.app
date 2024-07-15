@@ -62,7 +62,8 @@ class Attachment(models.Model):
 
 class UserSettings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    hidden_feed_items = models.ManyToManyField(FeedItem, blank=True)
+    hidden_feed_items = models.ManyToManyField(FeedItem, blank=True, related_name='hidden')
+    liked_feed_items = models.ManyToManyField(FeedItem, blank=True, related_name='liked')
 
 
 class Invite(models.Model):
