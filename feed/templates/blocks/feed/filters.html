@@ -11,17 +11,21 @@
     >
         <input type="hidden" name="filter" value="enabled"/>
         <div class="feed-filters-item">
-            <input
-                    type="checkbox"
-                    name="filter"
-                    id="filter_by_interesting"
-                    value="only_interesting"
+            <input type="checkbox"
+                   class="feed-filters-item__checkbox"
+                   name="filter"
+                   id="filter_by_interesting"
+                   value="only_interesting"
                     {% if applied_filters.only_interesting %}
-                    checked
+                   checked
                     {% endif %}
             />
-            <label for="filter_by_interesting" class="feed-filters-item__title">{% translate 'Only interesting' noop %}</label>
+            <label for="filter_by_interesting"
+                   class="feed-filters-item__title  button button_sm button_outline">
+                <span>👎</span>
+                {% translate 'Not interesting' noop %}
+            </label>
         </div>
-        <a class="link" href="{% url 'feed_index' %}">Reset filters</a>
     </form>
+    <a class="link" href="{% url 'feed_index' %}">Reset filters</a>
 </div>
