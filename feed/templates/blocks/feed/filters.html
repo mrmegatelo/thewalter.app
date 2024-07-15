@@ -15,8 +15,8 @@
                    class="feed-filters-item__checkbox"
                    name="filter"
                    id="filter_by_interesting"
-                   value="only_interesting"
-                    {% if applied_filters.only_interesting %}
+                   value="not_interesting"
+                    {% if applied_filters.not_interesting %}
                    checked
                     {% endif %}
             />
@@ -27,5 +27,5 @@
             </label>
         </div>
     </form>
-    <a class="link" href="{% url 'feed_index' %}">Reset filters</a>
+    <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
 </div>
