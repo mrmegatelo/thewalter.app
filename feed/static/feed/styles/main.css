@@ -286,6 +286,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: calc(var(--grid-step) * 1);
+    align-items: flex-start;
 }
 
 .feed-links-list-item-bloginfo {
@@ -293,6 +294,7 @@ body {
     gap: calc(var(--grid-step) * 1);
     align-items: center;
     white-space: nowrap;
+    align-self: stretch;
 }
 
 .feed-links-list-item-bloginfo__link {
