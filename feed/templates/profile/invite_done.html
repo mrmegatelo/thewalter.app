@@ -1,0 +1,10 @@
+{% extends 'layouts/centered.html' %}
+{% load i18n %}
+
+{% block main %}
+    <div class="centered-form-wrapper">
+        {% include 'blocks/page-heading.html' %}
+        <p class="paragraph">{% translate "Your account is ready to use.  You may go ahead and sign in now." %}</p>
+        <a class="button" href="{{ login_url }}">{% translate 'Sign in' %}</a>
+    </div>
+{% endblock %}

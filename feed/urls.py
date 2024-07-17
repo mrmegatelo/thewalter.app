@@ -59,12 +59,18 @@ urlpatterns = [
     ),
     path(
         "profile/invite/<uidb64>/<token>/set_password",
-        anonym_required(PasswordResetConfirmView.as_view()),
+        anonym_required(PasswordResetConfirmView.as_view(
+            template_name='profile/invite_password.html',
+            success_url='/profile/invite/done'
+        )),
         name="invite_accept_password"
     ),
     path(
-        "profile/invite/<uidb64>/<token>/done",
-        anonym_required(PasswordResetCompleteView.as_view()),
+        "profile/invite/done",
+        anonym_required(PasswordResetCompleteView.as_view(
+            title='Welcome🥳',
+            template_name='profile/invite_done.html',
+        )),
         name="invite_accept_complete"
     ),
 
