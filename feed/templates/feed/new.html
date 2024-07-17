@@ -14,7 +14,7 @@
         <div class="cols-4 cols-mobile-12">
             <div class="centered-form-wrapper">
                 <a class="button button_blank" href="{% url 'feed_index' %}">
-                    <span class="material-symbols-outlined button__icon">arrow_back</span>
+                    <span class="button__icon">{% include 'icons/arrow_back.svg' %}</span>
                     Back to feed
                 </a>
                 {% include 'blocks/page-heading.html' with title='New feed source' %}

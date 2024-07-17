@@ -15,6 +15,7 @@ class FeedContentTypes(Enum):
     TEXT_XML = 'text/xml'
     APPLICATION_XML = 'application/xml'
     APPLICATION_XML_RSS = 'application/rss+xml'
+    APPLICATION_XML_ATOM = 'application/atom+xml'
 
 
 class FeedForm(forms.ModelForm):
@@ -37,7 +38,8 @@ class FeedForm(forms.ModelForm):
                     self.parse_html(base_url)
                 case FeedContentTypes.TEXT_XML.value \
                      | FeedContentTypes.APPLICATION_XML.value \
-                     | FeedContentTypes.APPLICATION_XML_RSS.value:
+                     | FeedContentTypes.APPLICATION_XML_RSS.value \
+                     | FeedContentTypes.APPLICATION_XML_ATOM.value:
                     self.parse_xml(base_url)
                 case _:
                     print('Unsupported content type')
@@ -46,6 +48,7 @@ class FeedForm(forms.ModelForm):
 
     def clean(self):
         try:
+            print(self.content_type)
             # Assuming that URL is valid and resolved.
             match self.content_type:
                 case FeedContentTypes.TEXT_HTML.value:
@@ -55,7 +58,8 @@ class FeedForm(forms.ModelForm):
                         self.add_error('url', 'This has no feed.')
                 case FeedContentTypes.TEXT_XML.value \
                      | FeedContentTypes.APPLICATION_XML.value \
-                     | FeedContentTypes.APPLICATION_XML_RSS.value:
+                     | FeedContentTypes.APPLICATION_XML_RSS.value \
+                     | FeedContentTypes.APPLICATION_XML_ATOM.value:
                     pass
                 case _:
                     self.add_error('url', 'This URL could not be parsed.')
@@ -73,9 +77,12 @@ class FeedForm(forms.ModelForm):
 
         self.instance.title = info.feed.title
         self.instance.description = info.feed.description
-        self.instance.icon = info.feed.image.href
         self.instance.rss_url = base_url
         self.instance.url = info.feed.link
+        if info.feed.get('image') is not None:
+            self.instance.icon = info.feed.image.href
+        elif info.feed.get('icon') is not None:
+            self.instance.icon = info.feed.icon
 
     def parse_html(self, base_url):
         if self.articulo is None:
@@ -88,7 +95,12 @@ class FeedForm(forms.ModelForm):
         self.instance.title = info.feed.get('title')
         self.instance.description = info.feed.get('description') or self.articulo.description
         self.instance.rss_url = rss
-        self.instance.icon = info.feed.image.get('href') if info.feed.get('image') else self.articulo.icon
+        if info.feed.get('image') is not None:
+            self.instance.icon = info.feed.image.href
+        elif info.feed.get('icon') is not None:
+            self.instance.icon = info.feed.icon
+        else:
+            self.instance.icon = self.articulo.icon
 
     class Meta:
         model = Feed

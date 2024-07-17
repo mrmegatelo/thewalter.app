@@ -12,7 +12,7 @@
                 <a class="button"
                    href="{% url 'new_feed' %}"
                 >
-                    <span class="material-symbols-outlined button__icon">add_circle</span>
+                    <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
                     {% translate 'Add new source' noop %}
                 </a>
             </div>
@@ -20,7 +20,7 @@
         <div class="cols-4 cols-mobile-12">
             <div class="centered-form-wrapper">
                 <a class="button button_blank" href="{% url 'feed_index' %}">
-                    <span class="material-symbols-outlined button__icon">arrow_back</span>
+                    <span class="button__icon">{% include 'icons/arrow_back.svg' %}</span>
                     {% translate 'Back to feed' noop %}
                 </a>
                 {% include 'blocks/page-heading.html' with title='Success' %}

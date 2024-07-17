@@ -8,7 +8,7 @@
             <a class="button"
                href="{% url 'new_feed' %}"
             >
-                <span class="material-symbols-outlined button__icon">add_circle</span>
+                <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
                 {% translate 'Add new source' noop %}
             </a>
             {% include 'blocks/feed/filters.html' %}
@@ -98,7 +98,7 @@
             <a class="button"
                href="{% url 'new_feed' %}"
             >
-                <span class="material-symbols-outlined button__icon">add_circle</span>
+                <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
                 {% translate 'Add new source' noop %}
             </a>
         </div>
