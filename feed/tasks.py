@@ -17,7 +17,7 @@ def parse_feed(pk):
     try:
         feed_data = feedparser.parse(feed.rss_url)
         for entry in feed_data.entries:
-            if not FeedItem.objects.filter(title=entry.title).exists():
+            if not FeedItem.objects.filter(link=entry.link).exists():
                 article = Articulo(entry.link)
                 feed_item = FeedItem.objects.create(
                     title=entry.title,

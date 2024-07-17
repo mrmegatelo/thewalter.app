@@ -3,13 +3,32 @@
 from django.db import migrations, models
 
 
-class Migration(migrations.Migration):
+def remove_duplicated_feed_items(apps, schema_editor):
+    """
+    Since link of feed item becomes unique in this migration we should resolve the problem of duplicated feed items.
+    I'm assuming we can just remove duplicated feed items without any consequences.
+    :param apps:
+    :param schema_editor:
+    :return:
+    """
+    FeedItem = apps.get_model('feed', 'FeedItem')
+    db_alias = schema_editor.connection.alias
+    urls = FeedItem.objects.using(db_alias).values_list('link', flat=True)
+    seen = set()
+    duplicated_urls = [x for x in urls if x in seen or seen.add(x)]
+    for url in duplicated_urls:
+        FeedItem.objects.using(db_alias).filter(link=url).last().delete()
 
+
+class Migration(migrations.Migration):
     dependencies = [
         ('feed', '0016_usersettings_liked_feed_items_alter_feeditem_link_and_more'),
     ]
 
     operations = [
+        migrations.RunSQL('SET CONSTRAINTS ALL IMMEDIATE;'),
+        migrations.RunPython(remove_duplicated_feed_items, migrations.RunPython.noop),
+        migrations.RunSQL('SET CONSTRAINTS ALL DEFERRED;'),
         migrations.AlterField(
             model_name='feed',
             name='rss_url',
