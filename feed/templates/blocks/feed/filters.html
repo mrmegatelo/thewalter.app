@@ -42,6 +42,22 @@
                 {% translate 'Liked' noop %}
             </label>
         </div>
+        <div class="feed-filters-item">
+            <input type="checkbox"
+                   class="feed-filters-item__checkbox"
+                   name="filter"
+                   id="filter_by_paid"
+                   value="paid"
+                    {% if applied_filters.paid %}
+                   checked
+                    {% endif %}
+            />
+            <label for="filter_by_paid"
+                   class="feed-filters-item__title  button button_sm button_outline">
+                <span>🔒</span>
+                {% translate 'Paid content' noop %}
+            </label>
+        </div>
     </form>
     <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
 </div>

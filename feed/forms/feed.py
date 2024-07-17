@@ -33,7 +33,7 @@ class FeedForm(forms.ModelForm):
             base_url = self.cleaned_data['url']
 
             match self.content_type:
-                case FeedContentTypes.TEXT_HTML:
+                case FeedContentTypes.TEXT_HTML.value:
                     self.parse_html(base_url)
                 case FeedContentTypes.TEXT_XML.value \
                      | FeedContentTypes.APPLICATION_XML.value \
@@ -48,11 +48,11 @@ class FeedForm(forms.ModelForm):
         try:
             # Assuming that URL is valid and resolved.
             match self.content_type:
-                case FeedContentTypes.TEXT_HTML:
+                case FeedContentTypes.TEXT_HTML.value:
                     # TODO Validate if:
                     #   - RSS link is reachable
                     if self.articulo.rss is None:
-                        self.add_error('url', 'This URL could not be parsed.')
+                        self.add_error('url', 'This has no feed.')
                 case FeedContentTypes.TEXT_XML.value \
                      | FeedContentTypes.APPLICATION_XML.value \
                      | FeedContentTypes.APPLICATION_XML_RSS.value:

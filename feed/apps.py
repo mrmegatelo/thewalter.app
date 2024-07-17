@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 
 class FeedConfig(AppConfig):
@@ -7,9 +7,19 @@ class FeedConfig(AppConfig):
     name = 'feed'
 
     def ready(self):
-        from feed.models import Feed
+        from feed.models import Feed, UserSettings
         from feed.tasks import parse_feed
+        from django.contrib.auth.models import User
 
-        def my_handler(sender, instance, **kwargs):
+        def feed_parse_hadler(sender, instance, **kwargs):
             parse_feed.delay(instance.pk)
-        post_save.connect(my_handler, sender=Feed)
+
+        def usersettings_hadler(sender, instance, **kwargs):
+            try:
+                instance.usersettings
+            except UserSettings.DoesNotExist:
+                instance.usersettings = UserSettings.objects.create(user=instance)
+                instance.usersettings.save()
+
+        post_save.connect(feed_parse_hadler, sender=Feed)
+        pre_save.connect(usersettings_hadler, sender=User)

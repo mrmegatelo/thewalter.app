@@ -8,7 +8,7 @@ from feed.views.mixins import PageMetaMixin
 class GenericFeedItemListView(ListView, PageMetaMixin):
     model = FeedItem
     paginate_by = 20
-    applied_filters = { 'liked': True }
+    applied_filters = { 'liked': True, 'paid': True }
     title = _('My feed')
 
     def setup(self, request, *args, **kwargs):
@@ -24,6 +24,7 @@ class GenericFeedItemListView(ListView, PageMetaMixin):
     def get_queryset(self):
         not_interesting = self.applied_filters.get('not_interesting', False)
         liked = self.applied_filters.get('liked', False)
+        paid = self.applied_filters.get('paid', False)
         base_queryset = self.model.objects.filter(feed__subscribers=self.request.user)
         if not not_interesting:
             not_interesting_qs = self.request.user.usersettings.hidden_feed_items.all()
@@ -32,6 +33,10 @@ class GenericFeedItemListView(ListView, PageMetaMixin):
         if not liked:
             not_liked_qs = self.request.user.usersettings.liked_feed_items.all()
             base_queryset = base_queryset.exclude(id__in=not_liked_qs)
+
+        if not paid:
+            paid_qs = self.model.objects.filter(has_paid_content=True)
+            base_queryset = base_queryset.exclude(id__in=paid_qs)
         return base_queryset
 
     def get_context_data(self, **kwargs):
