@@ -8,7 +8,7 @@ from feed.views.mixins import PageMetaMixin
 class GenericFeedItemListView(ListView, PageMetaMixin):
     model = FeedItem
     paginate_by = 20
-    applied_filters = { 'liked': True, 'paid': True }
+    applied_filters = {'liked': True, 'paid': True}
     title = _('My feed')
 
     def setup(self, request, *args, **kwargs):
