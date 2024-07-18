@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 
 
 class FeedConfig(AppConfig):
@@ -22,4 +22,4 @@ class FeedConfig(AppConfig):
                 instance.usersettings.save()
 
         post_save.connect(feed_parse_hadler, sender=Feed)
-        pre_save.connect(usersettings_hadler, sender=User)
+        post_save.connect(usersettings_hadler, sender=User)
