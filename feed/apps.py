@@ -11,15 +11,15 @@ class FeedConfig(AppConfig):
         from feed.tasks import parse_feed
         from django.contrib.auth.models import User
 
-        def feed_parse_hadler(sender, instance, **kwargs):
+        def feed_parse_handler(sender, instance, **kwargs):
             parse_feed.delay(instance.pk)
 
-        def usersettings_hadler(sender, instance, **kwargs):
+        def usersettings_handler(sender, instance, **kwargs):
             try:
                 instance.usersettings
             except UserSettings.DoesNotExist:
                 instance.usersettings = UserSettings.objects.create(user=instance)
                 instance.usersettings.save()
 
-        post_save.connect(feed_parse_hadler, sender=Feed)
-        post_save.connect(usersettings_hadler, sender=User)
+        post_save.connect(feed_parse_handler, sender=Feed, weak=False)
+        post_save.connect(usersettings_handler, sender=User, weak=False)
