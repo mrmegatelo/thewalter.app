@@ -25,13 +25,13 @@
             crossorigin="anonymous"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'feed/favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'feed/favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'feed/favicon/favicon-16x16.png' %}">
-    <link rel="manifest" href="{% static 'feed/site.webmanifest' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/site.webmanifest' %}">
     {% if cover %}
-        <meta name="og:image" content="{% static cover %}">
-        <meta name="twitter:image" content="{% static cover %}">
+        <meta name="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static cover %}">
+        <meta name="twitter:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static cover %}">
     {% endif %}
     {% if not debug %}
         <!-- Google tag (gtag.js) -->
