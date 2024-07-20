@@ -603,6 +603,7 @@ body {
     display: flex;
     gap: calc(var(--grid-step) * 8);
     max-width: 1200px;
+    margin-top: calc(var(--grid-step) * 12);
 }
 
 .landing-advantages-item {
@@ -610,7 +611,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: calc(var(--grid-step) * 1.5);
-    margin-top: calc(var(--grid-step) * 12);
 }
 
 /**
@@ -633,5 +633,18 @@ body {
     /* Main components styles */
     .waitlist-form {
         flex-direction: column;
+    }
+
+    .header-logo {
+        grid-column: span calc(var(--grid-columns) / 2);
+    }
+
+    .header-nav {
+        grid-column: span calc(var(--grid-columns) / 6);
+    }
+
+    .landing-advantages {
+        flex-direction: column;
+        margin-top: calc(var(--grid-step) * 2);
     }
 }
