@@ -335,7 +335,7 @@ body {
 
 .feed-links-list-item-controls {
     display: flex;
-    gap: calc(var(--grid-step) * 4);
+    gap: calc(var(--grid-step) * 1.5);
     pointer-events: none;
     align-items: center;
 }

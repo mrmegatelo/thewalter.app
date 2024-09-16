@@ -26,12 +26,17 @@ class FeedForm(forms.ModelForm):
             url = kwargs.get('data').get('url')
             self.content_type = get_url_content_type(url)
             if self.content_type == FeedContentTypes.TEXT_HTML.value:
-                self.articulo = Articulo(url)
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
+                }
+                self.articulo = Articulo(url, http_headers=headers)
+        else:
+            self.content_type = FeedContentTypes.APPLICATION_XML.value
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
         if self.is_valid():
-            base_url = self.cleaned_data['url']
+            base_url = self.data.get('url')
 
             match self.content_type:
                 case FeedContentTypes.TEXT_HTML.value:
@@ -43,19 +48,20 @@ class FeedForm(forms.ModelForm):
                     self.parse_xml(base_url)
                 case _:
                     print('Unsupported content type')
-
+        print('saving the model')
         return super().save(commit=commit)
 
-    def clean(self):
+    def full_clean(self):
+        super().full_clean()
         try:
-            print(self.content_type)
             # Assuming that URL is valid and resolved.
             match self.content_type:
                 case FeedContentTypes.TEXT_HTML.value:
                     # TODO Validate if:
                     #   - RSS link is reachable
+                    #   - if all the model fields are valid
                     if self.articulo.rss is None:
-                        self.add_error('url', 'This has no feed.')
+                        self.add_error('url', 'This link has no feed.')
                 case FeedContentTypes.TEXT_XML.value \
                      | FeedContentTypes.APPLICATION_XML.value \
                      | FeedContentTypes.APPLICATION_XML_RSS.value \
@@ -70,10 +76,14 @@ class FeedForm(forms.ModelForm):
             # Assuming that URL is invalid or cannot be resolved.
             self.add_error('url', 'This URL could not be parsed.')
 
-        return super().clean()
-
     def parse_xml(self, base_url):
         info = feedparser.parse(self.cleaned_data['url'])
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
+        }
+
+        articulo = Articulo(info.feed.link, http_headers=headers)
 
         self.instance.title = info.feed.title
         self.instance.description = info.feed.description
@@ -83,6 +93,8 @@ class FeedForm(forms.ModelForm):
             self.instance.icon = info.feed.image.href
         elif info.feed.get('icon') is not None:
             self.instance.icon = info.feed.icon
+        elif articulo.icon is not None:
+            self.instance.icon = articulo.icon
 
     def parse_html(self, base_url):
         if self.articulo is None:
