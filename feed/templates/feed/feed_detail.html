@@ -1,31 +1,39 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/with_sidebar.html' %}
 {% load i18n %}
 {% load static %}
 {% load humanize %}
 
-{% block title %}{{ feed.title }}{% endblock %}
-
-{% block content %}
-    <div class="content">
-        <div class="page-header spread">
-            <h1 class="heading">{{ feed.title }}</h1>
+{% block sidebar %}
+    <div class="feed-sidebar">
+        <div>
+            <p>{{ feed.description }}</p>
+            <a href="{{ feed.url }}" target="_blank">🔗 Original link</a>
         </div>
-        <section class="cols-3 cols-mobile-12 relative">
-            <div class="feed-sidebar">
-                <div>
-                    <p>{{ feed.description }}</p>
-                    <a href="{{ feed.url }}" target="_blank">🔗 Original link</a>
-                </div>
-            </div>
-        </section>
-        <div class=" cols-6 cols-mobile-12">
-            <div
-                id="feed-list"
-                hx-trigger="load, change from:#feed-filters"
-                hx-get="{% url 'api_feed_feed_list' feed.id %}"
+        <div class="feed-filters">
+            <h3 class="heading">Filter:</h3>
+            <form
+                    id="feed-filters"
+                    class="feed-filters-form"
+                    method="post"
+                    hx-trigger="change"
+                    hx-target="this"
+                    hx-post="{% url 'api_feed_filters' %}"
             >
-                
-            </div>
+                {% include 'blocks/feed/filters.html' %}
+            </form>
+            <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
         </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <div
+            id="feed-list"
+            hx-trigger="load, change from:#feed-filters"
+            hx-get="{% url 'api_feed_feed_list' feed.id %}"
+            hx-include="#feed-filters"
+            hx-params="filter"
+    >
+        {% include 'blocks/feed/loader.html' %}
     </div>
 {% endblock %}

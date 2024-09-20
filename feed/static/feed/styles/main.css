@@ -613,6 +613,21 @@ body {
     gap: calc(var(--grid-step) * 1.5);
 }
 
+.loader {
+    height: 100px;
+    width: 100px;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    vertical-align: top;
+
+    svg path,
+    svg rect {
+        fill: #FF6700;
+    }
+
+}
+
 /**
 * Responsive styles
  */

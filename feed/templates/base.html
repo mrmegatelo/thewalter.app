@@ -17,17 +17,21 @@
         <meta name="twitter:description" content="{{ description }}">
     {% endif %}
     <link rel="preconnect" href="https://rsms.me" crossorigin>
-    <link rel="preconnect" href="https://rsms.me" crossorigin>
-    <link rel="stylesheet" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 
     <script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.js"
             integrity="sha384-Xh+GLLi0SMFPwtHQjT72aPG19QvKB8grnyRbYBNIdHWc2NkCrz65jlU7YrzO6qRp"
             crossorigin="anonymous"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/site.webmanifest' %}">
     {% if cover %}
         <meta name="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static cover %}">
