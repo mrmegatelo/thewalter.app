@@ -84,7 +84,7 @@ class FeedItemActions(GenericApiFeedItemListView):
         return super().get(request, *args, **kwargs)
 
     def toggle_interesting(self, request, *args, **kwargs):
-        feed_item_id = kwargs.get('id')
+        feed_item_id = kwargs.get('feed_item_id')
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)
@@ -101,7 +101,7 @@ class FeedItemActions(GenericApiFeedItemListView):
         return feed_item
 
     def toggle_liked(self, request, *args, **kwargs):
-        feed_item_id = kwargs.get('id')
+        feed_item_id = kwargs.get('feed_item_id')
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)

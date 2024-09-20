@@ -36,7 +36,7 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
         not_interesting = self.applied_filters.get('not_interesting', False)
         liked = self.applied_filters.get('liked', False)
         paid = self.applied_filters.get('paid', False)
-        feed_id = self.kwargs.get('id')
+        feed_id = self.kwargs.get('feed_id')
 
         base_queryset = self.model.objects.filter(feed__subscribers=self.request.user)
 
