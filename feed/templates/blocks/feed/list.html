@@ -1,107 +1,92 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
-{% include 'blocks/page-heading.html' %}
-<section class="cols-3 cols-mobile-12 relative">
-    <div class="feed-sidebar">
-        {% if feeditem_list %}
-            <a class="button"
-               href="{% url 'new_feed' %}"
-            >
-                <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
-                {% translate 'Add new source' noop %}
-            </a>
-            {% include 'blocks/feed/filters.html' %}
-        {% endif %}
-    </div>
-</section>
-<section class="feed-list cols-6 cols-mobile-12">
-    {% if feeditem_list %}
-        <ul class="feed-links-list">
-            {% for entry in feeditem_list %}
-                <li class="feed-links-list-item">
-                    <a class="feed-links-list-item-link"
-                       title="{{ entry.title }}"
-                       href="{{ entry.link }}" target="_blank"
-                    >
-                        <h3 class="heading feed-links-list-item__title">
-                            {{ entry.title }}
-                            {% if entry.has_paid_content %}
-                                <span title="There may be paid content">🔒</span>
-                            {% endif %}
-                        </h3>
-                    </a>
-                    <div class="feed-links-list-item-bloginfo">
-                        <img class="feed-links-list-item-bloginfo__icon "
-                             src="{{ entry.feed.icon }}"
-                        />
-                        <a class="feed-links-list-item-bloginfo__link link paragraph"
-                           title="{{ entry.feed }}"
-                           href="{% url 'feed_subscription' entry.feed.slug %}"
-                        >
-                            {{ entry.feed }}
-                        </a>
-                        <span class="paragraph">·</span>
-                        <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
-                    </div>
-                    <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
-                    {% for attachment in entry.attachments.all %}
-                        {% if attachment.type == 'audio' %}
-                            <audio class="feed-links-list-item__attachment"
-                                   src="{{ attachment.url }}"
-                                   controls
-                            >
-                            </audio>
+{#{% include 'blocks/page-heading.html' %}#}
+{% if feeditem_list %}
+    <ul class="feed-links-list">
+        {% for entry in feeditem_list %}
+            <li class="feed-links-list-item">
+                <a class="feed-links-list-item-link"
+                   title="{{ entry.title }}"
+                   href="{{ entry.link }}" target="_blank"
+                >
+                    <h3 class="heading feed-links-list-item__title">
+                        {{ entry.title }}
+                        {% if entry.has_paid_content %}
+                            <span title="There may be paid content">🔒</span>
                         {% endif %}
-                    {% endfor %}
-                    <footer class="feed-links-list-item-footer">
-                        <form method="post"
-                              class="feed-links-list-item-controls"
-                              id="feed-item-controls"
-                              hx-target="#feed"
+                    </h3>
+                </a>
+                <div class="feed-links-list-item-bloginfo">
+                    <img class="feed-links-list-item-bloginfo__icon "
+                         src="{{ entry.feed.icon }}"
+                    />
+                    <a class="feed-links-list-item-bloginfo__link link paragraph"
+                       title="{{ entry.feed }}"
+                       href="{% url 'feed_subscription' entry.feed.slug %}"
+                    >
+                        {{ entry.feed }}
+                    </a>
+                    <span class="paragraph">·</span>
+                    <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
+                </div>
+                <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
+                {% for attachment in entry.attachments.all %}
+                    {% if attachment.type == 'audio' %}
+                        <audio class="feed-links-list-item__attachment"
+                               src="{{ attachment.url }}"
+                               controls
                         >
-                            {% csrf_token %}
-                            <button class="button button_blank button_sm feed-links-list-item-controls__button"
-                                    title="{% translate 'Like' noop %}"
-                                    type="submit"
-                                    formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_liked' %}"
-                                    hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_liked' %}"
-                            >
+                        </audio>
+                    {% endif %}
+                {% endfor %}
+                <footer class="feed-links-list-item-footer">
+                    <form method="post"
+                          class="feed-links-list-item-controls"
+                          id="feed-item-controls"
+                          hx-target="#feed-list"
+                    >
+                        {% csrf_token %}
+                        <button class="button button_blank button_sm feed-links-list-item-controls__button"
+                                title="{% translate 'Like' noop %}"
+                                type="submit"
+                                formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_liked' %}"
+                                hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_liked' %}"
+                        >
                                 <span class="feed-links-list-item-controls__icon {% if entry in request.user.usersettings.liked_feed_items.all %}active{% endif %}">
                                     ❤️
                                 </span>
-                            </button>
-                            <button class="button button_blank button_sm feed-links-list-item-controls__button"
-                                    title="{% translate 'Not interesting' noop %}"
-                                    type="submit"
-                                    formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
-                                    hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
-                            >
+                        </button>
+                        <button class="button button_blank button_sm feed-links-list-item-controls__button"
+                                title="{% translate 'Not interesting' noop %}"
+                                type="submit"
+                                formaction="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
+                                hx-post="{% url 'api_feed_item_toggle_interesting' id=entry.id action='toggle_interesting' %}"
+                        >
                                 <span class="feed-links-list-item-controls__icon {% if entry in request.user.usersettings.hidden_feed_items.all %}active{% endif %}">
                                     👎
                                 </span>
-                            </button>
-                        </form>
-                    </footer>
-                </li>
-            {% endfor %}
-        </ul>
-        {% if page_obj.has_other_pages %}
-            {% include 'blocks/feed/pagination.html' %}
-        {% endif %}
-    {% else %}
-        <div class="centered-form-wrapper m-auto">
-            <img width="200" src="{% static 'feed/img/empty_feed.svg' %}"/>
-            <div>
-                <h2 class="heading">Your feed is empty</h2>
-                <p class="paragraph">Start your journey by adding your first feed source.</p>
-            </div>
-            <a class="button"
-               href="{% url 'new_feed' %}"
-            >
-                <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
-                {% translate 'Add new source' noop %}
-            </a>
-        </div>
+                        </button>
+                    </form>
+                </footer>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if page_obj.has_other_pages %}
+        {% include 'blocks/feed/pagination.html' %}
     {% endif %}
-</section>
+{% else %}
+    <div class="centered-form-wrapper m-auto">
+        <img width="200" src="{% static 'feed/img/empty_feed.svg' %}"/>
+        <div>
+            <h2 class="heading">Your feed is empty</h2>
+            <p class="paragraph">Start your journey by adding your first feed source.</p>
+        </div>
+        <a class="button"
+           href="{% url 'new_feed' %}"
+        >
+            <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
+            {% translate 'Add new source' noop %}
+        </a>
+    </div>
+{% endif %}

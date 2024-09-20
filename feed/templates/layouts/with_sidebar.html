@@ -1,0 +1,10 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <aside class="cols-3 cols-mobile-12">
+        {% block sidebar %}{% endblock %}
+    </aside>
+    <main class="cols-6 cols-mobile-12">
+        {% block main %}{% endblock %}
+    </main>
+{% endblock %}

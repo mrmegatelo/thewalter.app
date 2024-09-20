@@ -3,17 +3,18 @@ from urllib.parse import urlparse, urlunparse
 from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
 from django.utils.translation import gettext as _
+from django.views.generic import TemplateView
 
 from feed.models import UserSettings
-from feed.views.feed.generic_feed_items_list import GenericFeedItemListView
+from feed.views.feed.generic_feed_items_list import GenericFeedItemListView, FeedFiltersMixin
 
 
 class GenericApiFeedItemListView(GenericFeedItemListView):
     template_name = 'blocks/feed/list.html'
 
     def paginate_queryset(self, queryset, page_size):
-        "TODO: This is a dirty hack to get the page number from the referer. Fix it."
         url = urlparse(self.request.headers.get('Referer'))
+        """TODO: This is a dirty hack to get the page number from the referer. Fix it."""
         query_dict = QueryDict(url.query, mutable=True)
         page = query_dict.get('page') or 1
 
@@ -45,14 +46,20 @@ class GenericApiFeedItemListView(GenericFeedItemListView):
 class FeedItemListView(GenericApiFeedItemListView):
     http_method_names = ['get']
 
-    def get(self, request, *args, **kwargs):
+
+class FeedFilters(TemplateView, FeedFiltersMixin):
+    http_method_names = ['post']
+    template_name = 'blocks/feed/filters.html'
+
+    def post(self, request, *args, **kwargs):
         url = urlparse(request.headers.get('Referer'))
         query_dict = QueryDict(url.query, mutable=True)
-        query_dict.setlist('filter', self.request.GET.getlist('filter'))
+        query_dict.setlist('filter', self.request.POST.getlist('filter'))
         url = url._replace(query=query_dict.urlencode())
         url = urlunparse(url)
         response = super().get(request, *args, **kwargs)
         response.headers['HX-Push-Url'] = url
+        response.headers['HX-Trigger'] = 'loadFeedList'
         return response
 
 

@@ -82,6 +82,8 @@ urlpatterns = [
 
     # API URLs
     path('api/v1/feed/', feed.views.api.FeedItemListView.as_view(), name='api_feed_list'),
+    path('api/v1/feed/filters/', feed.views.api.FeedFilters.as_view(), name='api_feed_filters'),
+    path('api/v1/feed/<int:id>/', feed.views.api.FeedItemListView.as_view(), name='api_feed_feed_list'),
     path('api/v1/feed/<int:id>/<str:action>', views.api.FeedItemActions.as_view(),
          name='api_feed_item_toggle_interesting'),
 

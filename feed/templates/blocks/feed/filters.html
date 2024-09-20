@@ -1,63 +1,51 @@
 {% load i18n %}
-<div class="feed-filters">
-    <h3 class="heading">Filter:</h3>
-    <form
-            id="feed-filters"
-            class="feed-filters-form"
-            method="post"
-            hx-trigger="change"
-            hx-target="#feed"
-            hx-get="{% url 'api_feed_list' %}"
-    >
-        <input type="hidden" name="filter" value="enabled"/>
-        <div class="feed-filters-item">
-            <input type="checkbox"
-                   class="feed-filters-item__checkbox"
-                   name="filter"
-                   id="filter_by_interesting"
-                   value="not_interesting"
-                    {% if applied_filters.not_interesting %}
-                   checked
-                    {% endif %}
-            />
-            <label for="filter_by_interesting"
-                   class="feed-filters-item__title  button button_sm button_outline">
-                <span>👎</span>
-                {% translate 'Not interesting' noop %}
-            </label>
-        </div>
-        <div class="feed-filters-item">
-            <input type="checkbox"
-                   class="feed-filters-item__checkbox"
-                   name="filter"
-                   id="filter_by_liked"
-                   value="liked"
-                    {% if applied_filters.liked %}
-                   checked
-                    {% endif %}
-            />
-            <label for="filter_by_liked"
-                   class="feed-filters-item__title  button button_sm button_outline">
-                <span>❤️</span>
-                {% translate 'Liked' noop %}
-            </label>
-        </div>
-        <div class="feed-filters-item">
-            <input type="checkbox"
-                   class="feed-filters-item__checkbox"
-                   name="filter"
-                   id="filter_by_paid"
-                   value="paid"
-                    {% if applied_filters.paid %}
-                   checked
-                    {% endif %}
-            />
-            <label for="filter_by_paid"
-                   class="feed-filters-item__title  button button_sm button_outline">
-                <span>🔒</span>
-                {% translate 'Paid content' noop %}
-            </label>
-        </div>
-    </form>
-    <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
+{% csrf_token %}
+<input type="hidden" name="filter" value="enabled"/>
+<div class="feed-filters-item">
+    <input type="checkbox"
+           class="feed-filters-item__checkbox"
+           name="filter"
+           id="filter_by_interesting"
+           value="not_interesting"
+            {% if applied_filters.not_interesting %}
+           checked
+            {% endif %}
+    />
+    <label for="filter_by_interesting"
+           class="feed-filters-item__title  button button_sm button_outline">
+        <span>👎</span>
+        {% translate 'Not interesting' noop %}
+    </label>
+</div>
+<div class="feed-filters-item">
+    <input type="checkbox"
+           class="feed-filters-item__checkbox"
+           name="filter"
+           id="filter_by_liked"
+           value="liked"
+            {% if applied_filters.liked %}
+           checked
+            {% endif %}
+    />
+    <label for="filter_by_liked"
+           class="feed-filters-item__title  button button_sm button_outline">
+        <span>❤️</span>
+        {% translate 'Liked' noop %}
+    </label>
+</div>
+<div class="feed-filters-item">
+    <input type="checkbox"
+           class="feed-filters-item__checkbox"
+           name="filter"
+           id="filter_by_paid"
+           value="paid"
+            {% if applied_filters.paid %}
+           checked
+            {% endif %}
+    />
+    <label for="filter_by_paid"
+           class="feed-filters-item__title  button button_sm button_outline">
+        <span>🔒</span>
+        {% translate 'Paid content' noop %}
+    </label>
 </div>
