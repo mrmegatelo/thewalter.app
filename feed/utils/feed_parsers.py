@@ -35,7 +35,7 @@ class RSSFeedParser(AbstractFeedParser):
             description=self.parse_description(parsed),
             icon_url=self.parse_icon(parsed),
             rss_url=url,
-            url=parsed.feed.url,
+            url=parsed.feed.link,
         )
 
         return feed_meta

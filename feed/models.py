@@ -30,7 +30,7 @@ class Feed(models.Model):
 
 class FeedItem(models.Model):
     title = models.CharField(max_length=200)
-    feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
+    feed = models.ForeignKey(Feed, related_name='feed_items', on_delete=models.CASCADE)
     description = models.TextField()
     link = models.URLField(max_length=500, unique=True)
     pub_date = models.DateTimeField()

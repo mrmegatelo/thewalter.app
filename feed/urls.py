@@ -15,6 +15,8 @@ urlpatterns = [
     path('feed/', login_required(feed.views.feed.feed_items_list.FeedItemsListView.as_view()), name='feed_index'),
     path('feed/new/', login_required(feed.views.feed.feed_create.Create.as_view()), name='new_feed'),
     path('feed/new/success/', login_required(feed.views.feed.feed_success.Created.as_view()), name='feed_success'),
+    path('feed/<slug:slug>', login_required(feed.views.feed.subscription.Subscription.as_view()),
+         name='feed_subscription'),
 
     # Auth URLs
     path('profile/', login_required(RedirectView.as_view(url='/profile/edit/')),

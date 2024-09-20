@@ -37,8 +37,7 @@
                         />
                         <a class="feed-links-list-item-bloginfo__link link paragraph"
                            title="{{ entry.feed }}"
-                           href="{{ entry.feed.url }}"
-                           target="_blank"
+                           href="{% url 'feed_subscription' entry.feed.slug %}"
                         >
                             {{ entry.feed }}
                         </a>

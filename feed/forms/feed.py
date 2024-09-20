@@ -12,7 +12,7 @@ class FeedForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         data = kwargs.get('data')
-        print(kwargs)
+
         if data is not None:
             url = data.get('url')
             self.content_type = get_url_content_type(url)
@@ -31,7 +31,7 @@ class FeedForm(forms.ModelForm):
         super().full_clean()
         if not self.is_bound:
             return
-        print('full_cleaned', vars(self))
+
         if hasattr(self, 'validator') and self.validator is not None:
             error = self.validator.validate(self.data.get('url'))
 

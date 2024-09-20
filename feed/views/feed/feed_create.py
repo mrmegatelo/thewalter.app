@@ -49,7 +49,6 @@ class Create(CreateView, PageMetaMixin):
 
     def get_form_validator(self, url, articulo):
         content_type = get_url_content_type(url)
-        print(content_type, url, '')
         match content_type:
             case FeedContentTypes.TEXT_HTML.value:
                 return HTMLLinkValidator(articulo)
