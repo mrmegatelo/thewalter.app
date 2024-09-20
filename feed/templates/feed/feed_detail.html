@@ -9,10 +9,14 @@
     <div class="content">
         <div class="page-header spread">
             <h1 class="heading">{{ feed.title }}</h1>
-            <p>{{ feed.description }}</p>
-            <a href="{{ feed.url }}" target="_blank">🔗 Original link</a>
         </div>
         <section class="cols-3 cols-mobile-12 relative">
+            <div class="feed-sidebar">
+                <div>
+                    <p>{{ feed.description }}</p>
+                    <a href="{{ feed.url }}" target="_blank">🔗 Original link</a>
+                </div>
+            </div>
         </section>
         <div class=" cols-6 cols-mobile-12">
             <ul class="feed-links-list">
