@@ -14,7 +14,7 @@
             <form class="form" method="post">
                 {% csrf_token %}
                 {{ form.as_div }}
-                <button class="button form-submit" type="submit">{% translate 'Save my username' noop %}</button>
+                <button class="button button_primary form-submit" type="submit">{% translate 'Save my username' noop %}</button>
             </form>
         {% endif %}
     </div>
