@@ -81,9 +81,10 @@ urlpatterns = [
     path('waitlist/success/', feed.views.waitlist.WaitlistSuccessView.as_view(), name='waitlist_success'),
 
     # API URLs
-    path('api/v1/feed/', feed.views.api.FeedItemListView.as_view(), name='api_feed_list'),
+    path('api/v1/feed/', feed.views.api.UserFeedList.as_view(), name='api_feed_list'),
     path('api/v1/feed/filters/', feed.views.api.FeedFilters.as_view(), name='api_feed_filters'),
     path('api/v1/feed/<int:feed_id>/', feed.views.api.FeedItemListView.as_view(), name='api_feed_feed_list'),
+    path('api/v1/feed/<int:feed_id>/<str:action>', feed.views.api.FeedUnsubscribe.as_view(), name='api_feed_action'),
     path('api/v1/feed/<int:feed_id>/<int:feed_item_id>/<str:action>', views.api.FeedItemActions.as_view(),
          name='api_feed_item_toggle_interesting'),
 ]

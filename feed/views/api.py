@@ -3,13 +3,13 @@ from urllib.parse import urlparse, urlunparse
 from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
 from django.utils.translation import gettext as _
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 
-from feed.models import UserSettings
+from feed.models import UserSettings, Feed
 from feed.views.feed.generic_feed_items_list import GenericFeedItemListView, FeedFiltersMixin
 
 
-class GenericApiFeedItemListView(GenericFeedItemListView):
+class FullFeedList(GenericFeedItemListView):
     template_name = 'blocks/feed/list.html'
 
     def paginate_queryset(self, queryset, page_size):
@@ -42,10 +42,20 @@ class GenericApiFeedItemListView(GenericFeedItemListView):
                 % {"page_number": page_number, "message": str(e)}
             )
 
-
-class FeedItemListView(GenericApiFeedItemListView):
+class UserFeedList(FullFeedList):
     http_method_names = ['get']
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(feed__subscribers=self.request.user)
+
+class FeedItemListView(FullFeedList):
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        feed_id = self.kwargs.get('feed_id')
+        return queryset.filter(feed__id=feed_id)
 
 class FeedFilters(TemplateView, FeedFiltersMixin):
     http_method_names = ['post']
@@ -59,11 +69,10 @@ class FeedFilters(TemplateView, FeedFiltersMixin):
         url = urlunparse(url)
         response = super().get(request, *args, **kwargs)
         response.headers['HX-Push-Url'] = url
-        response.headers['HX-Trigger'] = 'loadFeedList'
         return response
 
 
-class FeedItemActions(GenericApiFeedItemListView):
+class FeedItemActions(FullFeedList):
     http_method_names = ['post']
 
     def init_filters(self, request):
@@ -116,3 +125,32 @@ class FeedItemActions(GenericApiFeedItemListView):
             usersettings.save()
             usersettings.liked_feed_items.add(feed_item)
         return feed_item
+
+
+class FeedUnsubscribe(DetailView):
+    http_method_names = ['post']
+    template_name = 'blocks/feed/subscription.html'
+    model = Feed
+    pk_url_kwarg = 'feed_id'
+
+    def post(self, request, *args, **kwargs):
+        action = kwargs.get('action')
+        print(vars(self))
+        match action:
+            case 'unsubscribe':
+                self.unsubscribe(request, *args, **kwargs)
+            case 'subscribe':
+                self.subscribe(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
+    def subscribe(self, request, *args, **kwargs):
+        feed_id = kwargs.get('feed_id')
+        feed = Feed.objects.get(pk=feed_id)
+        feed.subscribers.add(request.user)
+        feed.save()
+
+    def unsubscribe(self, request, *args, **kwargs):
+        feed_id = kwargs.get('feed_id')
+        feed = Feed.objects.get(pk=feed_id)
+        feed.subscribers.remove(request.user)
+        feed.save()

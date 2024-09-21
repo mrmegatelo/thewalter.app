@@ -33,15 +33,12 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
     title = _('My feed')
 
     def get_queryset(self):
+
         not_interesting = self.applied_filters.get('not_interesting', False)
         liked = self.applied_filters.get('liked', False)
         paid = self.applied_filters.get('paid', False)
-        feed_id = self.kwargs.get('feed_id')
 
-        base_queryset = self.model.objects.filter(feed__subscribers=self.request.user)
-
-        if feed_id is not None:
-            base_queryset = base_queryset.filter(feed__id=feed_id)
+        base_queryset = self.model.objects
 
         if not not_interesting:
             not_interesting_qs = self.request.user.usersettings.hidden_feed_items.all()
