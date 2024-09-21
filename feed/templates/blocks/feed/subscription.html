@@ -6,6 +6,7 @@
             type="submit"
     >
         Unsubscribe
+        {% include 'blocks/feed/loader.html' %}
     </button>
 {% else %}
     <button formaction="{% url 'api_feed_action' feed_id=feed.id action='subscribe' %}"
@@ -14,5 +15,6 @@
             type="submit"
     >
         Subscribe
+        {% include 'blocks/feed/loader.html' %}
     </button>
 {% endif %}

@@ -33,7 +33,8 @@
 
 {% block main %}
     <div id="feed-list"
-         hx-trigger="load, change from:#feed-filters, submit from:#feed-subscription"
+         class="feed-list-wrapper"
+         hx-trigger="load, change from:#feed-filters, refresh_feed from:body"
          hx-get="{% url 'api_feed_feed_list' feed.id %}"
          hx-include="#feed-filters"
          hx-params="filter"

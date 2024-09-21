@@ -141,7 +141,10 @@ class FeedUnsubscribe(DetailView):
                 self.unsubscribe(request, *args, **kwargs)
             case 'subscribe':
                 self.subscribe(request, *args, **kwargs)
-        return super().get(request, *args, **kwargs)
+
+        response = super().get(request, *args, **kwargs)
+        response.headers['HX-Trigger'] = 'refresh_feed'
+        return response
 
     def subscribe(self, request, *args, **kwargs):
         feed_id = kwargs.get('feed_id')

@@ -26,6 +26,9 @@
     <script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.js"
             integrity="sha384-Xh+GLLi0SMFPwtHQjT72aPG19QvKB8grnyRbYBNIdHWc2NkCrz65jlU7YrzO6qRp"
             crossorigin="anonymous"></script>
+    {% if debug %}
+        <script src="https://unpkg.com/htmx-ext-debug@2.0.0/debug.js"></script>
+    {% endif %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/apple-touch-icon.png' %}">
