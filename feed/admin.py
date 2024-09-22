@@ -10,7 +10,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 # Register your models here.
-from .models import Feed, FeedItem, UserSettings, WaitlistRequest, Invite, Attachment
+from .models import Feed, FeedItem, UserSettings, WaitlistRequest, Invite, Attachment, ServiceFeed
 
 
 class UserSettingsInline(admin.StackedInline):
@@ -34,9 +34,14 @@ class FeedAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+class ServiceFeedAdmin(admin.ModelAdmin):
+    list_display = ['user', 'type']
+    list_filter = ['type', 'user']
+
+
 class FeedItemAdmin(admin.ModelAdmin):
     list_display = ['title', 'feed', 'pub_date']
-    list_filter = ['feed']
+    list_filter = ['feed', 'service_feeds']
     search_fields = ['title', 'description']
     inlines = [AttachmentInline]
 
@@ -94,6 +99,7 @@ admin.site.unregister(User)
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Feed, FeedAdmin)
+admin.site.register(ServiceFeed, ServiceFeedAdmin)
 admin.site.register(FeedItem, FeedItemAdmin)
 admin.site.register(Invite, InviteAdmin)
 admin.site.register(WaitlistRequest, WaitlistRequestAdmin)

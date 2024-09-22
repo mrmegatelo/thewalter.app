@@ -51,6 +51,22 @@ class FeedItem(models.Model):
         ordering = ['-pub_date']
 
 
+class ServiceFeed(models.Model):
+    class Type(models.TextChoices):
+        LIKED = 'liked'
+        DISLIKED = 'disliked'
+        PODCAST = 'podcasts'
+        ARTICLE = 'articles'
+        VIDEOS = 'videos'
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    type = models.CharField(max_length=20, choices=Type, default=Type.LIKED)
+    feed_items = models.ManyToManyField(FeedItem, related_name='service_feeds', blank=True)
+
+    def __str__(self):
+        return f'{self.type} feed items for {self.user}'
+
+
 class Attachment(models.Model):
     class Type(models.TextChoices):
         AUDIO = 'audio'

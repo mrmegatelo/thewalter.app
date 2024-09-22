@@ -5,7 +5,7 @@ from django.http import QueryDict, Http404
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 
-from feed.models import UserSettings, Feed
+from feed.models import Feed
 from feed.views.feed.generic_feed_items_list import GenericFeedItemListView, FeedFiltersMixin
 
 
@@ -35,12 +35,13 @@ class FullFeedList(GenericFeedItemListView):
                 )
         try:
             page = paginator.page(page_number)
-            return (paginator, page, page.object_list, page.has_other_pages())
+            return paginator, page, page.object_list, page.has_other_pages()
         except InvalidPage as e:
             raise Http404(
                 _("Invalid page (%(page_number)s): %(message)s")
                 % {"page_number": page_number, "message": str(e)}
             )
+
 
 class UserFeedList(FullFeedList):
     http_method_names = ['get']
@@ -49,6 +50,7 @@ class UserFeedList(FullFeedList):
         queryset = super().get_queryset()
         return queryset.filter(feed__subscribers=self.request.user)
 
+
 class FeedItemListView(FullFeedList):
     http_method_names = ['get']
 
@@ -56,6 +58,7 @@ class FeedItemListView(FullFeedList):
         queryset = super().get_queryset()
         feed_id = self.kwargs.get('feed_id')
         return queryset.filter(feed__id=feed_id)
+
 
 class FeedFilters(TemplateView, FeedFiltersMixin):
     http_method_names = ['post']
@@ -97,16 +100,11 @@ class FeedItemActions(FullFeedList):
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)
-        if hasattr(user, 'usersettings'):
-            hidden_feed_items_qs = user.usersettings.hidden_feed_items
-            if hidden_feed_items_qs.contains(feed_item):
-                hidden_feed_items_qs.remove(feed_item)
-            else:
-                hidden_feed_items_qs.add(feed_item)
+        liked_qs = user.servicefeed_set.filter(type='disliked').first().feed_items
+        if liked_qs.contains(feed_item):
+            liked_qs.remove(feed_item)
         else:
-            usersettings = UserSettings(user=user)
-            usersettings.save()
-            usersettings.hidden_feed_items.add(feed_item)
+            liked_qs.add(feed_item)
         return feed_item
 
     def toggle_liked(self, request, *args, **kwargs):
@@ -114,16 +112,13 @@ class FeedItemActions(FullFeedList):
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)
-        if hasattr(user, 'usersettings'):
-            liked_qs = user.usersettings.liked_feed_items
-            if liked_qs.contains(feed_item):
-                liked_qs.remove(feed_item)
-            else:
-                liked_qs.add(feed_item)
+        liked_qs = user.servicefeed_set.filter(type='liked').first().feed_items
+
+        if liked_qs.contains(feed_item):
+            liked_qs.remove(feed_item)
         else:
-            usersettings = UserSettings(user=user)
-            usersettings.save()
-            usersettings.liked_feed_items.add(feed_item)
+            liked_qs.add(feed_item)
+
         return feed_item
 
 
@@ -135,7 +130,6 @@ class FeedUnsubscribe(DetailView):
 
     def post(self, request, *args, **kwargs):
         action = kwargs.get('action')
-        print(vars(self))
         match action:
             case 'unsubscribe':
                 self.unsubscribe(request, *args, **kwargs)

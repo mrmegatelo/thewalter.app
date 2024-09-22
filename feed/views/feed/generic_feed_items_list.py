@@ -27,6 +27,7 @@ class FeedFiltersMixin(ContextMixin, View):
         context['applied_filters'] = self.applied_filters
         return context
 
+
 class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
     model = FeedItem
     paginate_by = 20
@@ -38,14 +39,14 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
         liked = self.applied_filters.get('liked', False)
         paid = self.applied_filters.get('paid', False)
 
-        base_queryset = self.model.objects
+        base_queryset = super().get_queryset()
 
         if not not_interesting:
-            not_interesting_qs = self.request.user.usersettings.hidden_feed_items.all()
+            not_interesting_qs = self.request.user.servicefeed_set.filter(type='disliked').first().feed_items.all()
             base_queryset = base_queryset.exclude(id__in=not_interesting_qs)
 
         if not liked:
-            not_liked_qs = self.request.user.usersettings.liked_feed_items.all()
+            not_liked_qs = self.request.user.servicefeed_set.filter(type='liked').first().feed_items.all()
             base_queryset = base_queryset.exclude(id__in=not_liked_qs)
 
         if not paid:
@@ -59,6 +60,9 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
 
         context['paginator_range'] = page.paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         context['applied_filters_str'] = self.applied_filters_str
+        context['liked'] = self.request.user.servicefeed_set.filter(type='liked').first()
+        context['disliked'] = self.request.user.servicefeed_set.filter(type='disliked').first()
+
         return context
 
     @property
