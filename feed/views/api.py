@@ -2,6 +2,7 @@ from urllib.parse import urlparse, urlunparse
 
 from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
+from django.urls import resolve
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 
@@ -78,6 +79,15 @@ class FeedFilters(TemplateView, FeedFiltersMixin):
 class FeedItemActions(FullFeedList):
     http_method_names = ['post']
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        parsed_url = urlparse(self.request.headers.get('hx-current-url'))
+        match = resolve(parsed_url.path)
+        feed_slug = match.kwargs.get('slug')
+        if feed_slug:
+            return queryset.filter(feed__slug=feed_slug)
+        return queryset
+
     def init_filters(self, request):
         url = urlparse(request.headers.get('Referer'))
         query_dict = QueryDict(url.query)
@@ -100,11 +110,11 @@ class FeedItemActions(FullFeedList):
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)
-        liked_qs = user.servicefeed_set.filter(type='disliked').first().feed_items
-        if liked_qs.contains(feed_item):
-            liked_qs.remove(feed_item)
+        disliked_qs = user.servicefeed_set.filter(type='disliked').first().feed_items
+        if disliked_qs.contains(feed_item):
+            disliked_qs.remove(feed_item)
         else:
-            liked_qs.add(feed_item)
+            disliked_qs.add(feed_item)
         return feed_item
 
     def toggle_liked(self, request, *args, **kwargs):
