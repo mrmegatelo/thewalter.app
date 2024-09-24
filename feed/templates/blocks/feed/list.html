@@ -5,7 +5,7 @@
 {% if feeditem_list %}
     <ul class="feed-links-list">
         {% for entry in feeditem_list %}
-            <li class="feed-links-list-item">
+            <li id="feed_{{ entry.id }}" class="feed-links-list-item">
                 <a class="feed-links-list-item-link"
                    title="{{ entry.title }}"
                    href="{{ entry.link }}" target="_blank"

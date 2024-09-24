@@ -26,14 +26,18 @@
     <script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.js"
             integrity="sha384-Xh+GLLi0SMFPwtHQjT72aPG19QvKB8grnyRbYBNIdHWc2NkCrz65jlU7YrzO6qRp"
             crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
     {% if debug %}
         <script src="https://unpkg.com/htmx-ext-debug@2.0.0/debug.js"></script>
     {% endif %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static 'feed/site.webmanifest' %}">
     {% if cover %}
         <meta name="og:image" content="{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% static cover %}">
@@ -55,7 +59,7 @@
         </script>
     {% endif %}
 </head>
-<body class="container">
+<body class="container" hx-ext="morph">
 <header class="header subgrid spread">
     <span class="header-logo">
         <a href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">

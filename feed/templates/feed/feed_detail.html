@@ -38,6 +38,7 @@
          hx-get="{% url 'api_feed_feed_list' feed.id %}"
          hx-include="#feed-filters"
          hx-params="filter"
+         hx-swap="morph:innerHTML"
     >
         {% include 'blocks/feed/loader.html' %}
     </div>
