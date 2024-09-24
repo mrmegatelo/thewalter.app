@@ -33,16 +33,16 @@
                 <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
                 {% for attachment in entry.attachments.all %}
                     {% if attachment.type == 'audio' %}
-                        <audio class="feed-links-list-item__attachment embed"
+                        <audio class="feed-links-list-item__attachment"
                                src="{{ attachment.url }}"
                                controls
                         >
                         </audio>
                     {% endif %}
                     {% if attachment.type == 'video' %}
-                        <video
-                                src="{{ attachment.url }}"
-                                controls
+                        <video class="feed-links-list-item__attachment embed"
+                               src="{{ attachment.url }}"
+                               controls
                         ></video>
                     {% endif %}
                     {% if attachment.type == 'embed' %}
