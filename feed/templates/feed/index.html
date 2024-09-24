@@ -13,6 +13,23 @@
                 {% translate 'Add new source' noop %}
             </a>
         </div>
+        <div class="feed-filters-form">
+            <a class="button button_outline button_sm"
+               href="{% url 'service_feed' feed_id='podcasts' %}">
+                <span>🎧️</span>
+                Podcasts
+            </a>
+            <a class="button button_outline button_sm"
+               href="{% url 'service_feed' feed_id='articles' %}">
+                <span>📰</span>
+                Articles
+            </a>
+            <a class="button button_outline button_sm"
+               href="{% url 'service_feed' feed_id='videos' %}">
+                <span>🎥</span>
+                Videos
+            </a>
+        </div>
         <div class="feed-filters">
             <h3 class="heading">Filter:</h3>
             {% if feeditem_list %}

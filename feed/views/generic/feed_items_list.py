@@ -1,5 +1,6 @@
-from django.views.generic import ListView, View
 from django.utils.translation import gettext_noop as _
+from django.views import View
+from django.views.generic import ListView
 from django.views.generic.base import ContextMixin
 
 from feed.models import FeedItem
@@ -7,7 +8,7 @@ from feed.views.mixins import PageMetaMixin
 
 
 class FeedFiltersMixin(ContextMixin, View):
-    applied_filters = {'liked': True, 'paid': True}
+    applied_filters = {'not_interesting': True}
 
     def setup(self, request, *args, **kwargs):
         filters = self.init_filters(request)
@@ -36,20 +37,15 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
     def get_queryset(self):
 
         not_interesting = self.applied_filters.get('not_interesting', False)
-        liked = self.applied_filters.get('liked', False)
         paid = self.applied_filters.get('paid', False)
 
         base_queryset = super().get_queryset()
 
-        if not not_interesting:
+        if not_interesting:
             not_interesting_qs = self.request.user.servicefeed_set.filter(type='disliked').first().feed_items.all()
             base_queryset = base_queryset.exclude(id__in=not_interesting_qs)
 
-        if not liked:
-            not_liked_qs = self.request.user.servicefeed_set.filter(type='liked').first().feed_items.all()
-            base_queryset = base_queryset.exclude(id__in=not_liked_qs)
-
-        if not paid:
+        if paid:
             paid_qs = self.model.objects.filter(has_paid_content=True)
             base_queryset = base_queryset.exclude(id__in=paid_qs)
         return base_queryset

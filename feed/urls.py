@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, \
     PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from django.views.generic import RedirectView
 
@@ -9,14 +9,24 @@ import feed.views.feed.feed_success
 from . import views
 from .views.decorators import anonym_required
 
+user_feed_path_re = r"^feed/(?P<feed_id>favorites)/$"
+"""
+This is a regex for a service feeds 
+"""
+
+service_feed_path_re = r"^feed/(?P<feed_id>podcasts|articles|videos)/$"
+service_feed_path_api_re = r"^api/v1/feed/(?P<feed_id>podcasts|articles|videos)/$"
+
 urlpatterns = [
     path('', views.index.Index.as_view(), name='index'),
     # Feed  URLs
     path('feed/', login_required(feed.views.feed.feed_items_list.FeedItemsListView.as_view()), name='feed_index'),
     path('feed/new/', login_required(feed.views.feed.feed_create.Create.as_view()), name='new_feed'),
     path('feed/new/success/', login_required(feed.views.feed.feed_success.Created.as_view()), name='feed_success'),
+    re_path(service_feed_path_re, login_required(feed.views.feed.feed_items_list.ServiceFeedItemsListView.as_view()), name='service_feed'),
     path('feed/<slug:slug>', login_required(feed.views.feed.subscription.Subscription.as_view()),
          name='feed_subscription'),
+
 
     # Auth URLs
     path('profile/', login_required(RedirectView.as_view(url='/profile/edit/')),
@@ -82,6 +92,7 @@ urlpatterns = [
 
     # API URLs
     path('api/v1/feed/', feed.views.api.UserFeedList.as_view(), name='api_feed_list'),
+    re_path(service_feed_path_api_re, feed.views.api.ServiceFeedList.as_view(), name='api_service_feed_list'),
     path('api/v1/feed/filters/', feed.views.api.FeedFilters.as_view(), name='api_feed_filters'),
     path('api/v1/feed/<int:feed_id>/', feed.views.api.FeedItemListView.as_view(), name='api_feed_feed_list'),
     path('api/v1/feed/<int:feed_id>/<str:action>', feed.views.api.FeedUnsubscribe.as_view(), name='api_feed_action'),

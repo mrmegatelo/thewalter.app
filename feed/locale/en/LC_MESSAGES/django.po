@@ -181,10 +181,6 @@ msgstr ""
 msgid "New Feed"
 msgstr ""
 
-#: feed/views/feed/generic_feed_items_list.py:12
-msgid "Feed"
-msgstr ""
-
 #: feed/views/profile/edit.py:22
 msgid "Edit Profile"
 msgstr ""

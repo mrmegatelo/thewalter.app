@@ -31,7 +31,7 @@ def parse_feed(pk):
                 )
 
                 for enclosure in entry.enclosures:
-                    if enclosure.type == 'audio/mpeg':
+                    if enclosure.type == 'audio/mpeg' or enclosure.type == 'audio/mp3':
                         Attachment.objects.create(
                             url=enclosure.href,
                             type=Attachment.Type.AUDIO,

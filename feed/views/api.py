@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 
 from feed.models import Feed
-from feed.views.feed.generic_feed_items_list import GenericFeedItemListView, FeedFiltersMixin
+from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 
 
 class FullFeedList(GenericFeedItemListView):
@@ -50,6 +50,23 @@ class UserFeedList(FullFeedList):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(feed__subscribers=self.request.user)
+
+
+class ServiceFeedList(FullFeedList):
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        feed_id = self.kwargs.get('feed_id')
+        queryset = super().get_queryset()
+        match feed_id:
+            case 'podcasts':
+                return queryset.filter(attachments__type='audio')
+            case 'videos':
+                return queryset.filter(attachments__type='video')
+            case 'articles':
+                return queryset.filter(attachments__isnull=True)
+            case _:
+                return queryset
 
 
 class FeedItemListView(FullFeedList):

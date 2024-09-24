@@ -1,3 +1,3 @@
-from . import generic_feed_items_list, feed_items_list, subscription
+from . import feed_items_list, subscription
 
-__all__ = ['generic_feed_items_list', 'feed_items_list', 'subscription']
+__all__ = ['feed_items_list', 'subscription']

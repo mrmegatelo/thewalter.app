@@ -21,7 +21,7 @@ class FeedConfig(AppConfig):
                 instance.usersettings = UserSettings.objects.create(user=instance)
                 instance.usersettings.save()
 
-            for service_feed_type in ['liked', 'disliked', 'podcasts', 'articles', 'videos']:
+            for service_feed_type in ['liked', 'disliked']:
                 if not instance.servicefeed_set.filter(type=service_feed_type).exists():
                     service_feed = ServiceFeed.objects.create(user=instance, type=service_feed_type)
                     instance.servicefeed_set.add(service_feed)
