@@ -1,12 +1,13 @@
 from urllib.parse import urlparse, urlunparse
 
 from django.core.paginator import InvalidPage
+from django.db.models import Q
 from django.http import QueryDict, Http404
 from django.urls import resolve
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 
-from feed.models import Feed
+from feed.models import Feed, Attachment
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 
 
@@ -60,9 +61,10 @@ class ServiceFeedList(FullFeedList):
         queryset = super().get_queryset()
         match feed_id:
             case 'podcasts':
-                return queryset.filter(attachments__type='audio')
+                return queryset.filter(attachments__type=Attachment.Type.AUDIO)
             case 'videos':
-                return queryset.filter(attachments__type='video')
+                return queryset.filter(
+                    Q(attachments__type=Attachment.Type.VIDEO) | Q(attachments__type=Attachment.Type.EMBED))
             case 'articles':
                 return queryset.filter(attachments__isnull=True)
             case _:

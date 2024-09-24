@@ -337,6 +337,12 @@ body {
 
 .feed-links-list-item__attachment {
     width: 100%;
+
+    &.embed {
+        aspect-ratio: 1.8;
+        border: none;
+        background-color: black;
+    }
 }
 
 .feed-links-list-item-controls {

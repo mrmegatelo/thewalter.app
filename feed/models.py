@@ -67,6 +67,8 @@ class ServiceFeed(models.Model):
 class Attachment(models.Model):
     class Type(models.TextChoices):
         AUDIO = 'audio'
+        VIDEO = 'video'
+        EMBED = 'embed'
 
     feed_item = models.ForeignKey(FeedItem, related_name='attachments', on_delete=models.CASCADE)
     type = models.CharField(max_length=20, choices=Type.choices, blank=True)
