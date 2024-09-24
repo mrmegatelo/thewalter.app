@@ -3,6 +3,8 @@
 __pycache__/
 celerybeat-schedule
 .env
+certbot
+nginx
 
 # Compiled translations. We don't want to track these files in git.
 *.mo
