@@ -63,4 +63,4 @@ class Create(CreateView, PageMetaMixin):
         if content_type == FeedContentTypes.TEXT_HTML.value:
             return Articulo(url)
         parsed = feedparser.parse(url)
-        return Articulo(parsed.feed.link)
+        return Articulo(parsed.feed.get('link') or parsed.feed.get('href'))

@@ -36,7 +36,7 @@ def parse_feed_item(entry, feed) -> FeedItem:
 
     return FeedItem.objects.create(
         title=entry.title,
-        description=entry.summary,
+        description=entry.get('summary', ""),
         link=entry.link,
         pub_date=time.strftime('%Y-%m-%dT%H:%M:%SZ', parsed_pud_date),
         feed=feed,
