@@ -1,8 +1,21 @@
-from feed.views.generic.feed_items_list import GenericFeedItemListView
+from django.views.generic import ListView
+
+from feed.models import Feed, FeedItem
+from feed.utils.helpers import filter_by_attachments_type
+from feed.views.generic.feed_items_list import FeedFiltersMixin
 
 
-class FeedItemsListView(GenericFeedItemListView):
+class FeedItemsListView(FeedFiltersMixin, ListView):
     template_name = 'feed/index.html'
+    model = Feed
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        feed_type = self.kwargs.get('feed_id')
+
+        print(feed_type)
+
+        return queryset
 
 
 class ServiceFeedItemsListView(FeedItemsListView):
@@ -17,8 +30,9 @@ class ServiceFeedItemsListView(FeedItemsListView):
     def get_queryset(self):
         feed_id = self.kwargs.get('feed_id')
         queryset = super().get_queryset()
-        match feed_id:
-            case 'podcasts':
-                return queryset.filter(attachments__type='audio')
-            case _:
-                return queryset
+        print(feed_id)
+
+        if feed_id is not None:
+            filtered_feed = filter_by_attachments_type(FeedItem.objects, feed_id).values_list('id', flat=True).distinct()
+            return queryset.filter(feed_items__in=filtered_feed).distinct()
+        return queryset

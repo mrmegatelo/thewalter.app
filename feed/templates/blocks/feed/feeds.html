@@ -1,0 +1,9 @@
+{% for feed in feed_list %}
+    <a href="{% url 'feed_subscription' slug=feed.slug %}" 
+       class="button button_outline button_sm"
+       title="{{ feed.title }}"
+    >
+        <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
+        <span>{{ feed.title }}</span>
+    </a>
+{% endfor %}

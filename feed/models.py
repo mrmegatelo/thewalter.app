@@ -27,6 +27,9 @@ class Feed(models.Model):
 
         super().save(*args, **kwargs)
 
+    class Meta:
+        ordering = ['title']
+
 
 class FeedItem(models.Model):
     title = models.CharField(max_length=200)
