@@ -11,10 +11,6 @@ class FeedItemsListView(FeedFiltersMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        feed_type = self.kwargs.get('feed_id')
-
-        print(feed_type)
-
         return queryset
 
 
@@ -30,7 +26,6 @@ class ServiceFeedItemsListView(FeedItemsListView):
     def get_queryset(self):
         feed_id = self.kwargs.get('feed_id')
         queryset = super().get_queryset()
-        print(feed_id)
 
         if feed_id is not None:
             filtered_feed = filter_by_attachments_type(FeedItem.objects, feed_id).values_list('id', flat=True).distinct()
