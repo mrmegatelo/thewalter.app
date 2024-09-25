@@ -1,0 +1,20 @@
+<a class="button button_outline button_sm {% if not feed_id %}active{% endif %}"
+   href="{% url 'feed_index' %}">
+    <span>🪩</span>
+    All
+</a>
+<a class="button button_outline button_sm {% if feed_id == 'podcasts' %}active{% endif %}"
+   href="{% url 'service_feed' feed_id='podcasts' %}">
+    <span>🎧️</span>
+    Podcasts
+</a>
+<a class="button button_outline button_sm {% if feed_id == 'articles' %}active{% endif %}"
+   href="{% url 'service_feed' feed_id='articles' %}">
+    <span>📰</span>
+    Articles
+</a>
+<a class="button button_outline button_sm {% if feed_id == 'videos' %}active{% endif %}"
+   href="{% url 'service_feed' feed_id='videos' %}">
+    <span>🎥</span>
+    Videos
+</a>
