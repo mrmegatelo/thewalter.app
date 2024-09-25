@@ -1,13 +1,13 @@
 from urllib.parse import urlparse, urlunparse
 
 from django.core.paginator import InvalidPage
-from django.db.models import Q
 from django.http import QueryDict, Http404
 from django.urls import resolve
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 
-from feed.models import Feed, Attachment
+from feed.models import Feed
+from feed.utils.helpers import filter_by_attachments_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 
 
@@ -59,16 +59,7 @@ class ServiceFeedList(FullFeedList):
     def get_queryset(self):
         feed_id = self.kwargs.get('feed_id')
         queryset = super().get_queryset()
-        match feed_id:
-            case 'podcasts':
-                return queryset.filter(attachments__type=Attachment.Type.AUDIO)
-            case 'videos':
-                return queryset.filter(
-                    Q(attachments__type=Attachment.Type.VIDEO) | Q(attachments__type=Attachment.Type.EMBED))
-            case 'articles':
-                return queryset.filter(attachments__isnull=True)
-            case _:
-                return queryset
+        return filter_by_attachments_type(queryset, feed_id)
 
 
 class FeedItemListView(FullFeedList):
@@ -103,12 +94,15 @@ class FeedItemActions(FullFeedList):
         parsed_url = urlparse(self.request.headers.get('hx-current-url'))
         match = resolve(parsed_url.path)
         feed_slug = match.kwargs.get('slug')
+        feed_id = match.kwargs.get('feed_id')
         if feed_slug:
             return queryset.filter(feed__slug=feed_slug)
+        if feed_id:
+            return filter_by_attachments_type(queryset, feed_id)
         return queryset
 
     def init_filters(self, request):
-        url = urlparse(request.headers.get('Referer'))
+        url = urlparse(request.headers.get('hx-current-url'))
         query_dict = QueryDict(url.query)
         return query_dict.getlist('filter')
 
