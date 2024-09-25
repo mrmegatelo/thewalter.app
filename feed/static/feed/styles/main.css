@@ -487,6 +487,10 @@ body {
     color: var(--color-primary);
     border: 1px solid var(--color-primary);
     box-shadow: none;
+
+    &.active {
+        background-color: #FFEEEB;
+    }
 }
 
 .button_text {
