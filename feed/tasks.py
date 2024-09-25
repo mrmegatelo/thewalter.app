@@ -4,11 +4,18 @@ from celery import shared_task
 import feedparser
 from articulo import Articulo
 from feed.models import Feed, FeedItem, Attachment
+from feed.utils.enums import AudioMimeTypes, VideoMimeTypes, FeedMediaContentMediums
 
-AUDIO_MIME_TYPES_SET = {'audio/mpeg', 'audio/mp3', 'audio/x-m4a'}
+AUDIO_MIME_TYPES_SET = set([t.value for t in AudioMimeTypes])
 
 
 def parse_attachments(entry, feed):
+    """
+    Parses feed item attachments.
+    :param entry:
+    :param feed:
+    :return:
+    """
     if entry.get('yt_videoid'):
         return parse_yt_video(entry, feed)
     enclosure_types_set = set([e.get('type') for e in entry.get('enclosures', [])])
@@ -16,11 +23,17 @@ def parse_attachments(entry, feed):
     if len(enclosure_types_set) > 0 and enclosure_types_set.issubset(AUDIO_MIME_TYPES_SET):
         return parse_audio_enclosures(entry, feed)
 
-    if 'video' in [m.get('medium') for m in entry.get('media_content', [])]:
+    if FeedMediaContentMediums.VIDEO.value in [m.get('medium') for m in entry.get('media_content', [])]:
         return parse_media(entry, feed)
 
 
 def parse_yt_video(entry, feed_item):
+    """
+    Parses feed item as a YouTube video.
+    :param entry:
+    :param feed_item:
+    :return:
+    """
     video_id = entry.get('yt_videoid')
     embed_url = f"https://www.youtube.com/embed/{video_id}"
     return Attachment.objects.create(
@@ -31,6 +44,12 @@ def parse_yt_video(entry, feed_item):
 
 
 def parse_feed_item(entry, feed) -> FeedItem:
+    """
+    Parses a feed item.
+    :param entry:
+    :param feed:
+    :return:
+    """
     article = Articulo(entry.link)
     parsed_pud_date = entry.get('published_parsed') or entry.get('updated_parsed')
 
@@ -45,6 +64,12 @@ def parse_feed_item(entry, feed) -> FeedItem:
 
 
 def parse_audio_enclosures(entry, feed_item):
+    """
+    Parses "enclosure" part of feed item.
+    :param entry:
+    :param feed_item:
+    :return:
+    """
     for enclosure in entry.get('enclosures'):
         if enclosure.get('type') in AUDIO_MIME_TYPES_SET:
             Attachment.objects.create(
@@ -55,11 +80,17 @@ def parse_audio_enclosures(entry, feed_item):
 
 
 def parse_media(entry, feed_item):
+    """
+    Parses "media" part of feed item.
+    :param entry:
+    :param feed_item:
+    :return:
+    """
     for media_item in entry.get('media_content'):
-        if media_item.get('medium') != 'video':
+        if media_item.get('medium') != FeedMediaContentMediums.VIDEO.value:
             continue
 
-        if media_item.get('type') == 'video/mp4':
+        if media_item.get('type') == VideoMimeTypes.VIDEO_MP4.value:
             return Attachment.objects.create(
                 url=media_item.get('url'),
                 type=Attachment.Type.VIDEO,
