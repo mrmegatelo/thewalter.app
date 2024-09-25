@@ -5,18 +5,18 @@ import feedparser
 from articulo import Articulo
 from feed.models import Feed, FeedItem, Attachment
 
-AUDIO_MIME_TYPES_SET = {'audio/mpeg', 'audio/mp3'}
+AUDIO_MIME_TYPES_SET = {'audio/mpeg', 'audio/mp3', 'audio/x-m4a'}
 
 
 def parse_attachments(entry, feed):
     if entry.get('yt_videoid'):
         return parse_yt_video(entry, feed)
-    enclosure_types_set = set([e.get('type') for e in entry.get('enclosures')])
+    enclosure_types_set = set([e.get('type') for e in entry.get('enclosures', [])])
 
     if len(enclosure_types_set) > 0 and enclosure_types_set.issubset(AUDIO_MIME_TYPES_SET):
         return parse_audio_enclosures(entry, feed)
 
-    if 'video' in [m.get('medium') for m in entry.get('media_content')]:
+    if 'video' in [m.get('medium') for m in entry.get('media_content', [])]:
         return parse_media(entry, feed)
 
 
@@ -46,7 +46,7 @@ def parse_feed_item(entry, feed) -> FeedItem:
 
 def parse_audio_enclosures(entry, feed_item):
     for enclosure in entry.get('enclosures'):
-        if enclosure.get('type') in ['audio/mpeg', 'audio/mp3']:
+        if enclosure.get('type') in AUDIO_MIME_TYPES_SET:
             Attachment.objects.create(
                 url=enclosure.href,
                 type=Attachment.Type.AUDIO,
