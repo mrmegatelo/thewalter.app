@@ -20,10 +20,10 @@ service_feed_path_api_re = r"^api/v1/feed/(?P<feed_id>podcasts|articles|videos)/
 urlpatterns = [
     path('', views.index.Index.as_view(), name='index'),
     # Feed  URLs
-    path('feed/', login_required(feed.views.feed.feed_items_list.FeedItemsListView.as_view()), name='feed_index'),
+    path('feed/', login_required(feed.views.feed.feed_items_list.FeedList.as_view()), name='feed_index'),
     path('feed/new/', login_required(feed.views.feed.feed_create.Create.as_view()), name='new_feed'),
     path('feed/new/success/', login_required(feed.views.feed.feed_success.Created.as_view()), name='feed_success'),
-    re_path(service_feed_path_re, login_required(feed.views.feed.feed_items_list.ServiceFeedItemsListView.as_view()), name='service_feed'),
+    re_path(service_feed_path_re, login_required(feed.views.feed.feed_items_list.ServiceFeedList.as_view()), name='service_feed'),
     path('feed/<slug:slug>', login_required(feed.views.feed.subscription.Subscription.as_view()),
          name='feed_subscription'),
 
@@ -98,4 +98,5 @@ urlpatterns = [
     path('api/v1/feed/<int:feed_id>/<str:action>', feed.views.api.FeedUnsubscribe.as_view(), name='api_feed_action'),
     path('api/v1/feed/<int:feed_id>/<int:feed_item_id>/<str:action>', views.api.FeedItemActions.as_view(),
          name='api_feed_item_toggle_interesting'),
+    path('api/v1/dialog/feed_list/toggle', views.api.dialogs.FeedListDialog.as_view(), name='api_dialog_feed_list'),
 ]

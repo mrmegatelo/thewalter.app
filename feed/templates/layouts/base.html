@@ -80,5 +80,18 @@
         <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>
     </footer>
 </footer>
+<div id="dialogs-root"></div>
+<script>
+    const dialogsRootEl = document.querySelector("#dialogs-root");
+    const watcher = new CloseWatcher()
+    dialogsRootEl.addEventListener('htmx:afterSettle', function (e) {
+        const d = dialogsRootEl.firstChild;
+        d.showModal();
+    });
+
+    dialogsRootEl.addEventListener('close', function (e) {
+        e.target.remove();
+    }, {capture: true})
+</script>
 </body>
 </html>

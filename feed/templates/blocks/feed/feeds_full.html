@@ -1,5 +1,5 @@
 {% for feed in feed_list %}
-    <a href="{% url 'feed_subscription' slug=feed.slug %}" 
+    <a href="{% url 'feed_subscription' slug=feed.slug %}"
        class="button button_outline button_sm"
        title="{{ feed.title }}"
     >

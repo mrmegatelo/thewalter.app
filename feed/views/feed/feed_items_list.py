@@ -5,7 +5,7 @@ from feed.utils.helpers import filter_by_attachments_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin
 
 
-class FeedItemsListView(FeedFiltersMixin, ListView):
+class FeedList(FeedFiltersMixin, ListView):
     template_name = 'feed/index.html'
     model = Feed
 
@@ -14,7 +14,7 @@ class FeedItemsListView(FeedFiltersMixin, ListView):
         return queryset
 
 
-class ServiceFeedItemsListView(FeedItemsListView):
+class ServiceFeedList(FeedList):
     template_name = 'feed/service.html'
 
     def get_context_data(self, **kwargs):

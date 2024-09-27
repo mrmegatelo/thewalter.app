@@ -1,0 +1,31 @@
+{% if feed_list.count <= 5 %}
+    {% for feed in feed_list %}
+        <a href="{% url 'feed_subscription' slug=feed.slug %}"
+           class="button button_outline button_sm"
+           title="{{ feed.title }}"
+        >
+            <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
+            <span>{{ feed.title }}</span>
+        </a>
+    {% endfor %}
+{% else %}
+    {% for feed in feed_list|slice:":5" %}
+        <a href="{% url 'feed_subscription' slug=feed.slug %}"
+           class="button button_outline button_sm"
+           title="{{ feed.title }}"
+        >
+            <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
+            <span>{{ feed.title }}</span>
+        </a>
+    {% endfor %}
+    <form
+            hx-post="{% url 'api_dialog_feed_list' %}"
+            hx-target="#dialogs-root"
+    >
+        {% csrf_token %}
+        <button class="button button_outline button_sm">
+            {% include 'icons/more_horiz.svg' %}
+            See all ({{ feed_list.count }})
+        </button>
+    </form>
+{% endif %}
