@@ -1,5 +1,7 @@
-<dialog id="{{ dialog_id }}" class="dialog dialog_top">
+{% extends 'dialogs/base.html' %}
+
+{% block body %}
     <div class="feed-filters-form">
         {% include 'blocks/feed/feeds_full.html' %}
     </div>
-</dialog>
+{% endblock %}

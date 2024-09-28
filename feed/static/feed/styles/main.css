@@ -690,18 +690,49 @@ body {
 
 .dialog {
     position: fixed;
+    padding: 0;
 
     &.dialog_top {
+        border: none;
         top: 0;
         left: 0;
         right: 0;
         max-width: 100%;
-        transform: translateY(0);
-        transition: transform 0.45s ease;
+    }
+}
 
-        &.htmx-added {
-            transform: translateY(-100%)
-        }
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    padding: calc(var(--grid-step) * 3);
+    gap: calc(var(--grid-step) * 3);
+}
+
+.dialog-header {
+    display: flex;
+
+    & .dialog-close {
+        margin-left: auto;
+    }
+}
+
+/*   Open state of the dialog  */
+dialog.dialog_top[open] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/*   Closed state of the dialog   */
+dialog.dialog_top {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-out,
+    overlay 0.3s ease-out allow-discrete,
+    display 0.3s ease-out allow-discrete;
+}
+
+@starting-style {
+    dialog.dialog_top[open] {
+        transform: translateY(-100%);
     }
 }
 

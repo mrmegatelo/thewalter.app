@@ -80,18 +80,36 @@
         <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>
     </footer>
 </footer>
-<div id="dialogs-root"></div>
+<div id="dialogs-root"
+></div>
 <script>
-    const dialogsRootEl = document.querySelector("#dialogs-root");
-    const watcher = new CloseWatcher()
-    dialogsRootEl.addEventListener('htmx:afterSettle', function (e) {
-        const d = dialogsRootEl.firstChild;
-        d.showModal();
-    });
+    function waitForTransitionEnd(element) {
+        return new Promise(function (resolve) {
+            element.addEventListener('transitionend', function () {
+                resolve();
+            })
+        });
+    }
 
-    dialogsRootEl.addEventListener('close', function (e) {
-        e.target.remove();
-    }, {capture: true})
+    function init() {
+        const dialogsRootEl = document.querySelector("#dialogs-root");
+        dialogsRootEl.addEventListener('htmx:afterSettle', function () {
+            const dialog = dialogsRootEl.firstChild;
+            dialog.showModal();
+            dialog.addEventListener('click', function (e) {
+                if (e.target === dialog) {
+                    dialog.close();
+                }
+            })
+        });
+
+        dialogsRootEl.addEventListener('close', async function (e) {
+            await waitForTransitionEnd(e.target)
+            e.target.remove();
+        }, {capture: true});
+    }
+
+    init();
 </script>
 </body>
 </html>

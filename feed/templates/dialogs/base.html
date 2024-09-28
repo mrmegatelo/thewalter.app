@@ -1,0 +1,14 @@
+<dialog id="{{ dialog_id }}" class="dialog dialog_top">
+    <div class="dialog-content">
+        <header class="dialog-header">
+            <form class="dialog-close">
+                <button class="button button_blank button_sm" formmethod="dialog">
+                    {% include 'icons/close.svg' %}
+                </button>
+            </form>
+        </header>
+        <div>
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</dialog>
