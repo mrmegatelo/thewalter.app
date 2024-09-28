@@ -19,18 +19,15 @@
         </div>
         <div class="feed-filters">
             <h3 class="heading">Filter:</h3>
-            {% if feeditem_list %}
-                <form
-                        id="feed-filters"
-                        class="feed-filters-form"
-                        method="post"
-                        hx-trigger="change"
-                        hx-target="this"
-                        hx-post="{% url 'api_feed_filters' %}"
-                >
-                    {% include 'blocks/feed/filters.html' %}
-                </form>
-            {% endif %}
+            <form id="feed-filters"
+                  class="feed-filters-form"
+                  method="post"
+                  hx-trigger="change"
+                  hx-target="this"
+                  hx-post="{% url 'api_feed_filters' %}"
+            >
+                {% include 'blocks/feed/filters.html' %}
+            </form>
             <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
         </div>
     </div>

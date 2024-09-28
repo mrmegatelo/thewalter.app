@@ -19,10 +19,12 @@
         </a>
     {% endfor %}
     <form
-            hx-post="{% url 'api_dialog_feed_list' %}"
+            hx-get="{% url 'api_dialog_feed_list' %}"
             hx-target="#dialogs-root"
     >
-        {% csrf_token %}
+        {% if feed_id %}
+            <input type="hidden" name="feed_id" value="{{ feed_id }}">
+        {% endif %}
         <button class="button button_outline button_sm">
             {% include 'icons/more_horiz.svg' %}
             See all ({{ feed_list.count }})

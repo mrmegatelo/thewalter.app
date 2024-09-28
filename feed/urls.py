@@ -98,5 +98,5 @@ urlpatterns = [
     path('api/v1/feed/<int:feed_id>/<str:action>', feed.views.api.FeedUnsubscribe.as_view(), name='api_feed_action'),
     path('api/v1/feed/<int:feed_id>/<int:feed_item_id>/<str:action>', views.api.FeedItemActions.as_view(),
          name='api_feed_item_toggle_interesting'),
-    path('api/v1/dialog/feed_list/toggle', views.api.dialogs.FeedListDialog.as_view(), name='api_dialog_feed_list'),
+    path('api/v1/dialog/feed_list', views.api.dialogs.FeedListDialog.as_view(), name='api_dialog_feed_list'),
 ]
