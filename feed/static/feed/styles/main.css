@@ -378,11 +378,12 @@ body {
     }
 }
 
-.feed-filters {
+.sidebar-block {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: calc(var(--grid-step) * 2);
+    width: 100%;
 }
 
 .feed-sidebar {
@@ -402,7 +403,7 @@ body {
     gap: calc(var(--grid-step) * 2);
 }
 
-.feed-filters-form {
+.sidebar-block-content {
     display: flex;
     gap: calc(var(--grid-step) * 2);
     flex-wrap: wrap;

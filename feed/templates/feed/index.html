@@ -5,22 +5,25 @@
 
 {% block sidebar %}
     <div class="feed-sidebar">
-        <div class="feed-filters-form">
+        <div class="sidebar-block-content">
             {% include 'blocks/feed/types_selector.html' %}
         </div>
-        <div class="feed-filters-form">
-            {% include 'blocks/feed/feeds_short.html' %}
-            <a class="button button_primary button_sm"
-               href="{% url 'new_feed' %}"
-            >
-                <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
-                {% translate 'Add new source' noop %}
-            </a>
+        <div class="sidebar-block">
+            <h3 class="heading">Feeds:</h3>
+            <div class="sidebar-block-content">
+                {% include 'blocks/feed/feeds_short.html' %}
+                <a class="button button_primary button_sm"
+                   href="{% url 'new_feed' %}"
+                >
+                    <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
+                    {% translate 'Add new source' noop %}
+                </a>
+            </div>
         </div>
-        <div class="feed-filters">
+        <div class="sidebar-block">
             <h3 class="heading">Filter:</h3>
             <form id="feed-filters"
-                  class="feed-filters-form"
+                  class="sidebar-block-content"
                   method="post"
                   hx-trigger="change"
                   hx-target="this"

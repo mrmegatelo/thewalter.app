@@ -1,6 +1,6 @@
 {% for feed in feed_list %}
     <a href="{% url 'feed_subscription' slug=feed.slug %}"
-       class="button button_outline button_sm"
+       class="button button_outline button_sm     {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
        title="{{ feed.title }}"
     >
         <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">

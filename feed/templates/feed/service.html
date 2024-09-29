@@ -2,14 +2,13 @@
 {% load i18n %}
 
 {% block main %}
-    <div
-            id="feed-list"
-            class="feed-list-wrapper"
-            hx-trigger="load, change from:#feed-filters"
-            hx-get="{% url 'api_service_feed_list' feed_id=feed_id %}"
-            hx-include="#feed-filters"
-            hx-params="filter"
-            hx-swap="morph:innerHTML"
+    <div id="feed-list"
+         class="feed-list-wrapper"
+         hx-trigger="load, change from:#feed-filters"
+         hx-get="{% url 'api_service_feed_list' feed_id=feed_id %}"
+         hx-include="#feed-filters"
+         hx-params="filter"
+         hx-swap="morph:innerHTML"
     >
         {% include 'blocks/feed/loader.html' %}
     </div>

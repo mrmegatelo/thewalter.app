@@ -1,21 +1,21 @@
 {% if feed_list.count <= 5 %}
-    {% for feed in feed_list %}
-        <a href="{% url 'feed_subscription' slug=feed.slug %}"
-           class="button button_outline button_sm"
-           title="{{ feed.title }}"
+    {% for item in feed_list %}
+        <a href="{% url 'feed_subscription' slug=item.slug %}"
+           class="button button_outline button_sm {% if item.id == feed.id %}active{% endif %}"
+           title="{{ item.title }}"
         >
-            <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
-            <span>{{ feed.title }}</span>
+            <img width="20" height="20" alt="{{ item.title }}" src="{{ item.icon }}">
+            <span>{{ item.title }}</span>
         </a>
     {% endfor %}
 {% else %}
-    {% for feed in feed_list|slice:":5" %}
-        <a href="{% url 'feed_subscription' slug=feed.slug %}"
-           class="button button_outline button_sm"
-           title="{{ feed.title }}"
+    {% for item in feed_list|slice:":5" %}
+        <a href="{% url 'feed_subscription' slug=item.slug %}"
+           class="button button_outline button_sm {% if item.id == feed.id %}active{% endif %}"
+           title="{{ item.title }}"
         >
-            <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
-            <span>{{ feed.title }}</span>
+            <img width="20" height="20" alt="{{ item.title }}" src="{{ item.icon }}">
+            <span>{{ item.title }}</span>
         </a>
     {% endfor %}
     <form
@@ -25,7 +25,10 @@
         {% if feed_id %}
             <input type="hidden" name="feed_id" value="{{ feed_id }}">
         {% endif %}
-        <button class="button button_outline button_sm">
+        {% if feed %}
+            <input type="hidden" name="selected_feed_id" value="{{ feed.id }}">
+        {% endif %}
+        <button class="button button_outline button_sm {% if feed and not feed in feed_list|slice:":5" %}active{% endif %}">
             {% include 'icons/more_horiz.svg' %}
             See all ({{ feed_list.count }})
         </button>

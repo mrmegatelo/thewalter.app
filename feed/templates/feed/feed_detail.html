@@ -1,45 +1,31 @@
-{% extends 'layouts/with_sidebar.html' %}
-{% load i18n %}
-{% load static %}
-{% load humanize %}
-
-{% block sidebar %}
-    <div class="feed-sidebar">
-        <div>
-            <p>{{ feed.description }}</p>
-            <a class="button button_sm button_text" href="{{ feed.url }}" target="_blank">🔗 Original link</a>
-            <form id="feed-subscription"
-                  method="post"
-                  hx-target="this"
-            >
-                {% include 'blocks/feed/subscription.html' %}
-            </form>
-        </div>
-        <div class="feed-filters">
-            <h3 class="heading">Filter:</h3>
-            <form id="feed-filters"
-                  class="feed-filters-form"
-                  method="post"
-                  hx-trigger="change"
-                  hx-target="this"
-                  hx-post="{% url 'api_feed_filters' %}"
-            >
-                {% include 'blocks/feed/filters.html' %}
-            </form>
-            <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
-        </div>
-    </div>
-{% endblock %}
-
+{% extends 'feed/index.html' %}
+{{ feed }}
 {% block main %}
-    <div id="feed-list"
-         class="feed-list-wrapper"
-         hx-trigger="load, change from:#feed-filters, refresh_feed from:body"
-         hx-get="{% url 'api_feed_feed_list' feed.id %}"
-         hx-include="#feed-filters"
-         hx-params="filter"
-         hx-swap="morph:innerHTML"
-    >
-        {% include 'blocks/feed/loader.html' %}
+    <div class="content">
+        <div style="display: flex;
+    flex-direction: column;
+    gap: 16px;">
+            <h1>{{ feed.title }}</h1>
+            <p class="paragraph">{{ feed.description }}</p>
+            <div class="sidebar-block-content">
+                <form id="feed-subscription"
+                      method="post"
+                      hx-target="this"
+                >
+                    {% include 'blocks/feed/subscription.html' %}
+                </form>
+                <a class="button button_sm button_text" href="{{ feed.url }}" target="_blank">🔗 Original link</a>
+            </div>
+        </div>
+        <div id="feed-list"
+             class="feed-list-wrapper"
+             hx-trigger="load, change from:#feed-filters"
+             hx-get="{% url 'api_feed_feed_list' feed_id=feed.id %}"
+             hx-include="#feed-filters"
+             hx-params="filter"
+             hx-swap="morph:innerHTML"
+        >
+            {% include 'blocks/feed/loader.html' %}
+        </div>
     </div>
 {% endblock %}

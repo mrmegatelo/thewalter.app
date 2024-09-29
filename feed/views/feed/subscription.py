@@ -1,11 +1,9 @@
-from django.views.generic import DetailView
-
-from feed.models import Feed
-from feed.views.generic.feed_items_list import FeedFiltersMixin
+from feed.views.feed.feed_items_list import FeedList
 
 
-class Subscription(DetailView, FeedFiltersMixin):
-    model = Feed
-
+class Subscription(FeedList):
+    template_name = 'feed/feed_detail.html'
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['feed'] = super().get_queryset().get(slug=self.kwargs.get('slug'))
+        return context
