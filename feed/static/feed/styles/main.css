@@ -136,7 +136,7 @@ body {
     display: grid;
     grid-template-columns: subgrid;
     grid-column: span var(--grid-columns);
-    grid-row-gap: calc(var(--grid-step) * 8);
+    grid-row-gap: calc(var(--grid-step) * 10);
 }
 
 .content-inner {
