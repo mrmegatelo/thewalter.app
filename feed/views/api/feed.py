@@ -5,6 +5,7 @@ from django.http import QueryDict, Http404
 from django.urls import resolve
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
+from django.views.generic.base import ContextMixin
 
 from feed.models import Feed
 from feed.utils.helpers import filter_by_attachments_type
@@ -49,17 +50,12 @@ class UserFeedList(FullFeedList):
     http_method_names = ['get']
 
     def get_queryset(self):
+        feed_type = self.request.GET.get('feed_type')
         queryset = super().get_queryset()
+
+        if feed_type:
+            queryset = filter_by_attachments_type(queryset, feed_type)
         return queryset.filter(feed__subscribers=self.request.user)
-
-
-class ServiceFeedList(FullFeedList):
-    http_method_names = ['get']
-
-    def get_queryset(self):
-        feed_id = self.kwargs.get('feed_id')
-        queryset = super().get_queryset()
-        return filter_by_attachments_type(queryset, feed_id)
 
 
 class FeedItemListView(FullFeedList):
@@ -67,8 +63,8 @@ class FeedItemListView(FullFeedList):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        feed_id = self.kwargs.get('feed_id')
-        return queryset.filter(feed__id=feed_id)
+        feed_type = self.request.GET.get('feed_type')
+        return filter_by_attachments_type(queryset, feed_type)
 
 
 class FeedFilters(TemplateView, FeedFiltersMixin):
@@ -83,6 +79,31 @@ class FeedFilters(TemplateView, FeedFiltersMixin):
         url = urlunparse(url)
         response = super().get(request, *args, **kwargs)
         response.headers['HX-Push-Url'] = url
+        return response
+
+
+class FeedTypes(TemplateView, ContextMixin):
+    http_method_names = ['post']
+    template_name = 'blocks/feed/types_selector.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['feed_type'] = self.request.POST.get('feed_type')
+        return context
+
+    def post(self, request, *args, **kwargs):
+        url = urlparse(request.headers.get('Referer'))
+        query_dict = QueryDict(url.query, mutable=True)
+        feed_type = self.request.POST.getlist('feed_type')
+        if 'none' not in feed_type:
+            query_dict.setlist('feed_type', feed_type)
+        else:
+            query_dict.pop('feed_type')
+
+        url = url._replace(query=query_dict.urlencode())
+        url = urlunparse(url)
+        response = super().get(request, *args, **kwargs)
+        response.headers['HX-Redirect'] = url
         return response
 
 

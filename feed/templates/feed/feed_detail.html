@@ -19,9 +19,9 @@
         </div>
         <div id="feed-list"
              class="feed-list-wrapper"
-             hx-trigger="load, change from:#feed-filters"
+             hx-trigger="load, change from:#feed-filters, change from:#feed-types"
              hx-get="{% url 'api_feed_feed_list' feed_id=feed.id %}"
-             hx-include="#feed-filters"
+             hx-include="#feed-filters, #feed-types"
              hx-params="filter"
              hx-swap="morph:innerHTML"
         >

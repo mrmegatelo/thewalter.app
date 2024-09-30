@@ -6,7 +6,15 @@
 {% block sidebar %}
     <div class="feed-sidebar">
         <div class="sidebar-block-content">
-            {% include 'blocks/feed/types_selector.html' %}
+            <form id="feed-types"
+                  class="sidebar-block-content"
+                  method="post"
+                  hx-trigger="change"
+                  hx-target="this"
+                  hx-post="{% url 'api_feed_types' %}"
+            >
+                {% include 'blocks/feed/types_selector.html' %}
+            </form>
         </div>
         <div class="sidebar-block">
             <h3 class="heading">Feeds:</h3>
@@ -40,10 +48,10 @@
     <div
             id="feed-list"
             class="feed-list-wrapper"
-            hx-trigger="load, change from:#feed-filters"
+            hx-trigger="load, change from:#feed-filters, change from:#feed-types"
             hx-get="{% url 'api_feed_list' %}"
-            hx-include="#feed-filters"
-            hx-params="filter"
+            hx-include="#feed-filters, #feed-types"
+            hx-params="filter, feed_type"
             hx-swap="morph:innerHTML"
     >
         {% include 'blocks/feed/loader.html' %}
