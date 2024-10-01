@@ -63,8 +63,8 @@ class FeedItemListView(FullFeedList):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        feed_type = self.request.GET.get('feed_type')
-        return filter_by_attachments_type(queryset, feed_type)
+        feed_id = self.kwargs.get('feed_id')
+        return queryset.filter(feed__id=feed_id)
 
 
 class FeedFilters(TemplateView, FeedFiltersMixin):
