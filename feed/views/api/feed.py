@@ -114,12 +114,14 @@ class FeedItemActions(FullFeedList):
         queryset = super().get_queryset()
         parsed_url = urlparse(self.request.headers.get('hx-current-url'))
         match = resolve(parsed_url.path)
+        query = QueryDict(parsed_url.query, mutable=False)
         feed_slug = match.kwargs.get('slug')
-        feed_id = match.kwargs.get('feed_id')
+        feed_type = query.get('feed_type')
+
         if feed_slug:
             return queryset.filter(feed__slug=feed_slug)
-        if feed_id:
-            return filter_by_attachments_type(queryset, feed_id)
+        if feed_type:
+            return filter_by_attachments_type(queryset, feed_type)
         return queryset
 
     def init_filters(self, request):
