@@ -23,6 +23,7 @@ class FeedList(FeedFiltersMixin, ListView):
     def get_queryset(self):
         feed_type = self.request.GET.get('feed_type')
         queryset = super().get_queryset()
+        queryset = queryset.filter(subscribers=self.request.user)
         if feed_type is not None:
             filtered_feed = filter_by_attachments_type(FeedItem.objects, feed_type).values_list('id',
                                                                                               flat=True).distinct()

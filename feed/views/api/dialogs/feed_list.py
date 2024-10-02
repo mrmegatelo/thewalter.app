@@ -21,4 +21,4 @@ class FeedListDialog(FeedList):
         if feed_id is not None:
             filtered_feed = filter_by_attachments_type(FeedItem.objects, feed_id).values_list('id', flat=True).distinct()
             return queryset.filter(feed_items__in=filtered_feed).distinct()
-        return queryset
+        return queryset.filter(subscribers=self.request.user)
