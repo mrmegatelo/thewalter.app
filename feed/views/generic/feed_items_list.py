@@ -1,32 +1,8 @@
 from django.utils.translation import gettext_noop as _
-from django.views import View
 from django.views.generic import ListView
-from django.views.generic.base import ContextMixin
 
 from feed.models import FeedItem
-from feed.views.mixins import PageMetaMixin
-
-
-class FeedFiltersMixin(ContextMixin, View):
-    applied_filters = {'not_interesting': True}
-
-    def setup(self, request, *args, **kwargs):
-        filters = self.init_filters(request)
-        if filters:
-            new_filters = dict()
-            for name in filters:
-                new_filters[name] = True
-            self.applied_filters = new_filters
-        return super().setup(request, *args, **kwargs)
-
-    def init_filters(self, request):
-        request_params = request.GET if request.method == 'GET' else request.POST
-        return request_params.getlist('filter')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['applied_filters'] = self.applied_filters
-        return context
+from feed.views.mixins import PageMetaMixin, FeedFiltersMixin
 
 
 class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):

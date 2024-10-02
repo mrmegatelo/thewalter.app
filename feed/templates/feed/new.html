@@ -1,31 +1,55 @@
-{% extends 'layouts/centered.html' %}
+{% extends 'layouts/with_sidebar.html' %}
 {% load i18n %}
-{% block title %}Add new feed{% endblock %}
-{% block content %}
-    <div class="content content-inner">
-        <div class="cols-12">
-            {% include 'blocks/page-heading.html' %}
-        </div>
-        <div class="cols-3 cols-mobile-12">
-            <div class="feed-sidebar-buttons">
 
+{% block title %}thewalter.app{% endblock %}
+
+{% block sidebar %}
+    <div class="feed-sidebar">
+        <div class="sidebar-block-content">
+            <form id="feed-types"
+                  class="sidebar-block-content"
+                  method="post"
+                  hx-trigger="change"
+                  hx-target="this"
+                  hx-post="{% url 'api_feed_types' %}"
+            >
+                {% include 'blocks/feed/types_selector.html' %}
+            </form>
+        </div>
+        <div class="sidebar-block">
+            <h3 class="heading">Feeds:</h3>
+            <div class="sidebar-block-content">
+                {% include 'blocks/feed/feeds_short.html' %}
+                <a class="button button_primary button_sm"
+                   href="{% url 'new_feed' %}"
+                >
+                    <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
+                    {% translate 'Add new source' noop %}
+                </a>
             </div>
         </div>
-        <div class="cols-4 cols-mobile-12">
-            <div class="centered-form-wrapper">
-                <a class="button button_blank" href="{% url 'feed_index' %}">
-                    <span class="button__icon">{% include 'icons/arrow_back.svg' %}</span>
-                    Back to feed
-                </a>
-                {% include 'blocks/page-heading.html' with title='New feed source' %}
-                <form class="form" method="post" action="{% url 'new_feed' %}">
-                    {% csrf_token %}
-                    {{ form.as_div }}
-                    <button class="button button_primary form-submit" type="submit">
-                        {% translate 'Add feed' noop %}
-                    </button>
-                </form>
-            </div>
+        <div class="sidebar-block">
+            <h3 class="heading">Hide:</h3>
+            <form id="feed-filters"
+                  class="sidebar-block-content"
+                  method="post"
+                  hx-trigger="change"
+                  hx-target="this"
+                  hx-post="{% url 'api_feed_filters' %}"
+            >
+                {% include 'blocks/feed/filters.html' %}
+            </form>
+            <a class="button button_sm button_blank" href="{% url 'feed_index' %}">Reset filters</a>
         </div>
     </div>
+{% endblock %}
+
+{% block main %}
+    <form class="form" method="post" action="{% url 'new_feed' %}">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button class="button button_primary form-submit" type="submit">
+            {% translate 'Add feed' noop %}
+        </button>
+    </form>
 {% endblock %}

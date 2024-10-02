@@ -4,7 +4,6 @@ from django.urls import path
 from django.contrib.auth.decorators import login_required
 from django.views.generic import RedirectView
 
-import feed.views.feed.feed_create
 import feed.views.feed.feed_success
 from . import views
 from .views.decorators import anonym_required
@@ -20,10 +19,10 @@ service_feed_path_api_re = r"^api/v1/feed/(?P<feed_id>podcasts|articles|videos)/
 urlpatterns = [
     path('', views.index.Index.as_view(), name='index'),
     # Feed  URLs
-    path('feed/', login_required(feed.views.feed.feed_list.FeedList.as_view()), name='feed_index'),
-    path('feed/new/', login_required(feed.views.feed.feed_create.Create.as_view()), name='new_feed'),
+    path('feed/', login_required(feed.views.feed.FeedList.as_view()), name='feed_index'),
+    path('feed/new/', login_required(feed.views.feed.FeedCreate.as_view()), name='new_feed'),
     path('feed/new/success/', login_required(feed.views.feed.feed_success.Created.as_view()), name='feed_success'),
-    path('feed/<slug:slug>', login_required(feed.views.feed.subscription.Subscription.as_view()),
+    path('feed/<slug:slug>', login_required(feed.views.feed.Subscription.as_view()),
          name='feed_subscription'),
 
     # Auth URLs

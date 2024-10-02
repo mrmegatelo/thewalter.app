@@ -30,7 +30,6 @@ class AbstractFeedParser(ABC):
 class RSSFeedParser(AbstractFeedParser):
     def parse(self, url: str) -> FeedMeta:
         parsed = feedparser.parse(url)
-        print(self.parse_icon(parsed), self.articulo.icon)
         feed_meta = FeedMeta(
             title=parsed.feed.title,
             description=self.parse_description(parsed),

@@ -4,7 +4,6 @@ from feed.models import Feed, FeedItem
 from feed.utils.helpers import filter_by_attachments_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin
 
-
 class FeedList(FeedFiltersMixin, ListView):
     template_name = 'feed/index.html'
     model = Feed
@@ -26,6 +25,6 @@ class FeedList(FeedFiltersMixin, ListView):
         queryset = queryset.filter(subscribers=self.request.user)
         if feed_type is not None:
             filtered_feed = filter_by_attachments_type(FeedItem.objects, feed_type).values_list('id',
-                                                                                              flat=True).distinct()
+                                                                                                flat=True).distinct()
             return queryset.filter(feed_items__in=filtered_feed).distinct()
         return queryset

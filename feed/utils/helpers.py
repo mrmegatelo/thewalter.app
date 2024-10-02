@@ -1,9 +1,14 @@
 from urllib.parse import urlparse, urlunparse
 from urllib.request import urlopen, Request
 
+import feedparser
+from articulo import Articulo
 from django.db.models import Q
 
 from feed.models import Attachment
+from feed.utils.enums import FeedContentTypes
+from feed.utils.feed_parsers import HTMLFeedParser, RSSFeedParser
+from feed.utils.feed_validators import RSSLinkValidator, HTMLLinkValidator
 
 
 def get_url_content_type(url):
@@ -38,3 +43,30 @@ def filter_by_attachments_type(queryset, attachments_type):
             return queryset.filter(attachments__isnull=True)
         case _:
             return queryset
+
+
+def get_form_parser(url, articulo):
+    content_type = get_url_content_type(url)
+    if content_type == FeedContentTypes.TEXT_HTML.value:
+        return HTMLFeedParser(articulo)
+    return RSSFeedParser(articulo)
+
+
+def get_form_validator(url, articulo):
+    content_type = get_url_content_type(url)
+    match content_type:
+        case FeedContentTypes.TEXT_HTML.value:
+            return HTMLLinkValidator(articulo)
+        case FeedContentTypes.TEXT_XML.value \
+             | FeedContentTypes.APPLICATION_XML.value \
+             | FeedContentTypes.APPLICATION_XML_RSS.value \
+             | FeedContentTypes.APPLICATION_XML_ATOM.value:
+            return RSSLinkValidator(articulo)
+
+
+def get_articulo_instance(url):
+    content_type = get_url_content_type(url)
+    if content_type == FeedContentTypes.TEXT_HTML.value:
+        return Articulo(url)
+    parsed = feedparser.parse(url)
+    return Articulo(parsed.feed.get('link') or parsed.feed.get('href'))
