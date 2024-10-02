@@ -1,3 +1,4 @@
+from urllib.parse import urlparse, urlunparse
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
@@ -29,7 +30,7 @@ class AbstractFeedParser(ABC):
 class RSSFeedParser(AbstractFeedParser):
     def parse(self, url: str) -> FeedMeta:
         parsed = feedparser.parse(url)
-
+        print(self.parse_icon(parsed), self.articulo.icon)
         feed_meta = FeedMeta(
             title=parsed.feed.title,
             description=self.parse_description(parsed),
@@ -45,8 +46,13 @@ class RSSFeedParser(AbstractFeedParser):
             return parsed.feed.image.href
         elif parsed.feed.get('icon') is not None:
             return parsed.feed.icon
-
-        return self.articulo.icon
+        elif self.articulo.icon is not None:
+            return self.articulo.icon
+        # FIXME: this is a small hack to retrieve favicon if there is no favicons
+        #  in the head tag. Need to move it to articulo library
+        parsed_url = list(urlparse(parsed.feed.link))
+        parsed_url[2] = 'favicon.ico'
+        return urlunparse(parsed_url)
 
     def parse_description(self, parsed: FeedParserDict) -> str:
         if parsed.feed.get('description') is not None:
