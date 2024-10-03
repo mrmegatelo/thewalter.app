@@ -2,12 +2,10 @@
 
 {% block main %}
     <div class="content">
-        <div style="display: flex;
-    flex-direction: column;
-    gap: 16px;">
-            <h1>{{ feed.title }}</h1>
+        <div class="feed-description">
+            <h1 class="heading">{{ feed.title }}</h1>
             <p class="paragraph">{{ feed.description }}</p>
-            <div class="sidebar-block-content">
+            <div class="flex-column-button-container sidebar-block-content">
                 <form id="feed-subscription"
                       method="post"
                       hx-target="this"

@@ -417,6 +417,12 @@ body {
     gap: var(--grid-step);
 }
 
+.feed-description {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 0.5);
+}
+
 /* Buttons */
 .button {
     position: relative;
@@ -431,7 +437,6 @@ body {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: var(--shadow-primary);
     transition: background-color 0.15s;
     gap: 8px;
 
@@ -498,9 +503,14 @@ body {
     color: var(--color-primary);
     border: 1px solid #FFBCAD;
     box-shadow: none;
+    transition: border-color 0.15s;
 
     &.active {
         background-color: #FFEEEB;
+    }
+
+    &:hover {
+        border-color: var(--color-primary);
     }
 }
 
@@ -572,12 +582,8 @@ body {
     font-size: 12px;
 }
 
-.form-submit {
+.flex-column-button-container {
     margin-top: calc(var(--grid-step) * 2);
-
-    .form_horizontal & {
-        margin-top: 0;
-    }
 }
 
 
