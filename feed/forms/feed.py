@@ -54,3 +54,6 @@ class FeedForm(forms.ModelForm):
         widgets = {
             'url': forms.URLInput(attrs={'placeholder': 'Regular URL or RSS URL'}),
         }
+        labels = {
+            'url': '',
+        }

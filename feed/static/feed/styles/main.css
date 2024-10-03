@@ -496,7 +496,7 @@ body {
 .button_outline {
     background: transparent;
     color: var(--color-primary);
-    border: 1px solid var(--color-primary);
+    border: 1px solid #FFBCAD;
     box-shadow: none;
 
     &.active {
@@ -516,9 +516,23 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    grid-row-gap: calc(var(--grid-step) * 3);
+    gap: calc(var(--grid-step) * 3);
     align-items: flex-start;
     width: 100%;
+}
+
+.form-inline-row {
+    position: relative;
+
+    & .input {
+        padding-right: 100px;
+    }
+
+    & .button {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+    }
 }
 
 .form-row {
@@ -560,6 +574,10 @@ body {
 
 .form-submit {
     margin-top: calc(var(--grid-step) * 2);
+
+    .form_horizontal & {
+        margin-top: 0;
+    }
 }
 
 
@@ -580,7 +598,7 @@ body {
 .input {
     border: 1px solid var(--color-grey-light);
     padding: calc(var(--grid-step) * 1) calc(var(--grid-step) * 2);
-    border-radius: calc(var(--grid-step) * 1.5);
+    border-radius: calc(var(--grid-step) * 2);
 
     &.error {
         border-color: var(--color-error);
@@ -699,6 +717,7 @@ body {
         top: 0;
         left: 0;
         right: 0;
+        width: 100%;
         max-width: 100%;
         max-height: 100vh;
     }
