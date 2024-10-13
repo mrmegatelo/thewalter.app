@@ -28,7 +28,7 @@ def normalize_url(url):
     """
     parsed_url = urlparse(url)
     if parsed_url.path == '':
-        parsed_url = parsed_url._replace(path='/')
+        parsed_url = parsed_url._replace(path='')
     return urlunparse(parsed_url)
 
 

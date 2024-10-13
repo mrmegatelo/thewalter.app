@@ -533,6 +533,7 @@ body {
 
 .form-inline-row {
     position: relative;
+    width: 100%;
 
     & .input {
         padding-right: 100px;
