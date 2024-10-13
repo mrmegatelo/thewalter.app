@@ -7,19 +7,19 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "3.10.9"
-django = "^5.0.7"
+django = "^5.1.2"
 psycopg2-binary = "^2.9.9"
 celery = "^5.4.0"
 flower = "^2.0.1"
 redis = "^5.0.7"
 feedparser = "^6.0.11"
-watchfiles = "^0.22.0"
+watchfiles = "^0.24.0"
 django-celery-beat = "^2.6.0"
 rules = "^3.4"
-gunicorn = "^22.0.0"
+gunicorn = "^23.0.0"
 python-slugify = "^8.0.4"
 sentry-sdk = "^2.9.0"
-articulo = "^0.3.2"
+articulo = "0.4.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.8"
