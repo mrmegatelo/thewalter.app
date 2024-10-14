@@ -26,7 +26,6 @@ class Created(FeedCreate):
             context["result"] = self.parse_and_save()
         else:
             context["result"] = feed_list
-        print('Context of the feed_success', context)
         return context
 
 

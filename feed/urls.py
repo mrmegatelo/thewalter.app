@@ -25,6 +25,8 @@ urlpatterns = [
     path('feed/<slug:slug>', login_required(feed.views.feed.Subscription.as_view()),
          name='feed_subscription'),
 
+    path('favorites/', login_required(feed.views.feed.Favorites.as_view()), name='favorites'),
+
     # Auth URLs
     path('profile/', login_required(RedirectView.as_view(url='/profile/edit/')),
          name='profile'),
@@ -96,4 +98,5 @@ urlpatterns = [
     path('api/v1/feed/<int:feed_id>/<int:feed_item_id>/<str:action>', views.api.FeedItemActions.as_view(),
          name='api_feed_item_toggle_interesting'),
     path('api/v1/dialog/feed_list', views.api.dialogs.FeedListDialog.as_view(), name='api_dialog_feed_list'),
+    path('api/v1/feed/favorites', feed.views.api.Favorites.as_view(), name='api_feed_favorites'),
 ]

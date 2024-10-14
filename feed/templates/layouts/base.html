@@ -61,7 +61,7 @@
 </head>
 <body class="container" hx-ext="morph">
 <header class="header subgrid spread">
-    <span class="header-logo">
+    <span class="cols-3">
         <a href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
             <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
         </a>

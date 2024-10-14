@@ -58,6 +58,16 @@ class UserFeedList(FullFeedList):
         return queryset.filter(feed__subscribers=self.request.user)
 
 
+class Favorites(UserFeedList):
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        favorites = self.request.user.servicefeed_set.filter(type='liked').first()
+        if favorites:
+            return queryset.filter(id__in=favorites.feed_items.all())
+        return queryset
+
 class FeedItemListView(FullFeedList):
     http_method_names = ['get']
 

@@ -3,12 +3,15 @@
 {% translate 'My feed' noop as feed_index_text %}
 {% url 'profile' as profile_url %}
 {% translate 'Profile' noop as profile_text %}
-<nav class="header-nav">
-
-</nav>
-<nav class="header-right">
+{% url 'favorites' as favorites_url %}
+<nav class="cols-6">
     <ul class="header-nav-menu nav-list">
         <li>{% include 'blocks/header/nav-link.html' with url=feed_index_url text=feed_index_text %}</li>
+        <li>{% include 'blocks/header/nav-link.html' with url=favorites_url text='Favorites' %}</li>
+    </ul>
+</nav>
+<nav class="header-right cols-3">
+    <ul class="header-nav-menu nav-list">
         <li>{% include 'blocks/header/nav-link.html' with url=profile_url text=profile_text %}</li>
     </ul>
 </nav>

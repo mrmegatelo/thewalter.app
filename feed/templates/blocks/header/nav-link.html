@@ -1,3 +1,6 @@
 <a class="link nav-list__link{% if url in request.get_full_path %} active{% endif %}" href="{{ url }}">
+    {% if icon %}
+        {% include icon %}
+    {% endif %}
     {{ text }}
 </a>

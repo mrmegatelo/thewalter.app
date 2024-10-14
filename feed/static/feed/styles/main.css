@@ -112,7 +112,7 @@ body {
 }
 
 .header-logo {
-    grid-column: span calc(var(--grid-columns) / 3);
+
 }
 
 .header-nav {
@@ -123,9 +123,7 @@ body {
 .header-right {
     font-weight: 500;
     display: flex;
-    grid-column-start: calc(var(--grid-columns) / 3 * 2);
     justify-content: flex-end;
-    grid-column: span calc(var(--grid-columns) / 3);
 }
 
 .header-nav-menu {
