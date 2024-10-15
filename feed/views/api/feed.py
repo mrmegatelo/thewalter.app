@@ -49,6 +49,11 @@ class FullFeedList(GenericFeedItemListView):
 class UserFeedList(FullFeedList):
     http_method_names = ['get']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['feed_type'] = self.request.GET.get('feed_type')
+        return context
+
     def get_queryset(self):
         feed_type = self.request.GET.get('feed_type')
         queryset = super().get_queryset()
