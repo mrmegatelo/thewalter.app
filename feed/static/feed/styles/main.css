@@ -480,6 +480,21 @@ body {
             fill: var(--color-background);
         }
     }
+
+    &.button_outline {
+        background: transparent;
+        color: var(--color-primary);
+        border: 1px solid #FFBCAD;
+        box-shadow: none;
+
+        &.active {
+            background-color: #FFEEEB;
+        }
+
+        &:hover {
+            border-color: var(--color-primary);
+        }
+    }
 }
 
 .button__icon {
@@ -494,22 +509,23 @@ body {
     &:hover {
         background: var(--color-background);
     }
+
+    &.button_outline {
+        background: transparent;
+        border: 1px solid var(--color-grey-light);
+
+        &:hover {
+            border-color: var(--color-paragraph);
+        }
+
+         &.active {
+             background-color: var(--color-background);
+         }
+    }
 }
 
 .button_outline {
-    background: transparent;
-    color: var(--color-primary);
-    border: 1px solid #FFBCAD;
-    box-shadow: none;
     transition: border-color 0.15s;
-
-    &.active {
-        background-color: #FFEEEB;
-    }
-
-    &:hover {
-        border-color: var(--color-primary);
-    }
 }
 
 .button_text {

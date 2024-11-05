@@ -2,7 +2,7 @@
 {% if feed_list.count <= 5 %}
     {% for item in feed_list %}
         <a href="{% url 'feed_subscription' slug=item.slug %}{% provide_filters_qs %}"
-           class="button button_outline button_sm {% if item.id == feed.id %}active{% endif %}"
+           class="button button_primary button_outline button_sm {% if item.id == feed.id %}active{% endif %}"
            title="{{ item.title }}"
         >
             <img width="20" height="20" alt="{{ item.title }}" src="{{ item.icon }}">
@@ -12,7 +12,7 @@
 {% else %}
     {% for item in feed_list|slice:":5" %}
         <a href="{% url 'feed_subscription' slug=item.slug %}{% provide_filters_qs %}"
-           class="button button_outline button_sm {% if item.id == feed.id %}active{% endif %}"
+           class="button button_primary button_outline button_sm {% if item.id == feed.id %}active{% endif %}"
            title="{{ item.title }}"
         >
             <img width="20" height="20" alt="{{ item.title }}" src="{{ item.icon }}">
@@ -29,7 +29,7 @@
         {% if feed %}
             <input type="hidden" name="selected_feed_id" value="{{ feed.id }}">
         {% endif %}
-        <button class="button button_outline button_sm {% if feed and not feed in feed_list|slice:":5" %}active{% endif %}">
+        <button class="button button_primary button_outline button_sm {% if feed and not feed in feed_list|slice:":5" %}active{% endif %}">
             {% include 'icons/more_horiz.svg' %}
             See all ({{ feed_list.count }})
         </button>
