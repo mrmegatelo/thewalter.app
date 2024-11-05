@@ -4,7 +4,9 @@
     <div class="content">
         <div class="feed-description">
             <h1 class="heading">{{ feed.title }}</h1>
-            <p class="paragraph">{{ feed.description }}</p>
+            {% if feed.description %}
+                <p class="paragraph">{{ feed.description }}</p>
+            {% endif %}
             <div class="flex-column-button-container sidebar-block-content">
                 <form id="feed-subscription"
                       method="post"

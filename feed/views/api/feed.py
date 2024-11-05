@@ -49,9 +49,12 @@ class FullFeedList(GenericFeedItemListView):
 class UserFeedList(FullFeedList):
     http_method_names = ['get']
 
+    def get_feed_type(self):
+        return self.request.GET.get('feed_type')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['feed_type'] = self.request.GET.get('feed_type')
+        context['feed_type'] = self.get_feed_type()
         return context
 
     def get_queryset(self):
@@ -122,16 +125,20 @@ class FeedTypes(TemplateView, ContextMixin):
         return response
 
 
-class FeedItemActions(FullFeedList):
+class FeedItemActions(UserFeedList):
     http_method_names = ['post']
+
+    def get_feed_type(self):
+        parsed_url = urlparse(self.request.headers.get("hx-current-url"))
+        query = QueryDict(parsed_url.query, mutable=False)
+        return query.get('feed_type')
 
     def get_queryset(self):
         queryset = super().get_queryset()
         parsed_url = urlparse(self.request.headers.get('hx-current-url'))
         match = resolve(parsed_url.path)
-        query = QueryDict(parsed_url.query, mutable=False)
         feed_slug = match.kwargs.get('slug')
-        feed_type = query.get('feed_type')
+        feed_type = self.get_feed_type()
 
         if feed_slug:
             return queryset.filter(feed__slug=feed_slug)

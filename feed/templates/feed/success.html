@@ -11,7 +11,9 @@
                         {{ result_item.title }}
                     </a>
                 </h2>
-                <p class="paragraph">{{ result_item.description }}</p>
+                {% if result_item.description %}
+                    <p class="paragraph">{{ result_item.description }}</p>
+                {% endif %}
                 <div class="flex-column-button-container sidebar-block-content">
                     <form id="feed-subscription"
                           method="post"

@@ -9,7 +9,7 @@ from slugify import slugify
 class Feed(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=100, unique=True)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     url = models.URLField(unique=True)
     rss_url = models.URLField(unique=True)
     icon = models.URLField(max_length=500, blank=True)
