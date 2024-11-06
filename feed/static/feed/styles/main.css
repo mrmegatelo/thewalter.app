@@ -39,7 +39,7 @@ p, h1, h2, h3, h4, h5, h6 {
     /* Grid system */
     --grid-columns: 12;
     --grid-step: 8px;
-    --grid-column-gap: calc(var(--grid-step) * 4);
+    --grid-column-gap: calc(var(--grid-step) * 8);
 
     /* Colors */
     --color-text: #2F2E41;
@@ -76,7 +76,7 @@ body {
 .container {
     --side-padding: calc(var(--grid-step) * 6);
     --vertical-padding: calc(var(--grid-step) * 4);
-    --row-gap: calc(var(--grid-step) * 10);
+    --row-gap: calc(var(--grid-step) * 8);
     padding: var(--vertical-padding) var(--side-padding);
     margin: 0 auto;
     display: grid;
@@ -134,7 +134,7 @@ body {
     display: grid;
     grid-template-columns: subgrid;
     grid-column: span var(--grid-columns);
-    grid-row-gap: calc(var(--grid-step) * 10);
+    grid-row-gap: calc(var(--grid-step) * 8);
 }
 
 .content-inner {
@@ -251,10 +251,6 @@ body {
 /**
 * Atomic components
 */
-
-.feed-wrapper {
-    grid-row-gap: calc(var(--grid-step) * 6);
-}
 
 .feed-list-wrapper {
     .loader {
@@ -390,7 +386,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: calc(var(--grid-step) * 6);
+    gap: calc(var(--grid-step) * 4);
     overflow: auto;
     max-height: calc(100vh - var(--grid-step) * 4);
 }
