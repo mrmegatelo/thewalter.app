@@ -6,88 +6,107 @@
     <ul class="feed-links-list">
         {% for entry in feeditem_list %}
             <li id="feed_{{ entry.id }}" class="feed-links-list-item">
-                <a class="feed-links-list-item-link"
-                   title="{{ entry.title }}"
+                <a class="feed-links-list-item-bloginfo-cover"
                    href="{{ entry.link }}" target="_blank"
-                >
-                    <h3 class="heading feed-links-list-item__title">
-                        {{ entry.title }}
-                        {% if entry.has_paid_content %}
-                            <span title="There may be paid content">🔒</span>
-                        {% endif %}
-                    </h3>
-                </a>
-                <div class="feed-links-list-item-bloginfo">
-                    <img class="feed-links-list-item-bloginfo__icon "
-                         src="{{ entry.feed.icon }}"
+                   title="{{ entry.title }}">
+                    <img
+                            class="feed-links-list-item-bloginfo-cover__image"
+                            src="{{ entry.feed.icon }}"
+                            alt="{{ entry.feed.title }}"
+                            width="156"
+                            height="156"
                     />
-                    <a class="feed-links-list-item-bloginfo__link link paragraph"
-                       title="{{ entry.feed }}"
-                       href="{% url 'feed_subscription' entry.feed.slug %}"
+                    <div class="feed-links-list-item-bloginfo-cover__text">
+                        {% if entry.type == 'video' %}
+                            {% include 'icons/smart_display.svg' %} Watch
+                        {% elif entry.type == 'audio' %}
+                            {% include 'icons/headphones.svg' %} Listen
+                        {% else %}
+                            {% include 'icons/link.svg' %}    Read
+                        {% endif %}
+                    </div>
+                </a>
+                <div class="feed-links-list-item-body">
+                    <a class="feed-links-list-item-link"
+                       title="{{ entry.title }}"
+                       href="{{ entry.link }}" target="_blank"
                     >
-                        {{ entry.feed }}
+                        <h3 class="heading feed-links-list-item__title">
+                            {{ entry.title }}
+                            {% if entry.has_paid_content %}
+                                <span title="There may be paid content">🔒</span>
+                            {% endif %}
+                        </h3>
                     </a>
-                    <span class="paragraph">·</span>
-                    <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
-                </div>
-                <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
-                {% for attachment in entry.attachments.all %}
-                    {% if attachment.type == 'audio' %}
-                        <audio class="feed-links-list-item__attachment"
-                               src="{{ attachment.url }}"
-                               controls
+                    <div class="feed-links-list-item-bloginfo">
+                        <a class="feed-links-list-item-bloginfo__link link paragraph"
+                           title="{{ entry.feed }}"
+                           href="{% url 'feed_subscription' entry.feed.slug %}"
                         >
-                        </audio>
-                    {% endif %}
-                    {% if attachment.type == 'video' %}
-                        <video class="feed-links-list-item__attachment embed"
-                               src="{{ attachment.url }}"
-                               controls
-                        ></video>
-                    {% endif %}
-                    {% if attachment.type == 'embed' %}
-                        <iframe class="feed-links-list-item__attachment embed"
-                                type="text/html"
-                                loading="lazy"
-                                referrerpolicy="strict-origin-when-cross-origin"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowfullscreen
-                                src="{{ attachment.url }}"
-                        ></iframe>
-                    {% endif %}
-                {% endfor %}
-                <footer class="feed-links-list-item-footer">
-                    <form method="post"
-                          class="feed-links-list-item-controls"
-                          id="feed-item-controls"
-                          hx-target="#feed-list"
-                          hx-params="*"
-                    >
-                        {% csrf_token %}
-                        {% with subscribers=entry.feed.subscribers.all %}
-                            <button class="button button_blank button_sm feed-links-list-item-controls__button"
-                                    title="{% translate 'Like' noop %}"
-                                    type="submit"
-                                    formaction="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_liked' %}"
-                                    hx-post="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_liked' %}"
-                            >
+                            {{ entry.feed }}
+                        </a>
+                        <span class="paragraph">·</span>
+                        <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
+                    </div>
+                    <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
+                    {#                    {% for attachment in entry.attachments.all %}#}
+                    {#                        {% if attachment.type == 'audio' %}#}
+                    {#                            <audio class="feed-links-list-item__attachment"#}
+                    {#                                   src="{{ attachment.url }}"#}
+                    {#                                   controls#}
+                    {#                            >#}
+                    {#                            </audio>#}
+                    {#                        {% endif %}#}
+                    {#                        {% if attachment.type == 'video' %}#}
+                    {#                            <video class="feed-links-list-item__attachment embed"#}
+                    {#                                   src="{{ attachment.url }}"#}
+                    {#                                   controls#}
+                    {#                            ></video>#}
+                    {#                        {% endif %}#}
+                    {#                        {% if attachment.type == 'embed' %}#}
+                    {#                            <iframe class="feed-links-list-item__attachment embed"#}
+                    {#                                    type="text/html"#}
+                    {#                                    loading="lazy"#}
+                    {#                                    referrerpolicy="strict-origin-when-cross-origin"#}
+                    {#                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"#}
+                    {#                                    allowfullscreen#}
+                    {#                                    src="{{ attachment.url }}"#}
+                    {#                            ></iframe>#}
+                    {#                        {% endif %}#}
+                    {#                    {% endfor %}#}
+                    <footer class="feed-links-list-item-footer">
+                        <form method="post"
+                              class="feed-links-list-item-controls"
+                              id="feed-item-controls"
+                              hx-target="#feed-list"
+                              hx-params="*"
+                        >
+                            {% csrf_token %}
+                            {% with subscribers=entry.feed.subscribers.all %}
+                                <button class="button button_blank button_sm feed-links-list-item-controls__button"
+                                        title="{% translate 'Like' noop %}"
+                                        type="submit"
+                                        formaction="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_liked' %}"
+                                        hx-post="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_liked' %}"
+                                >
                                 <span class="feed-links-list-item-controls__icon {% if user in subscribers and entry in liked.feed_items.all %}active{% endif %}">
                                     ❤️
                                 </span>
-                            </button>
-                            <button class="button button_blank button_sm feed-links-list-item-controls__button"
-                                    title="{% translate 'Not interesting' noop %}"
-                                    type="submit"
-                                    formaction="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_interesting' %}"
-                                    hx-post="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_interesting' %}"
-                            >
+                                </button>
+                                <button class="button button_blank button_sm feed-links-list-item-controls__button"
+                                        title="{% translate 'Not interesting' noop %}"
+                                        type="submit"
+                                        formaction="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_interesting' %}"
+                                        hx-post="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_interesting' %}"
+                                >
                                 <span class="feed-links-list-item-controls__icon {% if user in subscribers and entry in disliked.feed_items.all %}active{% endif %}">
                                     👎
                                 </span>
-                            </button>
-                        {% endwith %}
-                    </form>
-                </footer>
+                                </button>
+                            {% endwith %}
+                        </form>
+                    </footer>
+                </div>
             </li>
         {% endfor %}
     </ul>

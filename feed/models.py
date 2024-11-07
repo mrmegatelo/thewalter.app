@@ -50,6 +50,21 @@ class FeedItem(models.Model):
         """
         return self.pub_date.replace(hour=0, minute=0, second=0, microsecond=0)
 
+    def type(self):
+        """
+        Return the type of the feed item based on the type of its attachments.
+        If there are no attachments, return an `article` type.
+        :return:
+        """
+        first_attachment = self.attachments.first()
+        if first_attachment:
+            match first_attachment.type:
+                case Attachment.Type.AUDIO:
+                    return 'audio'
+                case Attachment.Type.VIDEO | Attachment.Type.EMBED:
+                    return 'video'
+        return 'article'
+
     class Meta:
         ordering = ['-pub_date']
 
