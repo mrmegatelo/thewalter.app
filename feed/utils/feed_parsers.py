@@ -1,3 +1,4 @@
+from collections.abc import Generator
 from urllib.parse import urlparse, urlunparse
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -28,7 +29,7 @@ class AbstractFeedParser(ABC):
 
 
 class RSSFeedParser(AbstractFeedParser):
-    def parse(self, url: str) -> FeedMeta:
+    def parse(self, url: str) -> Generator[FeedMeta]:
         parsed = feedparser.parse(url)
         feed_meta = FeedMeta(
             title=parsed.feed.title,
@@ -38,7 +39,7 @@ class RSSFeedParser(AbstractFeedParser):
             url=parsed.feed.link,
         )
 
-        return feed_meta
+        yield feed_meta
 
     def parse_icon(self, parsed: FeedParserDict) -> str:
         if parsed.feed.get('image') is not None:
@@ -60,5 +61,6 @@ class RSSFeedParser(AbstractFeedParser):
 
 
 class HTMLFeedParser(RSSFeedParser):
-    def parse(self, url: str) -> FeedMeta:
-        return super().parse(self.articulo.rss)
+    def parse(self, url: str) -> Generator[FeedMeta]:
+        for rss_link in self.articulo.rss:
+            return super().parse(rss_link)

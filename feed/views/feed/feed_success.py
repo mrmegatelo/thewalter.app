@@ -2,9 +2,11 @@ from django.db.models import Q
 from django.utils.translation import gettext_noop as _
 
 from feed.models import Feed
-from feed.utils.feed_parsers import RSSFeedParser
 
-from feed.utils.helpers import get_articulo_instance
+from feed.utils.helpers import (
+    get_articulo_instance,
+    get_form_parser,
+)
 from feed.views.feed import FeedCreate
 
 
@@ -32,19 +34,18 @@ class Created(FeedCreate):
     def parse_and_save(self):
         url = self.request.GET.get('url')
         articulo = get_articulo_instance(url)
-        parser = RSSFeedParser(articulo)
+        parser = get_form_parser(url, articulo)
         feeds = []
 
-        for rss_link in articulo.rss:
-            link_meta = parser.parse(rss_link)
+        for link_meta in parser.parse(url):
+            print(link_meta)
             feed = Feed(
                 title=link_meta.title,
                 url=link_meta.url,
                 description=link_meta.description,
                 rss_url=link_meta.rss_url,
-                icon=link_meta.icon_url
+                icon=link_meta.icon_url,
             )
             feed.save()
             feeds.append(feed)
-
         return feeds
