@@ -9,12 +9,11 @@
                 <a class="feed-links-list-item-bloginfo-cover"
                    href="{{ entry.link }}" target="_blank"
                    title="{{ entry.title }}">
-                    <img
-                            class="feed-links-list-item-bloginfo-cover__image"
-                            src="{{ entry.feed.icon }}"
-                            alt="{{ entry.feed.title }}"
-                            width="156"
-                            height="156"
+                    <img class="feed-links-list-item-bloginfo-cover__image"
+                         src="{{ entry.feed.icon }}"
+                         alt="{{ entry.feed.title }}"
+                         width="144"
+                         height="144"
                     />
                     <div class="feed-links-list-item-bloginfo-cover__text">
                         {% if entry.type == 'video' %}
@@ -38,6 +37,7 @@
                             {% endif %}
                         </h3>
                     </a>
+                    <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
                     <div class="feed-links-list-item-bloginfo">
                         <a class="feed-links-list-item-bloginfo__link link paragraph"
                            title="{{ entry.feed }}"
@@ -48,32 +48,6 @@
                         <span class="paragraph">·</span>
                         <span class="paragraph">{{ entry.pub_day|naturalday|title }}</span>
                     </div>
-                    <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
-                    {#                    {% for attachment in entry.attachments.all %}#}
-                    {#                        {% if attachment.type == 'audio' %}#}
-                    {#                            <audio class="feed-links-list-item__attachment"#}
-                    {#                                   src="{{ attachment.url }}"#}
-                    {#                                   controls#}
-                    {#                            >#}
-                    {#                            </audio>#}
-                    {#                        {% endif %}#}
-                    {#                        {% if attachment.type == 'video' %}#}
-                    {#                            <video class="feed-links-list-item__attachment embed"#}
-                    {#                                   src="{{ attachment.url }}"#}
-                    {#                                   controls#}
-                    {#                            ></video>#}
-                    {#                        {% endif %}#}
-                    {#                        {% if attachment.type == 'embed' %}#}
-                    {#                            <iframe class="feed-links-list-item__attachment embed"#}
-                    {#                                    type="text/html"#}
-                    {#                                    loading="lazy"#}
-                    {#                                    referrerpolicy="strict-origin-when-cross-origin"#}
-                    {#                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"#}
-                    {#                                    allowfullscreen#}
-                    {#                                    src="{{ attachment.url }}"#}
-                    {#                            ></iframe>#}
-                    {#                        {% endif %}#}
-                    {#                    {% endfor %}#}
                     <footer class="feed-links-list-item-footer">
                         <form method="post"
                               class="feed-links-list-item-controls"
