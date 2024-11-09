@@ -4,6 +4,7 @@ from urllib.request import urlopen, Request
 import feedparser
 from articulo import Articulo
 from django.db.models import Q
+from django.http import QueryDict
 
 from feed.models import Attachment
 from feed.utils.enums import FeedContentTypes
@@ -18,6 +19,14 @@ def get_url_content_type(url):
     http_message = res.info()
     return http_message.get_content_type()
 
+def get_wrapped_url(url):
+    wrapped_url = urlparse('http://splash:8050/render.html?test=123')
+    params = QueryDict(mutable=True)
+    params.update({ 'url': url })
+    params.update({ 'engine' : 'chromium' })
+    params.update({ 'wait' : 1 })
+    wrapped_url  = wrapped_url._replace(query=params.urlencode())
+    return urlunparse(wrapped_url)
 
 def normalize_url(url):
     """
