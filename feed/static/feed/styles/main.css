@@ -253,6 +253,7 @@ body {
 */
 
 .feed-list-wrapper {
+    min-width: 0;
     .loader {
         margin: 0 auto;
     }
@@ -304,6 +305,7 @@ body {
     gap: calc(var(--grid-step) * 1);
     align-items: flex-start;
     flex: 1;
+    min-width: 0;
 }
 
 .feed-links-list-item-bloginfo {
@@ -370,6 +372,7 @@ body {
     color: var(--color-text);
     text-decoration: none;
     transition: color 0.15s;
+    width: 100%;
 
     &:hover {
         --color-text: var(--color-blue);
@@ -569,6 +572,7 @@ body {
     &.button_outline {
         background: transparent;
         border: 1px solid var(--color-grey-light);
+        color: var(--color-paragraph);
 
         &:hover {
             border-color: var(--color-paragraph);
@@ -781,30 +785,55 @@ body {
 
 }
 
+.feed-detail-container {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 4);
+    max-width: 768px;
+    margin: 0 auto 64px auto;
+    align-items: flex-start;
+}
+
+.feed-detail-section {
+    width: 100%
+}
+
 /**
 * Dialogs
  */
 
 .dialog {
     position: fixed;
+    border: none;
     padding: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    color: inherit;
 
     &.dialog_top {
-        border: none;
         top: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-width: 100%;
-        max-height: 100vh;
+        border-bottom-left-radius: calc(var(--grid-step) * 3);
+        border-bottom-right-radius: calc(var(--grid-step) * 3);
+    }
+
+    &.dialog_bottom {
+        top: auto;
+        bottom: 0;
+        border-top-left-radius: calc(var(--grid-step) * 3);
+        border-top-right-radius: calc(var(--grid-step) * 3);
     }
 }
 
 .dialog-content {
     display: flex;
     flex-direction: column;
-    padding: calc(var(--grid-step) * 3);
+    padding: calc(var(--grid-step) * 3.5) calc(var(--grid-step) * 3);
     gap: calc(var(--grid-step) * 3);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .dialog-header {
@@ -821,17 +850,33 @@ dialog.dialog_top[open] {
     transform: translateY(0);
 }
 
+dialog.dialog_bottom[open] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /*   Closed state of the dialog   */
-dialog.dialog_top {
-    transform: translateY(-100%);
+.dialog {
     transition: transform 0.3s ease-out,
     overlay 0.3s ease-out allow-discrete,
     display 0.3s ease-out allow-discrete;
 }
 
+dialog.dialog_top {
+    transform: translateY(-100%);
+}
+
+dialog.dialog_bottom {
+    transform: translateY(100%);
+}
+
 @starting-style {
     dialog.dialog_top[open] {
         transform: translateY(-100%);
+    }
+
+    dialog.dialog_bottom[open] {
+        transform: translateY(100%);
     }
 }
 

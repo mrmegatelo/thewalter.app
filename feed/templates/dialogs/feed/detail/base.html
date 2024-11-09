@@ -1,0 +1,16 @@
+{% extends 'dialogs/base.html' %}
+
+{% block body %}
+    <div class="feed-detail-container">
+        <header class="feed-detail-section"><h2>{{ object.title }}</h2></header>
+        {% block enclosures %}{% endblock %}
+        <section class="feed-detail-section">
+            {% autoescape off %}
+                {{ object.description }}
+            {% endautoescape %}
+        </section>
+        <a class="button button_blank button_outline" href="{{ object.link }}" target="_blank">
+            <span>🔗</span>View on <strong>{{ object.feed.domain_name }}</strong>
+        </a>
+    </div>
+{% endblock %}

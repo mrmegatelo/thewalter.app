@@ -1,4 +1,5 @@
 from datetime import datetime
+from urllib.parse import urlparse
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -26,6 +27,9 @@ class Feed(models.Model):
             self.slug = slugify(self.title)
 
         super().save(*args, **kwargs)
+
+    def domain_name(self):
+        return urlparse(self.url).netloc
 
     class Meta:
         ordering = ['title']

@@ -38,7 +38,6 @@ class Created(FeedCreate):
         feeds = []
 
         for link_meta in parser.parse(url):
-            print(link_meta)
             feed = Feed(
                 title=link_meta.title,
                 url=link_meta.url,
