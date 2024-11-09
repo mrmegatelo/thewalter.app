@@ -77,5 +77,10 @@ services:
       - redis
       - db
 
+  proxy:
+    image: 'peterdavehello/tor-socks-proxy'
+    ports:
+      - 9150:9150
+
 volumes:
   postgres_data:
