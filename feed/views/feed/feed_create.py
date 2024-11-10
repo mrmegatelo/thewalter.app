@@ -2,7 +2,7 @@ from django.views.generic import FormView
 from django.utils.translation import gettext_noop as _
 
 from feed.forms import FeedForm
-from feed.utils.helpers import normalize_url, get_articulo_instance, get_form_validator
+from feed.utils.helpers import normalize_url
 from feed.views.mixins import PageMetaMixin, FeedContextMixin, FeedFiltersMixin
 
 
@@ -23,8 +23,6 @@ class FeedCreate(FormView, PageMetaMixin, FeedContextMixin, FeedFiltersMixin):
             url = self.request.POST.get('url')
         if url is not None:
             url = normalize_url(url)
-            articulo = get_articulo_instance(url)
 
             kwargs['data'] = {'url': url}
-            kwargs['validator'] = get_form_validator(url, articulo)
         return kwargs

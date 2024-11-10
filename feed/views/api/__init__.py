@@ -8,6 +8,7 @@ from .feed import (
     FeedItemListView,
     FeedTypes,
     Favorites,
+    ParsingStatus,
 )
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "FeedItemListView",
     "FeedTypes",
     "Favorites",
+    "ParsingStatus"
 ]

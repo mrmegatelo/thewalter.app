@@ -8,18 +8,19 @@ from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
 
 from feed.models import Feed
+from feed.tasks import parse_feed_info
 from feed.utils.helpers import filter_by_attachments_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 
 
 class FullFeedList(GenericFeedItemListView):
-    template_name = 'blocks/feed/list.html'
+    template_name = "blocks/feed/list.html"
 
     def paginate_queryset(self, queryset, page_size):
-        url = urlparse(self.request.headers.get('Referer'))
+        url = urlparse(self.request.headers.get("Referer"))
         """TODO: This is a dirty hack to get the page number from the referer. Fix it."""
         query_dict = QueryDict(url.query, mutable=True)
-        page = query_dict.get('page') or 1
+        page = query_dict.get("page") or 1
 
         paginator = self.get_paginator(
             queryset,
@@ -47,18 +48,18 @@ class FullFeedList(GenericFeedItemListView):
 
 
 class UserFeedList(FullFeedList):
-    http_method_names = ['get']
+    http_method_names = ["get"]
 
     def get_feed_type(self):
-        return self.request.GET.get('feed_type')
+        return self.request.GET.get("feed_type")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['feed_type'] = self.get_feed_type()
+        context["feed_type"] = self.get_feed_type()
         return context
 
     def get_queryset(self):
-        feed_type = self.request.GET.get('feed_type')
+        feed_type = self.request.GET.get("feed_type")
         queryset = super().get_queryset()
 
         if feed_type:
@@ -67,77 +68,78 @@ class UserFeedList(FullFeedList):
 
 
 class Favorites(UserFeedList):
-    http_method_names = ['get']
+    http_method_names = ["get"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        favorites = self.request.user.servicefeed_set.filter(type='liked').first()
+        favorites = self.request.user.servicefeed_set.filter(type="liked").first()
         if favorites:
             return queryset.filter(id__in=favorites.feed_items.all())
         return queryset
 
+
 class FeedItemListView(FullFeedList):
-    http_method_names = ['get']
+    http_method_names = ["get"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        feed_id = self.kwargs.get('feed_id')
+        feed_id = self.kwargs.get("feed_id")
         return queryset.filter(feed__id=feed_id)
 
 
 class FeedFilters(TemplateView, FeedFiltersMixin):
-    http_method_names = ['post']
-    template_name = 'blocks/feed/filters.html'
+    http_method_names = ["post"]
+    template_name = "blocks/feed/filters.html"
 
     def post(self, request, *args, **kwargs):
-        url = urlparse(request.headers.get('Referer'))
+        url = urlparse(request.headers.get("Referer"))
         query_dict = QueryDict(url.query, mutable=True)
-        query_dict.setlist('filter', self.request.POST.getlist('filter'))
+        query_dict.setlist("filter", self.request.POST.getlist("filter"))
         url = url._replace(query=query_dict.urlencode())
         url = urlunparse(url)
         response = super().get(request, *args, **kwargs)
-        response.headers['HX-Push-Url'] = url
+        response.headers["HX-Push-Url"] = url
         return response
 
 
 class FeedTypes(TemplateView, ContextMixin):
-    http_method_names = ['post']
-    template_name = 'blocks/feed/types_selector.html'
+    http_method_names = ["post"]
+    template_name = "blocks/feed/types_selector.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['feed_type'] = self.request.POST.get('feed_type')
+        context["feed_type"] = self.request.POST.get("feed_type")
         return context
 
     def post(self, request, *args, **kwargs):
-        url = urlparse(request.headers.get('Referer'))
+        url = urlparse(request.headers.get("Referer"))
         query_dict = QueryDict(url.query, mutable=True)
-        feed_type = self.request.POST.getlist('feed_type')
-        if 'none' not in feed_type:
-            query_dict.setlist('feed_type', feed_type)
+        feed_type = self.request.POST.getlist("feed_type")
+        if "none" not in feed_type:
+            query_dict.setlist("feed_type", feed_type)
         else:
-            query_dict.pop('feed_type')
+            query_dict.pop("feed_type")
 
         url = url._replace(query=query_dict.urlencode())
         url = urlunparse(url)
         response = super().get(request, *args, **kwargs)
-        response.headers['HX-Redirect'] = url
+        response.headers["HX-Redirect"] = url
         return response
 
 
 class FeedItemActions(UserFeedList):
-    http_method_names = ['post']
+    http_method_names = ["post"]
 
     def get_feed_type(self):
         parsed_url = urlparse(self.request.headers.get("hx-current-url"))
         query = QueryDict(parsed_url.query, mutable=False)
-        return query.get('feed_type')
+        return query.get("feed_type")
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        parsed_url = urlparse(self.request.headers.get('hx-current-url'))
+        parsed_url = urlparse(self.request.headers.get("hx-current-url"))
         match = resolve(parsed_url.path)
-        feed_slug = match.kwargs.get('slug')
+        feed_slug = match.kwargs.get("slug")
         feed_type = self.get_feed_type()
 
         if feed_slug:
@@ -147,28 +149,28 @@ class FeedItemActions(UserFeedList):
         return queryset
 
     def init_filters(self, request):
-        url = urlparse(request.headers.get('hx-current-url'))
+        url = urlparse(request.headers.get("hx-current-url"))
         query_dict = QueryDict(url.query)
-        return query_dict.getlist('filter')
+        return query_dict.getlist("filter")
 
     def post(self, request, *args, **kwargs):
-        action = kwargs.get('action')
+        action = kwargs.get("action")
 
         match action:
-            case 'toggle_interesting':
+            case "toggle_interesting":
                 self.toggle_interesting(request, *args, **kwargs)
-            case 'toggle_liked':
+            case "toggle_liked":
                 self.toggle_liked(request, *args, **kwargs)
             case _:
                 pass
         return super().get(request, *args, **kwargs)
 
     def toggle_interesting(self, request, *args, **kwargs):
-        feed_item_id = kwargs.get('feed_item_id')
+        feed_item_id = kwargs.get("feed_item_id")
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)
-        disliked_qs = user.servicefeed_set.filter(type='disliked').first().feed_items
+        disliked_qs = user.servicefeed_set.filter(type="disliked").first().feed_items
         if disliked_qs.contains(feed_item):
             disliked_qs.remove(feed_item)
         else:
@@ -176,11 +178,11 @@ class FeedItemActions(UserFeedList):
         return feed_item
 
     def toggle_liked(self, request, *args, **kwargs):
-        feed_item_id = kwargs.get('feed_item_id')
+        feed_item_id = kwargs.get("feed_item_id")
         user = request.user
 
         feed_item = self.model.objects.get(pk=feed_item_id)
-        liked_qs = user.servicefeed_set.filter(type='liked').first().feed_items
+        liked_qs = user.servicefeed_set.filter(type="liked").first().feed_items
 
         if liked_qs.contains(feed_item):
             liked_qs.remove(feed_item)
@@ -191,31 +193,80 @@ class FeedItemActions(UserFeedList):
 
 
 class FeedUnsubscribe(DetailView):
-    http_method_names = ['post']
-    template_name = 'blocks/feed/subscription.html'
+    http_method_names = ["post"]
+    template_name = "blocks/feed/subscription.html"
     model = Feed
-    pk_url_kwarg = 'feed_id'
+    pk_url_kwarg = "feed_id"
 
     def post(self, request, *args, **kwargs):
-        action = kwargs.get('action')
+        action = kwargs.get("action")
         match action:
-            case 'unsubscribe':
+            case "unsubscribe":
                 self.unsubscribe(request, *args, **kwargs)
-            case 'subscribe':
+            case "subscribe":
                 self.subscribe(request, *args, **kwargs)
 
         response = super().get(request, *args, **kwargs)
-        response.headers['HX-Trigger'] = 'refresh_feed'
+        response.headers["HX-Trigger"] = "refresh_feed"
         return response
 
     def subscribe(self, request, *args, **kwargs):
-        feed_id = kwargs.get('feed_id')
+        feed_id = kwargs.get("feed_id")
         feed = Feed.objects.get(pk=feed_id)
         feed.subscribers.add(request.user)
         feed.save()
 
     def unsubscribe(self, request, *args, **kwargs):
-        feed_id = kwargs.get('feed_id')
+        feed_id = kwargs.get("feed_id")
         feed = Feed.objects.get(pk=feed_id)
         feed.subscribers.remove(request.user)
         feed.save()
+
+
+class ParsingStatus(TemplateView):
+    http_method_names = ["post"]
+
+    def get_parsing_task(self):
+        task_id = self.request.POST.get("task_id")
+        async_result = parse_feed_info.AsyncResult(task_id)
+        return async_result
+
+    def get_parsing_result(self):
+        task_result = self.get_parsing_task()
+        if task_result.status == "PENDING" or task_result.status == "FAILURE":
+            return []
+
+        feed_ids = task_result.get()
+        return Feed.objects.filter(id__in=feed_ids)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["task_id"] = self.request.POST.get("task_id")
+        context["result"] = self.get_parsing_result()
+        return context
+
+    def get_template_names(self):
+        task = self.get_parsing_task()
+        if task.status == "PENDING":
+            return "blocks/feed/parsing_progress.html"
+        print(task.status)
+        if task.status == "FAILURE":
+            return "blocks/feed/parsing_failed.html"
+
+        task_result = self.get_parsing_result()
+
+        if len(task_result) == 0:
+            return "blocks/feed/parsing_empty.html"
+
+        return "blocks/feed/parsing_done.html"
+
+    def get_response_http_status(self):
+        task_result = self.get_parsing_task()
+        if task_result.status == "PENDING":
+            return 200
+        return 286
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        status = self.get_response_http_status()
+        return self.render_to_response(context, status=status)

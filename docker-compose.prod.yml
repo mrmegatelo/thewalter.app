@@ -95,6 +95,15 @@ services:
       - redis
       - db
 
+  proxy:
+    image: 'peterdavehello/tor-socks-proxy'
+    ports:
+      - "9150:9150"
+
+  splash:
+    image: 'scrapinghub/splash'
+    ports:
+      - '8050:8050'
 
 volumes:
   postgres_data:

@@ -1,0 +1,24 @@
+<div class="feed-links-list">
+    {% for result_item in result %}
+        <div class="feed-description">
+            <h2 class="heading">
+                <a class="feed-links-list-item-link" href="{% url 'feed_subscription' slug=result_item.slug %}">
+                    {{ result_item.title }}
+                </a>
+            </h2>
+            {% if result_item.description %}
+                <p class="paragraph">{{ result_item.description }}</p>
+            {% endif %}
+            <div class="flex-column-button-container sidebar-block-content">
+                <form id="feed-subscription"
+                      method="post"
+                      hx-target="this"
+                >
+                    {% include 'blocks/feed/subscription.html' with feed=result_item %}
+                </form>
+                <a class="button button_sm button_text" href="{{ result_item.url }}" target="_blank">🔗 Original
+                    link</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>

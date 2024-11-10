@@ -30,7 +30,12 @@ class AbstractFeedParser(ABC):
 
 class RSSFeedParser(AbstractFeedParser):
     def parse(self, url: str) -> Generator[FeedMeta]:
-        parsed = feedparser.parse(url)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3",
+            "Accept": "text/html, text/xml, application/xml, application/rss+xml, application/atom+xml",
+        }
+        parsed = feedparser.parse(url, request_headers=headers)
+        print(f"Parsed: {vars(parsed)} {url}")
         feed_meta = FeedMeta(
             title=parsed.feed.title,
             description=self.parse_description(parsed),

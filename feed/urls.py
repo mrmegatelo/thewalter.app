@@ -165,6 +165,11 @@ urlpatterns = [
         name="api_feed_favorites",
     ),
     path(
+        "api/v1/feed/parsing_status",
+        feed.views.api.ParsingStatus.as_view(),
+        name="api_feed_parsing_status",
+    ),
+    path(
         "api/v1/dialog/feeds",
         views.api.dialogs.FeedListDialog.as_view(),
         name="api_dialog_feed_list",

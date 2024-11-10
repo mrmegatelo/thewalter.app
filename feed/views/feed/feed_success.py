@@ -1,7 +1,7 @@
-from django.db.models import Q
 from django.utils.translation import gettext_noop as _
 
 from feed.models import Feed
+from feed.tasks import parse_feed_info
 
 from feed.utils.helpers import (
     get_articulo_instance,
@@ -11,28 +11,21 @@ from feed.views.feed import FeedCreate
 
 
 class Created(FeedCreate):
-    template_name = 'feed/success.html'
-    title = _('My feed')
+    template_name = "feed/success.html"
+    title = _("My feed")
 
     def get_initial(self):
-        return {
-            'url': self.request.GET.get('url')
-        }
+        return {"url": self.request.GET.get("url")}
 
     def get_context_data(self, **kwargs):
-        url = self.request.GET.get('url')
+        url = self.request.GET.get("url")
+        task_id = parse_feed_info.delay(url)
         context = super().get_context_data(**kwargs)
-
-        feed_list  = Feed.objects.filter(Q(url__contains=url) | Q(rss_url__contains=url)).all()
-        if feed_list.count() == 0:
-            context["result"] = self.parse_and_save()
-        else:
-            context["result"] = feed_list
+        context["task_id"] = task_id
         return context
 
-
     def parse_and_save(self):
-        url = self.request.GET.get('url')
+        url = self.request.GET.get("url")
         articulo = get_articulo_instance(url)
         parser = get_form_parser(url, articulo)
         feeds = []

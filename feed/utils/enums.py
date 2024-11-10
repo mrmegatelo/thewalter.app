@@ -8,7 +8,7 @@ class FeedContentTypes(Enum):
     APPLICATION_XML_RSS = 'application/rss+xml'
     APPLICATION_XML_ATOM = 'application/atom+xml'
 
-
+# Accept: text/html, text/xml, application/xml, application/rss+xml, application/atom+xml
 class AudioMimeTypes(Enum):
     AUDIO_MPEG = 'audio/mpeg'
     AUDIO_MP3 = 'audio/mp3'
