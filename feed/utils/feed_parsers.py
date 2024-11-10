@@ -35,7 +35,7 @@ class RSSFeedParser(AbstractFeedParser):
             "Accept": "text/html, text/xml, application/xml, application/rss+xml, application/atom+xml",
         }
         parsed = feedparser.parse(url, request_headers=headers)
-        print(f"Parsed: {vars(parsed)} {url}")
+
         feed_meta = FeedMeta(
             title=parsed.feed.title,
             description=self.parse_description(parsed),

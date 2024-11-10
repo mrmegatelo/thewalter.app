@@ -38,13 +38,13 @@ trio = ["trio (>=0.26.1)"]
 
 [[package]]
 name = "articulo"
-version = "0.5.0"
+version = "0.5.1"
 description = ""
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "articulo-0.5.0-py3-none-any.whl", hash = "sha256:380413bc6abfeba850353e980d86e96cde025555af76b948c469330e819b35de"},
-    {file = "articulo-0.5.0.tar.gz", hash = "sha256:b07b9f6632a6886a45be65c28f7a932feea952f002ae95b771154a83d413daba"},
+    {file = "articulo-0.5.1-py3-none-any.whl", hash = "sha256:081ed332f0748e2c7cd66876e69d4c89af59e020d41c65127d0099a2c9c5abdc"},
+    {file = "articulo-0.5.1.tar.gz", hash = "sha256:51446fe65a372f612740806fc83e7d2c365181e6f3e686f890effe9e4c99858e"},
 ]
 
 [package.dependencies]
@@ -1676,4 +1676,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "3.10.9"
-content-hash = "57a6fa6cd31a2212adfd2721cf841c4eebbbe86eaf1320cec3065bc5ff3d0036"
+content-hash = "25616506611950b103b66d6aeb61dd600c43855a8d6e7c419e8d9f888bb830c5"
