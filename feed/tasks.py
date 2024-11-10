@@ -225,7 +225,6 @@ def parse_feeds_by_url(url):
             feeds.append(feed.id)
         return feeds
     except HTTPError:
-        print("Error fetching feed content")
         return []
 
 

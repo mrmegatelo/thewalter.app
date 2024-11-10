@@ -249,7 +249,6 @@ class ParsingStatus(TemplateView):
         task = self.get_parsing_task()
         if task.status == "PENDING":
             return "blocks/feed/parsing_progress.html"
-        print(task.status)
         if task.status == "FAILURE":
             return "blocks/feed/parsing_failed.html"
 
