@@ -62,9 +62,9 @@ def parse_feed_item(entry, feed) -> FeedItem:
     :param feed:
     :return:
     """
-    article = Articulo(entry.link)
+    article_content,_ = get_feed_content_by_url(entry.link)
+    article = Articulo(article_content)
     parsed_pud_date = entry.get("published_parsed") or entry.get("updated_parsed")
-
     return FeedItem.objects.create(
         title=entry.title,
         description=entry.get("summary", ""),
@@ -124,13 +124,14 @@ def parse_feed(pk):
     """
     feed = Feed.objects.get(pk=pk)
     try:
-        feed_data = feedparser.parse(feed.rss_url)
+        feed_content,_ = get_feed_content_by_url(feed.rss_url)
+        feed_data = feedparser.parse(feed_content)
         for entry in feed_data.entries:
             if not FeedItem.objects.filter(link=entry.link).exists():
                 feed_item = parse_feed_item(entry, feed)
                 parse_attachments(entry, feed_item)
-    except Exception:
-        print("Problem parsing feed")
+    except Exception as e:
+        print(f"Problem parsing feed: {e}")
 
 
 @shared_task()
@@ -147,7 +148,7 @@ def get_feed_by_url(url):
     return Feed.objects.filter(Q(url__contains=url) | Q(rss_url__contains=url)).all().values()
 
 
-def get_result(url, on_error=None, **kwargs):
+def get_url_content(url, on_error=None, **kwargs):
     try:
         response = requests.get(url, **kwargs)
         response.raise_for_status()
@@ -168,32 +169,32 @@ def get_result(url, on_error=None, **kwargs):
                 raise e
 
 
-def get_result_with_fake_browser(url, **kwargs):
+def get_url_content_with_fake_browser(url, **kwargs):
     url = get_wrapped_url(url)
-    return get_result(url)
+    return get_url_content(url)
 
 
-def get_result_with_headers(url, **kwargs):
+def get_url_content_with_headers(url, **kwargs):
     headers = {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3",
         "Accept": "text/html, text/xml, application/xml, application/rss+xml, application/atom+xml",
     }
 
-    return get_result(url, headers=headers, on_error=get_result_with_proxy, **kwargs)
+    return get_url_content(url, headers=headers, on_error=get_url_content_with_proxy, **kwargs)
 
 
-def get_result_with_proxy(url, **kwargs):
+def get_url_content_with_proxy(url, **kwargs):
     proxies = {
         "http": "socks5://proxy:9150",
         "https": "socks5://proxy:9150",
     }
-    return get_result(
-        url, proxies=proxies, on_error=get_result_with_fake_browser, **kwargs
+    return get_url_content(
+        url, proxies=proxies, on_error=get_url_content_with_fake_browser, **kwargs
     )
 
 
 def get_feed_content_by_url(url):
-    return get_result(url, on_error=get_result_with_headers)
+    return get_url_content(url, on_error=get_url_content_with_headers)
 
 
 def get_articulo_instance(url_or_content, content_type):
@@ -201,7 +202,7 @@ def get_articulo_instance(url_or_content, content_type):
         return Articulo(url_or_content)
     parsed = feedparser.parse(url_or_content)
     url_or_content = parsed.feed.get('link') or parsed.feed.get('href')
-    rss_content = get_feed_content_by_url(url_or_content)
+    rss_content,_ = get_feed_content_by_url(url_or_content)
     return Articulo(rss_content)
 
 
@@ -232,7 +233,6 @@ def parse_feeds_by_url(url):
 def parse_feed_info(url):
     result = []
     feed_list = get_feed_by_url(url)
-
     if len(feed_list) == 0:
         return parse_feeds_by_url(url)
 
