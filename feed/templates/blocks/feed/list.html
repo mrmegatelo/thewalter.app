@@ -95,8 +95,8 @@
     <div class="centered-form-wrapper m-auto">
         <img width="200" src="{% static 'feed/img/empty_feed.svg' %}"/>
         <div>
-            <h2 class="heading">Your feed is empty</h2>
-            <p class="paragraph">Start your journey by adding your first feed source.</p>
+            <h2 class="heading">{% translate 'Your feed is empty' noop %}</h2>
+            <p class="paragraph">{% translate 'Start your journey by adding your first feed source.' noop %}</p>
         </div>
         <a class="button button_primary"
            href="{% url 'new_feed' %}"

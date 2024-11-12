@@ -46,6 +46,7 @@ p, h1, h2, h3, h4, h5, h6 {
     --color-paragraph: #727099;
     --color-grey-light: #D0CFDD;
     --color-background: #F3F3F7;
+    --color-white: #FFFFFF;
     --color-primary: #FF6340;
     --color-error: #E02900;
     --color-blue: #2C67F2;
@@ -529,7 +530,7 @@ body {
 .button_primary {
     background-color: var(--color-primary);
     border: 1px solid var(--color-primary);
-    color: var(--color-background);
+    color: var(--color-white);
 
     .loader {
         background-color: var(--color-primary);

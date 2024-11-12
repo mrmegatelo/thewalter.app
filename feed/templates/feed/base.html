@@ -1,0 +1,47 @@
+{% extends 'layouts/with_sidebar.html' %}
+{% load i18n %}
+
+{% block title %}thewalter.app{% endblock %}
+
+{% block sidebar %}
+    <div class="feed-sidebar">
+        <div class="sidebar-block-content">
+            <form id="feed-types"
+                  class="sidebar-block-content"
+                  method="post"
+                  hx-trigger="change"
+                  hx-target="this"
+                  hx-post="{% url 'api_feed_types' %}"
+            >
+                {% include 'blocks/feed/types_selector.html' %}
+            </form>
+        </div>
+        <div class="sidebar-block">
+            <h3 class="heading">{% translate 'Feeds' noop %}:</h3>
+            <div class="sidebar-block-content">
+                {% include 'blocks/feed/feeds_short.html' %}
+                <a class="button button_primary button_sm"
+                   href="{% url 'new_feed' %}"
+                >
+                    <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
+                    {% translate 'Add new source' noop %}
+                </a>
+            </div>
+        </div>
+        <div class="sidebar-block">
+            <h3 class="heading">{% translate 'Hide' noop %}:</h3>
+            <form id="feed-filters"
+                  class="sidebar-block-content"
+                  method="post"
+                  hx-trigger="change"
+                  hx-target="this"
+                  hx-post="{% url 'api_feed_filters' %}"
+            >
+                {% include 'blocks/feed/filters.html' %}
+            </form>
+            <a class="button button_sm button_blank" href="{% url 'feed_index' %}">
+                {% translate 'Reset filters' noop %}
+            </a>
+        </div>
+    </div>
+{% endblock %}

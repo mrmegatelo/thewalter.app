@@ -4,8 +4,8 @@
 {% block main %}
     <div class="content">
         <div>
-            <h1 class="heading">New feed source</h1>
-            <p class="paragraph">Follow your favorite websites, blogs, YouTube channels and more.</p>
+            <h1 class="heading">{% translate 'New feed source' noop %}</h1>
+            <p class="paragraph">{% translate 'Follow your favorite websites, blogs, YouTube channels and more.' noop %}</p>
             <form class="form flex-column-button-container" method="post" action="{% url 'new_feed' %}">
                 {% csrf_token %}
                 <div class="form-inline-row">

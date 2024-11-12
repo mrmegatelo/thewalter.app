@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends 'dialogs/base.html' %}
 
 {% block body %}
@@ -17,7 +18,7 @@
             {% endautoescape %}
         </section>
         <a class="button button_blank button_outline" href="{{ object.link }}" target="_blank">
-            <span>🔗</span>View on <strong>{{ object.feed.domain_name }}</strong>
+            <span>🔗</span>{% translate 'View on' noop %} <strong>{{ object.feed.domain_name }}</strong>
         </a>
     </div>
 {% endblock %}
