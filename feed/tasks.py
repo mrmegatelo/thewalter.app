@@ -65,13 +65,17 @@ def parse_feed_item(entry, feed) -> FeedItem:
     article_content,_ = get_feed_content_by_url(entry.link)
     article = Articulo(article_content)
     parsed_pud_date = entry.get("published_parsed") or entry.get("updated_parsed")
-    return FeedItem.objects.create(
+
+    return FeedItem.objects.update_or_create(
         title=entry.title,
-        description=entry.get("summary", ""),
         link=entry.link,
-        pub_date=time.strftime("%Y-%m-%dT%H:%M:%SZ", parsed_pud_date),
         feed=feed,
-        has_paid_content=article.has_paywall,
+        defaults={
+            "description": entry.get("summary", ""),
+            "pub_date": time.strftime("%Y-%m-%dT%H:%M:%SZ", parsed_pud_date),
+            "preview": article.preview,
+            "has_paid_content": article.has_paywall,
+        }
     )
 
 
@@ -116,9 +120,10 @@ def parse_media(entry, feed_item):
 
 
 @shared_task()
-def parse_feed(pk):
+def parse_feed(pk, force = False):
     """
     Parse the feed and save the items to the database
+    :param force:
     :param pk:
     :return:
     """
@@ -127,9 +132,11 @@ def parse_feed(pk):
         feed_content,_ = get_feed_content_by_url(feed.rss_url)
         feed_data = feedparser.parse(feed_content)
         for entry in feed_data.entries:
-            if not FeedItem.objects.filter(link=entry.link).exists():
-                feed_item = parse_feed_item(entry, feed)
-                parse_attachments(entry, feed_item)
+            if not FeedItem.objects.filter(link=entry.link).exists() or force:
+                feed_item, created = parse_feed_item(entry, feed)
+                # TODO: need to improve attachment parsing logic for the update case
+                if created:
+                    parse_attachments(entry, feed_item)
     except Exception as e:
         print(f"Problem parsing feed: {e}")
 

@@ -1,5 +1,6 @@
 {% extends 'dialogs/feed/detail/base.html' %}
 
+{% block preview %}{% endblock %}
 {% block enclosures %}
     <section class="feed-detail-section">
         {% for file in object.attachments.all %}

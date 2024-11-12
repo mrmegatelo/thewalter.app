@@ -11,6 +11,7 @@ from django.utils.http import urlsafe_base64_encode
 
 # Register your models here.
 from .models import Feed, FeedItem, UserSettings, WaitlistRequest, Invite, Attachment, ServiceFeed
+from .tasks import parse_feed
 
 
 class UserSettingsInline(admin.StackedInline):
@@ -29,9 +30,16 @@ class UserAdmin(BaseUserAdmin):
     inlines = [UserSettingsInline]
 
 
+@admin.action(description='Restart parsing')
+def restart_parsing_task(_model, _request, queryset):
+    for feed in queryset:
+        parse_feed.delay(feed.id, True)
+
+
 class FeedAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug', 'pub_date']
     prepopulated_fields = {'slug': ('title',)}
+    actions = [restart_parsing_task]
 
 
 class ServiceFeedAdmin(admin.ModelAdmin):
@@ -47,7 +55,7 @@ class FeedItemAdmin(admin.ModelAdmin):
 
 
 @admin.action(description='Send selected invites')
-def send_invite(modeladmin, request, queryset):
+def send_invite(_model, request, queryset):
     current_site = get_current_site(request)
     site_name = current_site.name
     domain = current_site.domain

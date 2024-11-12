@@ -798,6 +798,12 @@ body {
     width: 100%
 }
 
+.feed-detail-preview {
+    width: 100%;
+    aspect-ratio: 2;
+    object-fit: contain;
+}
+
 /**
 * Dialogs
  */
