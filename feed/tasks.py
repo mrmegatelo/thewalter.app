@@ -67,10 +67,10 @@ def parse_feed_item(entry, feed) -> FeedItem:
     parsed_pud_date = entry.get("published_parsed") or entry.get("updated_parsed")
 
     return FeedItem.objects.update_or_create(
-        title=entry.title,
         link=entry.link,
-        feed=feed,
         defaults={
+            "feed": feed,
+            "title": entry.title,
             "description": entry.get("summary", ""),
             "pub_date": time.strftime("%Y-%m-%dT%H:%M:%SZ", parsed_pud_date),
             "preview": article.preview,
