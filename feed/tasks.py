@@ -14,7 +14,8 @@ from feed.utils.enums import (
     FeedMediaContentMediums,
     FeedContentTypes,
 )
-from feed.utils.helpers import get_wrapped_url, get_form_parser
+from feed.utils.helpers import get_wrapped_url
+from feed.utils.feed_parsers import get_form_parser
 
 AUDIO_MIME_TYPES_SET = set([t.value for t in AudioMimeTypes])
 

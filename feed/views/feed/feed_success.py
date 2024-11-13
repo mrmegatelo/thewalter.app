@@ -5,8 +5,8 @@ from feed.tasks import parse_feed_info
 
 from feed.utils.helpers import (
     get_articulo_instance,
-    get_form_parser,
 )
+from feed.utils.feed_parsers import get_form_parser
 from feed.views.feed import FeedCreate
 
 

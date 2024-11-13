@@ -7,6 +7,9 @@ import feedparser
 from articulo import Articulo
 from feedparser import FeedParserDict
 
+from feed.utils.enums import FeedContentTypes
+from feed.utils.helpers import normalize_url
+
 
 @dataclass
 class FeedMeta:
@@ -68,4 +71,11 @@ class RSSFeedParser(AbstractFeedParser):
 class HTMLFeedParser(RSSFeedParser):
     def parse(self, url: str) -> Generator[FeedMeta]:
         for rss_link in self.articulo.rss:
-            return super().parse(rss_link)
+            normalized_url = normalize_url(rss_link, url)
+            return super().parse(normalized_url)
+
+
+def get_form_parser(content_type, articulo):
+    if content_type == FeedContentTypes.TEXT_HTML.value:
+        return HTMLFeedParser(articulo)
+    return RSSFeedParser(articulo)
