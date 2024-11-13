@@ -1,20 +1,5 @@
 {% csrf_token %}
 <div class="feed-filters-item">
-    <input id="all"
-           type="radio"
-           name="feed_type"
-           value="none"
-           class="feed-filters-item__checkbox"
-           {% if not feed_type %}checked{% endif %}
-    />
-    <label for="all"
-           class="feed-filters-item__title button button_primary button_outline button_sm"
-    >
-        <span>🪩</span>
-        All
-    </label>
-</div>
-<div class="feed-filters-item">
     <input id="podcasts"
            type="radio"
            name="feed_type"
@@ -23,9 +8,9 @@
            {% if feed_type == 'podcasts' %}checked{% endif %}
     />
     <label for="podcasts"
-           class="feed-filters-item__title button button_primary button_outline button_sm"
+           class="feed-filters-item__title button button_ghost button_sm"
     >
-        <span>🎧️</span>
+        {% include 'icons/headphones.svg' %}
         Podcasts
     </label>
 </div>
@@ -38,9 +23,9 @@
            {% if feed_type == 'articles' %}checked{% endif %}
     />
     <label for="articles"
-           class="feed-filters-item__title button button_primary button_outline button_sm"
+           class="feed-filters-item__title button button_ghost button_sm"
     >
-        <span>📰</span>
+        {% include 'icons/article.svg' %}
         Articles
     </label>
 </div>
@@ -53,9 +38,9 @@
            {% if feed_type == 'videos' %}checked{% endif %}
     />
     <label for="videos"
-           class="feed-filters-item__title button button_primary button_outline button_sm"
+           class="feed-filters-item__title button button_ghost button_sm"
     >
-        <span>🎥</span>
+        {% include 'icons/movie.svg' %}
         Videos
     </label>
 </div>

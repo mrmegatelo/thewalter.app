@@ -6,6 +6,16 @@
 {% block sidebar %}
     <div class="feed-sidebar">
         <div class="sidebar-block-content">
+            <a class="button button_ghost button_sm"
+               href="{% url 'feed_index' %}">
+                {% include 'icons/home.svg' %}
+                {% translate 'Home' noop %}
+            </a>
+            <a class="button button_ghost button_sm"
+               href="{% url 'favorites' %}">
+                {% include 'icons/favorite.svg' %}
+                {% translate 'Favorites' noop %}
+            </a>
             <form id="feed-types"
                   class="sidebar-block-content"
                   method="post"
@@ -19,7 +29,7 @@
         <div class="sidebar-block">
             <h3 class="heading">{% translate 'Feeds' noop %}:</h3>
             <div class="sidebar-block-content">
-                {% include 'blocks/feed/feeds_short.html' %}
+                {% include 'blocks/feed/feeds_full.html' %}
                 <a class="button button_primary button_sm"
                    href="{% url 'new_feed' %}"
                 >
@@ -39,7 +49,7 @@
             >
                 {% include 'blocks/feed/filters.html' %}
             </form>
-            <a class="button button_sm button_blank" href="{% url 'feed_index' %}">
+            <a class="button button_sm button_ghost" href="{% url 'feed_index' %}">
                 {% translate 'Reset filters' noop %}
             </a>
         </div>

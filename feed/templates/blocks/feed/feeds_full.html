@@ -1,7 +1,7 @@
 {% load url_with_filters %}
 {% for feed in feed_list %}
     <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
-       class="button button_primary button_outline button_sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
+       class="button button_ghost button_sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
        title="{{ feed.title }}"
     >
         <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">

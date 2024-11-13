@@ -2,7 +2,7 @@
 {% if user in feed.subscribers.all %}
     <button formaction="{% url 'api_feed_action' feed_id=feed.id action='unsubscribe' %}"
             hx-post="{% url 'api_feed_action' feed_id=feed.id action='unsubscribe' %}"
-            class="button button_blank button_outline button_sm active"
+            class="button button_ghost button_outline button_sm active"
             type="submit"
     >
         <span class="button__icon">🔔</span> Unsubscribe
@@ -11,7 +11,7 @@
 {% else %}
     <button formaction="{% url 'api_feed_action' feed_id=feed.id action='subscribe' %}"
             hx-post="{% url 'api_feed_action' feed_id=feed.id action='subscribe' %}"
-            class="button button_blank button_outline button_sm"
+            class="button button_ghost button_outline button_sm"
             type="submit"
     >
         <span class="button__icon">🔔</span> Subscribe
