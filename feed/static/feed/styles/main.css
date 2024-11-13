@@ -317,6 +317,8 @@ body {
     align-items: center;
     white-space: nowrap;
     align-self: stretch;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
 .feed-links-list-item-bloginfo__link {
