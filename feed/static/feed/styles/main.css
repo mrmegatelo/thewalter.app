@@ -159,6 +159,8 @@ body {
 
     &.link {
         color: var(--color-text);
+        display: flex;
+        gap: calc(var(--grid-step) * 1);
     }
 
     &.active {
@@ -381,7 +383,6 @@ body {
 }
 
 .feed-links-list-item__title {
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
