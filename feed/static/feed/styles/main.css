@@ -42,6 +42,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
     /* Colors */
     --color-text: #2F2E41;
+    --color-black: #f2e41;
     --color-paragraph: #727099;
     --color-grey-light: #D0CFDD;
     --color-background: #F3F3F7;
@@ -120,6 +121,31 @@ small {
     grid-column-gap: var(--grid-column-gap);
     grid-row-gap: var(--row-gap);
     min-height: 100vh;
+}
+
+.root-container {
+    display: grid;
+    grid-template-columns: 300px 500px minmax(500px, 1fr);
+}
+
+.sidebar {
+    --side-padding: calc(var(--grid-step) * 3);
+    --vertical-padding: calc(var(--grid-step) * 4);
+    padding: var(--vertical-padding) var(--side-padding);
+    background-color: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 3);
+    max-height: 100vh;
+    overflow: auto;
+}
+
+.main {
+    --side-padding: calc(var(--grid-step) * 4);
+    --vertical-padding: calc(var(--grid-step) * 4);
+    padding: var(--vertical-padding) var(--side-padding);
+    max-height: 100vh;
+    overflow: auto;
 }
 
 .subgrid {
@@ -484,14 +510,10 @@ small {
 }
 
 .feed-sidebar {
-    position: sticky;
-    top: var(--vertical-padding);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: calc(var(--grid-step) * 4);
-    overflow-y: auto;
-    max-height: calc(100vh - var(--grid-step) * 4);
 }
 
 .feed-sidebar-buttons {

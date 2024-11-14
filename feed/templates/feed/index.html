@@ -3,10 +3,10 @@
 {% block main %}
     <div id="feed-list"
          class="feed-list-wrapper"
-         hx-trigger="load, change from:#feed-filters, change from:#feed-types"
+         hx-trigger="load, change from:#feed-filters"
          hx-get="{% url 'api_feed_list' %}"
-         hx-include="#feed-filters, #feed-types"
-         hx-params="filter, feed_type"
+         hx-include="#feed-filters"
+         hx-params="filter"
          hx-swap="morph:innerHTML"
     >
         {% include 'blocks/feed/loader.html' %}

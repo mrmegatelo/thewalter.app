@@ -1,5 +1,5 @@
-from feed.views.feed import FeedList
+from feed.views.feed import FeedView
 
 
-class Favorites(FeedList):
+class Favorites(FeedView):
     template_name = 'feed/favorites.html'

@@ -1,5 +1,5 @@
-from feed.views.feed.feed_list import FeedList
+from feed.views.feed.feed import FeedView
 
 
-class Subscription(FeedList):
-    template_name = 'feed/feed_detail.html'
+class Subscription(FeedView):
+    template_name = 'feed/subscription.html'

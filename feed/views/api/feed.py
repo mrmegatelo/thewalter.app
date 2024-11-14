@@ -15,6 +15,7 @@ from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItem
 
 class FullFeedList(GenericFeedItemListView):
     template_name = "blocks/feed/list.html"
+    feet_item_url_name = 'feed_detail'
 
     def paginate_queryset(self, queryset, page_size):
         url = urlparse(self.request.headers.get("Referer"))
@@ -46,6 +47,10 @@ class FullFeedList(GenericFeedItemListView):
                 % {"page_number": page_number, "message": str(e)}
             )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['feet_item_url_name'] = self.feet_item_url_name
+        return context
 
 class UserFeedList(FullFeedList):
     http_method_names = ["get"]
@@ -56,6 +61,7 @@ class UserFeedList(FullFeedList):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["feed_type"] = self.get_feed_type()
+
         return context
 
     def get_queryset(self):
@@ -69,6 +75,7 @@ class UserFeedList(FullFeedList):
 
 class Favorites(UserFeedList):
     http_method_names = ["get"]
+    feet_item_url_name = 'favorites_detail'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -80,6 +87,12 @@ class Favorites(UserFeedList):
 
 class FeedItemListView(FullFeedList):
     http_method_names = ["get"]
+    feet_item_url_name = 'subscription_detail'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["feed_id"] = self.kwargs.get("feed_id")
+        return context
 
     def get_queryset(self):
         queryset = super().get_queryset()

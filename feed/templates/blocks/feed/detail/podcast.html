@@ -1,0 +1,9 @@
+{% extends 'blocks/feed/detail/base.html' %}
+
+{% block enclosures %}
+    <section class="feed-detail-section">
+        {% for file in object.attachments.all %}
+            <audio class="feed-links-list-item__attachment" controls src={{ file.url }}></audio>
+        {% endfor %}
+    </section>
+{% endblock %}

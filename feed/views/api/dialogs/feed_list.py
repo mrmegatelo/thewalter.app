@@ -1,10 +1,10 @@
 from feed.models import FeedItem
 from feed.utils.helpers import filter_by_attachments_type
 from feed.views.api.dialogs.generic import GenericDialog
-from feed.views.feed.feed_list import FeedList
+from feed.views.feed.feed import FeedView
 
 
-class FeedListDialog(FeedList, GenericDialog):
+class FeedListDialog(FeedView, GenericDialog):
     http_method_names = ['get']
     template_name = 'dialogs/feed/feed_list.html'
     dialog_position = 'top'

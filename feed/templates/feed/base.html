@@ -55,3 +55,16 @@
         </div>
     </div>
 {% endblock %}
+
+{% block detail %}
+    {% if feed_item_pk %}
+        <article id="feed-detail"
+                 hx-trigger="load"
+                 hx-get="{% url 'api_feed_detail' pk=feed_item_pk %}"
+        >
+            {% include 'blocks/feed/loader.html' %}
+        </article>
+    {% else %}
+        <article id="feed-detail"></article>
+    {% endif %}
+{% endblock %}

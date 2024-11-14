@@ -1,10 +1,17 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
 {% block content %}
-    <aside class="cols-2 cols-mobile-12">
+    <aside class="sidebar">
+        <a href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
+            <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
+        </a>
         {% block sidebar %}{% endblock %}
     </aside>
-    <main class="cols-4 cols-mobile-12">
+    <section class="main">
         {% block main %}{% endblock %}
-    </main>
+    </section>
+    <section class="main">
+        {% block detail %}{% endblock %}
+    </section>
 {% endblock %}

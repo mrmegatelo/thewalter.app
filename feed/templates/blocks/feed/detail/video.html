@@ -1,0 +1,25 @@
+{% extends 'blocks/feed/detail/base.html' %}
+
+{% block preview %}{% endblock %}
+{% block enclosures %}
+    <section class="feed-detail-section">
+        {% for file in object.attachments.all %}
+            {% if file.type == 'video' %}
+                <video class="feed-links-list-item__attachment embed"
+                       src="{{ file.url }}"
+                       controls
+                ></video>
+            {% endif %}
+            {% if file.type == 'embed' %}
+                <iframe class="feed-links-list-item__attachment embed"
+                        type="text/html"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                        src="{{ file.url }}"
+                ></iframe>
+            {% endif %}
+        {% endfor %}
+    </section>
+{% endblock %}

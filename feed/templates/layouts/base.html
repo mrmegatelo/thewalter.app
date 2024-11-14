@@ -59,19 +59,17 @@
         </script>
     {% endif %}
 </head>
-<body class="container" hx-ext="morph">
-<header class="header subgrid spread">
-    <span class="cols-3">
-        <a href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
-            <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
-        </a>
-    </span>
-    {% if user.is_authenticated %}
-        {% include 'blocks/header/authenticated.html' %}
-    {% else %}
-        {% include 'blocks/header/anonym.html' %}
-    {% endif %}
-</header>
+<body class="root-container" hx-ext="morph">
+{#<header class="header subgrid spread">#}
+{#    <span class="cols-3">#}
+{##}
+{#    </span>#}
+{#    {% if user.is_authenticated %}#}
+{#        {% include 'blocks/header/authenticated.html' %}#}
+{#    {% else %}#}
+{#        {% include 'blocks/header/anonym.html' %}#}
+{#    {% endif %}#}
+{#</header>#}
 {% block content %}
 {% endblock %}
 <footer class="spread">

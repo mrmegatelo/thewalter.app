@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<div class="feed-detail-container">
+    <header class="feed-detail-section"><h2>{{ object.title }}</h2></header>
+    {% block preview %}
+        {% if object.preview %}
+            <section class="feed-detail-section">
+                <img class="feed-detail-preview" src="{{ object.preview }}" alt="{{ object.title }}"/>
+            </section>
+        {% endif %}
+    {% endblock %}
+    {% block enclosures %}{% endblock %}
+    <section class="feed-detail-section">
+        {% autoescape off %}
+            {{ object.description }}
+        {% endautoescape %}
+    </section>
+    <a class="button button_ghost button_outline" href="{{ object.link }}" target="_blank">
+        <span>🔗</span>{% translate 'View on' noop %} <strong>{{ object.feed.domain_name }}</strong>
+    </a>
+</div>

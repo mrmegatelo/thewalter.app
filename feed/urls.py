@@ -28,8 +28,39 @@ urlpatterns = [
     path("", views.index.Index.as_view(), name="index"),
     # Feed  URLs
     path(
-        "feed/", login_required(feed.views.feed.FeedList.as_view()), name="feed_index"
+        "feed/", login_required(feed.views.feed.FeedView.as_view()), name="feed_index"
     ),
+    path(
+        "feed/items/<int:item_pk>", login_required(feed.views.feed.FeedView.as_view()), name="feed_detail"
+    ),
+    path(
+        "feed/<slug:slug>/<int:item_pk>",
+        login_required(feed.views.feed.Subscription.as_view()),
+        name="subscription_detail",
+    ),
+    path(
+        "feed/<slug:slug>",
+        login_required(feed.views.feed.Subscription.as_view()),
+        name="feed_subscription",
+    ),
+    path(
+        "feed/<slug:slug>/<int:item_pk>",
+        login_required(feed.views.feed.Subscription.as_view()),
+        name="feed_subscription_item",
+    ),
+    path(
+        "favorites/",
+        login_required(feed.views.feed.Favorites.as_view()),
+        name="favorites",
+    ),
+    path(
+        "favorites/<int:item_pk>",
+        login_required(feed.views.feed.Favorites.as_view()),
+        name="favorites_detail",
+    ),
+
+
+    # Feed creation
     path(
         "feed/new/",
         login_required(feed.views.feed.FeedCreate.as_view()),
@@ -39,16 +70,6 @@ urlpatterns = [
         "feed/new/success/",
         login_required(feed.views.feed.feed_success.Created.as_view()),
         name="feed_success",
-    ),
-    path(
-        "feed/<slug:slug>",
-        login_required(feed.views.feed.Subscription.as_view()),
-        name="feed_subscription",
-    ),
-    path(
-        "favorites/",
-        login_required(feed.views.feed.Favorites.as_view()),
-        name="favorites",
     ),
     # Auth URLs
     path(
@@ -137,17 +158,27 @@ urlpatterns = [
     # API URLs
     path("api/v1/feed/", feed.views.api.UserFeedList.as_view(), name="api_feed_list"),
     path(
+        "api/v1/feeds/detail/<int:pk>",
+        views.api.feed_detail.FeedDetail.as_view(),
+        name="api_feed_detail",
+    ),
+    path(
+        "api/v1/feed/<int:feed_id>/",
+        feed.views.api.FeedItemListView.as_view(),
+        name="api_feed_feed_list",
+    ),
+    path(
+        "api/v1/feed/favorites",
+        feed.views.api.Favorites.as_view(),
+        name="api_feed_favorites",
+    ),
+    path(
         "api/v1/feed/filters/",
         feed.views.api.FeedFilters.as_view(),
         name="api_feed_filters",
     ),
     path(
         "api/v1/feed/types/", feed.views.api.FeedTypes.as_view(), name="api_feed_types"
-    ),
-    path(
-        "api/v1/feed/<int:feed_id>/",
-        feed.views.api.FeedItemListView.as_view(),
-        name="api_feed_feed_list",
     ),
     path(
         "api/v1/feed/<int:feed_id>/<str:action>",
@@ -158,11 +189,6 @@ urlpatterns = [
         "api/v1/feed/<int:feed_id>/<int:feed_item_id>/<str:action>",
         views.api.FeedItemActions.as_view(),
         name="api_feed_item_toggle_interesting",
-    ),
-    path(
-        "api/v1/feed/favorites",
-        feed.views.api.Favorites.as_view(),
-        name="api_feed_favorites",
     ),
     path(
         "api/v1/feed/parsing_status",
