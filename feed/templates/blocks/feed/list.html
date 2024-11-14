@@ -19,12 +19,12 @@
                        hx-push-url="{{ detail_url }}"
                        href="{{ detail_url }}"
                     >
-                        <h3 class="heading feed-links-list-item__title">
+                        <h4 class="heading feed-links-list-item__title">
                             {{ entry.title }}
                             {% if entry.has_paid_content %}
                                 <span title="There may be paid content">🔒</span>
                             {% endif %}
-                        </h3>
+                        </h4>
                     </a>
                     <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
                     <div class="feed-links-list-item-bloginfo">
