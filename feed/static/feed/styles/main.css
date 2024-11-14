@@ -129,9 +129,6 @@ small {
 }
 
 .sidebar {
-    --side-padding: calc(var(--grid-step) * 3);
-    --vertical-padding: calc(var(--grid-step) * 4);
-    padding: var(--vertical-padding) var(--side-padding);
     background-color: var(--color-background);
     display: flex;
     flex-direction: column;
@@ -143,9 +140,18 @@ small {
 .main {
     --side-padding: calc(var(--grid-step) * 4);
     --vertical-padding: calc(var(--grid-step) * 4);
-    padding: var(--vertical-padding) var(--side-padding);
+}
+
+.section {
+    --side-padding: calc(var(--grid-step) * 3);
+    --vertical-padding: calc(var(--grid-step) * 4);
     max-height: 100vh;
     overflow: auto;
+    padding: var(--vertical-padding) var(--side-padding);
+
+    & + & {
+        border-left: 1px solid var(--color-grey-light);
+    }
 }
 
 .subgrid {

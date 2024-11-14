@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block content %}
-    <aside class="sidebar">
+    <aside class="section sidebar">
         <a href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
             <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
         </a>
         {% block sidebar %}{% endblock %}
     </aside>
-    <section class="main">
+    <section class="section main">
         {% block main %}{% endblock %}
     </section>
-    <section class="main">
+    <section class="section">
         {% block detail %}{% endblock %}
     </section>
 {% endblock %}
