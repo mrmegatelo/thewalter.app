@@ -1,7 +1,39 @@
 {% load i18n %}
 
 <div class="feed-detail-container">
-    <header class="feed-detail-section"><h2>{{ object.title }}</h2></header>
+    <header class="feed-links-list-item-footer">
+        <form method="post"
+              class="feed-links-list-item-controls"
+              id="feed-item-controls"
+              hx-target="#feed-detail"
+              hx-params="*"
+        >
+            {% csrf_token %}
+            {% with subscribers=object.feed.subscribers.all %}
+                <button class="button button_ghost button_sm feed-links-list-item-controls__button"
+                        title="{% translate 'Like' noop %}"
+                        type="submit"
+                        formaction="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_liked' %}"
+                        hx-post="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_liked' %}"
+                >
+                    <span class="feed-links-list-item-controls__icon {% if user in subscribers and object in liked.feed_items.all %}active{% endif %}">
+                        ❤️
+                    </span>
+                </button>
+                <button class="button button_ghost button_sm feed-links-list-item-controls__button"
+                        title="{% translate 'Not interesting' noop %}"
+                        type="submit"
+                        formaction="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_interesting' %}"
+                        hx-post="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_interesting' %}"
+                >
+                    <span class="feed-links-list-item-controls__icon {% if user in subscribers and object in disliked.feed_items.all %}active{% endif %}">
+                         👎
+                    </span>
+                </button>
+            {% endwith %}
+        </form>
+    </header>
+    <section class="feed-detail-section"><h2>{{ object.title }}</h2></section>
     {% block preview %}
         {% if object.preview %}
             <section class="feed-detail-section">

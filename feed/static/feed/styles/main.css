@@ -126,6 +126,7 @@ small {
 .root-container {
     display: grid;
     grid-template-columns: 300px 500px minmax(500px, 1fr);
+    height: 100vh;
 }
 
 .sidebar {
@@ -355,8 +356,9 @@ small {
 
 .feed-links-list-item {
     display: flex;
-    gap: calc(var(--grid-step) * 2);
+    gap: calc(var(--grid-step)* 0.5);
     align-items: flex-start;
+    flex-direction: column;
 
     &:hover {
         .feed-links-list-item-bloginfo-cover__image {
@@ -371,17 +373,18 @@ small {
 
 .feed-links-list-item-body {
     display: flex;
-    flex-direction: column;
-    gap: calc(var(--grid-step) * 0.5);
+    gap: calc(var(--grid-step) * 1);
     align-items: flex-start;
     flex: 1;
     min-width: 0;
+    width: 100%;
 }
 
 .feed-links-list-item-bloginfo {
     display: flex;
     gap: calc(var(--grid-step) * 1);
     align-items: center;
+    justify-content: space-between;
     white-space: nowrap;
     align-self: stretch;
     text-transform: uppercase;
@@ -394,12 +397,17 @@ small {
     text-overflow: ellipsis;
 }
 
+.feed-links-list-item-text {
+    flex: 1;
+}
+
 .feed-links-list-item-bloginfo-cover {
     border-radius: calc(var(--grid-step) * 2);
     overflow: hidden;
     border: none;
     position: relative;
     padding: 0;
+    flex: 0 0 138px;
 
     &::before {
         content: '';
@@ -477,7 +485,6 @@ small {
 .feed-links-list-item-controls {
     display: flex;
     gap: calc(var(--grid-step) * 1.5);
-    pointer-events: none;
     align-items: center;
 }
 
@@ -532,7 +539,7 @@ small {
 .sidebar-block-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: calc(var(--grid-step) * 1);
     width: 100%;
 }

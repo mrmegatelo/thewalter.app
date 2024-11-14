@@ -11,78 +11,47 @@
                 {% url feet_item_url_name item_pk=entry.id as detail_url %}
             {% endif %}
             <li id="feed_{{ entry.id }}" class="feed-links-list-item">
+                <div class="feed-links-list-item-bloginfo">
+                    <a class="feed-links-list-item-bloginfo__link link paragraph"
+                       title="{{ entry.feed }}"
+                       href="{% url 'feed_subscription' entry.feed.slug %}"
+                    >
+                        <small>{{ entry.feed }}</small>
+                    </a>
+                    <small class="paragraph">{{ entry.pub_day|naturalday|title }}</small>
+                </div>
                 <div class="feed-links-list-item-body">
-                    <a class="feed-links-list-item-link"
-                       title="{{ entry.title }}"
-                       hx-target="#feed-detail"
+                    <div class="feed-links-list-item-text">
+                        <a class="feed-links-list-item-link"
+                           title="{{ entry.title }}"
+                           hx-target="#feed-detail"
+                           hx-swap="innerHTML scroll:#detail-section:top"
+                           hx-get="{% url 'api_feed_detail' pk=entry.id %}"
+                           hx-push-url="{{ detail_url }}"
+                           href="{{ detail_url }}"
+                        >
+                            <h4 class="heading feed-links-list-item__title">
+                                {{ entry.title }}
+                                {% if entry.has_paid_content %}
+                                    <span title="There may be paid content">🔒</span>
+                                {% endif %}
+                            </h4>
+                        </a>
+                        <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
+                    </div>
+                    <a class="feed-links-list-item-bloginfo-cover"
                        hx-get="{% url 'api_feed_detail' pk=entry.id %}"
                        hx-push-url="{{ detail_url }}"
+                       hx-target="#feed-detail"
                        href="{{ detail_url }}"
-                    >
-                        <h4 class="heading feed-links-list-item__title">
-                            {{ entry.title }}
-                            {% if entry.has_paid_content %}
-                                <span title="There may be paid content">🔒</span>
-                            {% endif %}
-                        </h4>
-                    </a>
-                    <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
-                    <div class="feed-links-list-item-bloginfo">
-                        <a class="feed-links-list-item-bloginfo__link link paragraph"
-                           title="{{ entry.feed }}"
-                           href="{% url 'feed_subscription' entry.feed.slug %}"
-                        >
-                            <small>{{ entry.feed }}</small>
-                        </a>
-                        <small class="paragraph">·</small>
-                        <small class="paragraph">{{ entry.pub_day|naturalday|title }}</small>
-                    </div>
-                    <footer class="feed-links-list-item-footer">
-                        <form method="post"
-                              class="feed-links-list-item-controls"
-                              id="feed-item-controls"
-                              hx-target="#feed-list"
-                              hx-params="*"
-                        >
-                            {% csrf_token %}
-                            {% with subscribers=entry.feed.subscribers.all %}
-                                <button class="button button_ghost button_sm feed-links-list-item-controls__button"
-                                        title="{% translate 'Like' noop %}"
-                                        type="submit"
-                                        formaction="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_liked' %}"
-                                        hx-post="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_liked' %}"
-                                >
-                                <span class="feed-links-list-item-controls__icon {% if user in subscribers and entry in liked.feed_items.all %}active{% endif %}">
-                                    ❤️
-                                </span>
-                                </button>
-                                <button class="button button_ghost button_sm feed-links-list-item-controls__button"
-                                        title="{% translate 'Not interesting' noop %}"
-                                        type="submit"
-                                        formaction="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_interesting' %}"
-                                        hx-post="{% url 'api_feed_item_toggle_interesting' feed_item_id=entry.id feed_id=entry.feed.id action='toggle_interesting' %}"
-                                >
-                                <span class="feed-links-list-item-controls__icon {% if user in subscribers and entry in disliked.feed_items.all %}active{% endif %}">
-                                    👎
-                                </span>
-                                </button>
-                            {% endwith %}
-                        </form>
-                    </footer>
-                </div>
-                <a type="submit" class="feed-links-list-item-bloginfo-cover"
-                   hx-get="{% url 'api_feed_detail' pk=entry.id %}"
-                   hx-push-url="{{ detail_url }}"
-                   hx-target="#feed-detail"
-                   href="{{ detail_url }}"
-                   title="{{ entry.title }}">
-                    <img class="feed-links-list-item-bloginfo-cover__image"
-                         src="{{ entry.feed.icon }}"
-                         alt="{{ entry.feed.title }}"
-                         width="138"
-                         height="100"
-                    />
-                    <span class="feed-links-list-item-bloginfo-cover__text">
+                       title="{{ entry.title }}">
+                        <img class="feed-links-list-item-bloginfo-cover__image"
+                             src="{{ entry.feed.icon }}"
+                             alt="{{ entry.feed.title }}"
+                             width="138"
+                             height="100"
+                        />
+                        <span class="feed-links-list-item-bloginfo-cover__text">
                         {% if entry.type == 'video' %}
                             {% include 'icons/smart_display.svg' %} Watch
                         {% elif entry.type == 'audio' %}
@@ -91,7 +60,8 @@
                             {% include 'icons/link.svg' %}    Read
                         {% endif %}
                         </span>
-                </a>
+                    </a>
+                </div>
             </li>
         {% endfor %}
     </ul>

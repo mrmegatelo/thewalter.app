@@ -3,14 +3,13 @@ from .feed import (
     FullFeedList,
     UserFeedList,
     FeedUnsubscribe,
-    FeedItemActions,
     FeedFilters,
     FeedItemListView,
     FeedTypes,
     Favorites,
     ParsingStatus,
 )
-from .feed_detail import FeedDetail
+from .feed_detail import FeedDetail, FeedItemActions
 
 __all__ = [
     "dialogs",

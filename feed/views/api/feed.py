@@ -2,7 +2,6 @@ from urllib.parse import urlparse, urlunparse
 
 from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
-from django.urls import resolve
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
@@ -138,71 +137,6 @@ class FeedTypes(TemplateView, ContextMixin):
         response = super().get(request, *args, **kwargs)
         response.headers["HX-Redirect"] = url
         return response
-
-
-class FeedItemActions(UserFeedList):
-    http_method_names = ["post"]
-
-    def get_feed_type(self):
-        parsed_url = urlparse(self.request.headers.get("hx-current-url"))
-        query = QueryDict(parsed_url.query, mutable=False)
-        return query.get("feed_type")
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        parsed_url = urlparse(self.request.headers.get("hx-current-url"))
-        match = resolve(parsed_url.path)
-        feed_slug = match.kwargs.get("slug")
-        feed_type = self.get_feed_type()
-
-        if feed_slug:
-            return queryset.filter(feed__slug=feed_slug)
-        if feed_type:
-            return filter_by_attachments_type(queryset, feed_type)
-        return queryset
-
-    def init_filters(self, request):
-        url = urlparse(request.headers.get("hx-current-url"))
-        query_dict = QueryDict(url.query)
-        return query_dict.getlist("filter")
-
-    def post(self, request, *args, **kwargs):
-        action = kwargs.get("action")
-
-        match action:
-            case "toggle_interesting":
-                self.toggle_interesting(request, *args, **kwargs)
-            case "toggle_liked":
-                self.toggle_liked(request, *args, **kwargs)
-            case _:
-                pass
-        return super().get(request, *args, **kwargs)
-
-    def toggle_interesting(self, request, *args, **kwargs):
-        feed_item_id = kwargs.get("feed_item_id")
-        user = request.user
-
-        feed_item = self.model.objects.get(pk=feed_item_id)
-        disliked_qs = user.servicefeed_set.filter(type="disliked").first().feed_items
-        if disliked_qs.contains(feed_item):
-            disliked_qs.remove(feed_item)
-        else:
-            disliked_qs.add(feed_item)
-        return feed_item
-
-    def toggle_liked(self, request, *args, **kwargs):
-        feed_item_id = kwargs.get("feed_item_id")
-        user = request.user
-
-        feed_item = self.model.objects.get(pk=feed_item_id)
-        liked_qs = user.servicefeed_set.filter(type="liked").first().feed_items
-
-        if liked_qs.contains(feed_item):
-            liked_qs.remove(feed_item)
-        else:
-            liked_qs.add(feed_item)
-
-        return feed_item
 
 
 class FeedUnsubscribe(DetailView):
