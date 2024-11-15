@@ -17,7 +17,11 @@
                         hx-post="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_liked' %}"
                 >
                     <span class="feed-links-list-item-controls__icon {% if user in subscribers and object in liked.feed_items.all %}active{% endif %}">
-                        ❤️
+                        {% if user in subscribers and object in liked.feed_items.all %}
+                            {% include 'icons/favorite_filled.svg' %}
+                        {% else %}
+                            {% include 'icons/favorite.svg' %}
+                        {% endif %}
                     </span>
                 </button>
                 <button class="button button_ghost button_sm feed-links-list-item-controls__button"
@@ -27,7 +31,11 @@
                         hx-post="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_interesting' %}"
                 >
                     <span class="feed-links-list-item-controls__icon {% if user in subscribers and object in disliked.feed_items.all %}active{% endif %}">
-                         👎
+                        {% if user in subscribers and object in disliked.feed_items.all %}
+                            {% include 'icons/thumb_down_filled.svg' %}
+                        {% else %}
+                            {% include 'icons/thumb_down.svg' %}
+                        {% endif %}
                     </span>
                 </button>
             {% endwith %}

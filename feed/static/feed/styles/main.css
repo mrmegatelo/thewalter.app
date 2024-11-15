@@ -173,6 +173,7 @@ small {
     font-optical-sizing: auto;
     font-weight: 700;
     font-style: normal;
+    letter-spacing: -0.01em;
 }
 
 .header {
@@ -356,7 +357,7 @@ small {
 
 .feed-links-list-item {
     display: flex;
-    gap: calc(var(--grid-step)* 0.5);
+    gap: calc(var(--grid-step) * 0.5);
     align-items: flex-start;
     flex-direction: column;
 
@@ -552,7 +553,7 @@ small {
 .feed-description {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 0.5);
+    gap: calc(var(--grid-step) * 1);
 }
 
 /* Buttons */
@@ -735,7 +736,8 @@ small {
 }
 
 .flex-column-button-container {
-    margin-top: calc(var(--grid-step) * 2);
+    margin-top: calc(var(--grid-step) * 0.5);
+    flex-direction: row;
 }
 
 
