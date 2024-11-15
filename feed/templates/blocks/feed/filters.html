@@ -1,7 +1,7 @@
 {% load i18n %}
 {% csrf_token %}
 <input type="hidden" name="filter" value="enabled"/>
-<div class="feed-filters-item">
+<div class="button-wrapper">
     <input type="checkbox"
            class="feed-filters-item__checkbox"
            name="filter"
@@ -12,12 +12,12 @@
             {% endif %}
     />
     <label for="filter_by_interesting"
-           class="feed-filters-item__title  button button_primary button_sm button_outline">
-        <span>👎</span>
+           class="feed-filters-item__title  button button_primary button_xs button_outline">
+        <span class="button__icon">{% include 'icons/thumb_down.svg' %}</span>
         {% translate 'Not interesting' noop %}
     </label>
 </div>
-<div class="feed-filters-item">
+<div class="button-wrapper">
     <input type="checkbox"
            class="feed-filters-item__checkbox"
            name="filter"
@@ -28,8 +28,8 @@
             {% endif %}
     />
     <label for="filter_by_paid"
-           class="feed-filters-item__title  button button_sm button_primary button_outline">
-        <span>🔒</span>
+           class="feed-filters-item__title button button_xs button_primary button_outline">
+        <span class="button__icon">{% include 'icons/paid.svg' %}</span>
         {% translate 'Paid content' noop %}
     </label>
 </div>

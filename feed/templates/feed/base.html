@@ -38,10 +38,15 @@
                 </a>
             </div>
         </div>
-        <div class="sidebar-block">
-            <h3 class="heading">{% translate 'Hide' noop %}:</h3>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <header class="feed-header">
+        <div class="feed-list-filters">
+            <h4 class="heading">{% translate 'Hide' noop %}:</h4>
             <form id="feed-filters"
-                  class="sidebar-block-content"
+                  class="button-group"
                   method="post"
                   hx-trigger="change"
                   hx-target="this"
@@ -49,11 +54,12 @@
             >
                 {% include 'blocks/feed/filters.html' %}
             </form>
-            <a class="button button_sm button_ghost" href="{% url 'feed_index' %}">
+            <a class="button button_xs button_ghost" href="{% url 'feed_index' %}">
                 {% translate 'Reset filters' noop %}
             </a>
         </div>
-    </div>
+    </header>
+    {% block feed_list %}{% endblock %}
 {% endblock %}
 
 {% block detail %}
