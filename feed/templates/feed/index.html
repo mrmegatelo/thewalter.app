@@ -3,7 +3,7 @@
 {% block main %}
     <div id="feed-list"
          class="feed-list-wrapper"
-         hx-trigger="load, change from:#feed-filters, submit from:#feed-item-controls"
+         hx-trigger="load, change from:#feed-filters, RefreshFeed from:body"
          hx-get="{% url 'api_feed_list' %}"
          hx-include="#feed-filters"
          hx-params="filter"

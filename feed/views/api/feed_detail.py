@@ -48,7 +48,9 @@ class FeedItemActions(FeedDetail):
                 self.toggle_liked(request, *args, **kwargs)
             case _:
                 pass
-        return super().get(request, *args, **kwargs)
+        response = super().get(request, *args, **kwargs)
+        response.headers["HX-Trigger"] = "RefreshFeed"
+        return response
 
     def toggle_interesting(self, request, *args, **kwargs):
         feed_item = self.get_object()

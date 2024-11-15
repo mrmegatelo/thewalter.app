@@ -349,7 +349,7 @@ small {
 .feed-links-list {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 4);
+    gap: calc(var(--grid-step) * 2);
     padding-left: 0;
     list-style: none;
 }
@@ -387,7 +387,6 @@ small {
     justify-content: space-between;
     white-space: nowrap;
     align-self: stretch;
-    text-transform: uppercase;
     font-weight: 500;
 }
 
