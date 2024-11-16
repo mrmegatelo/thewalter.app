@@ -16,52 +16,60 @@
                        title="{{ entry.feed }}"
                        href="{% url 'feed_subscription' entry.feed.slug %}"
                     >
+                        <img src="{{ entry.feed.icon }}" height="16" width="16" />
                         <small>{{ entry.feed }}</small>
                     </a>
                     <small class="paragraph">{{ entry.pub_day|naturalday|title }}</small>
                 </div>
+                <a class="feed-links-list-item-link"
+                   title="{{ entry.title }}"
+                   hx-target="#feed-detail"
+                   hx-swap="innerHTML scroll:#detail-section:top"
+                   hx-get="{% url 'api_feed_detail' pk=entry.id %}"
+                   hx-push-url="{{ detail_url }}"
+                   href="{{ detail_url }}"
+                >
+                    <h4 class="heading feed-links-list-item__title">
+                        {{ entry.title }}&nbsp;
+                        {% if entry.has_paid_content %}
+                            <span class="feed-item-feature feed-item-feature--paid" title="There may be paid content">
+                                {% include 'icons/paid.svg' %}
+                            </span>
+                        {% endif %}
+                        {% with subscribers=entry.feed.subscribers.all %}
+                            {% if user in subscribers and entry in disliked.feed_items.all %}
+                                <span class="feed-item-feature" title="Not interesting">
+                                    {% include 'icons/thumb_down.svg' %}
+                                </span>
+                            {% endif %}
+                        {% endwith %}
+                    </h4>
+                </a>
                 <div class="feed-links-list-item-body">
-                    <div class="feed-links-list-item-text">
-                        <a class="feed-links-list-item-link"
-                           title="{{ entry.title }}"
-                           hx-target="#feed-detail"
-                           hx-swap="innerHTML scroll:#detail-section:top"
-                           hx-get="{% url 'api_feed_detail' pk=entry.id %}"
-                           hx-push-url="{{ detail_url }}"
-                           href="{{ detail_url }}"
-                        >
-                            <h4 class="heading feed-links-list-item__title">
-                                {{ entry.title }}
-                                {% if entry.has_paid_content %}
-                                    <span title="There may be paid content">🔒</span>
-                                {% endif %}
-                            </h4>
-                        </a>
+                    <a class="feed-links-list-item-text"
+                       hx-get="{% url 'api_feed_detail' pk=entry.id %}"
+                       hx-push-url="{{ detail_url }}"
+                       hx-target="#feed-detail"
+                       href="{{ detail_url }}"
+                       title="{{ entry.title }}"
+                    >
                         <p class="feed-links-list-item__description">{{ entry.description|safe|striptags|truncatechars:200 }}</p>
-                    </div>
+                    </a>
+                </div>
+                {% if entry.preview %}
                     <a class="feed-links-list-item-bloginfo-cover"
                        hx-get="{% url 'api_feed_detail' pk=entry.id %}"
                        hx-push-url="{{ detail_url }}"
                        hx-target="#feed-detail"
                        href="{{ detail_url }}"
-                       title="{{ entry.title }}">
+                       title="{{ entry.title }}"
+                    >
                         <img class="feed-links-list-item-bloginfo-cover__image"
-                             src="{{ entry.feed.icon }}"
+                             src="{{ entry.preview }}"
                              alt="{{ entry.feed.title }}"
-                             width="138"
-                             height="100"
                         />
-                        <span class="feed-links-list-item-bloginfo-cover__text">
-                        {% if entry.type == 'video' %}
-                            {% include 'icons/smart_display.svg' %} Watch
-                        {% elif entry.type == 'audio' %}
-                            {% include 'icons/headphones.svg' %} Listen
-                        {% else %}
-                            {% include 'icons/link.svg' %}    Read
-                        {% endif %}
-                        </span>
                     </a>
-                </div>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
@@ -75,7 +83,7 @@
             <h2 class="heading">{% translate 'Your feed is empty' noop %}</h2>
             <p class="paragraph">{% translate 'Start your journey by adding your first feed source.' noop %}</p>
         </div>
-        <a class="button button_primary"
+        <a class="button button--primary"
            href="{% url 'new_feed' %}"
         >
             <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>

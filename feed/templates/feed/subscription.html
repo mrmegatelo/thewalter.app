@@ -16,10 +16,10 @@
                 >
                     {% include 'blocks/feed/subscription.html' %}
                 </form>
-                <a class="button button_sm button_text" href="{{ feed.url }}" target="_blank">🔗 Original link</a>
+                <a class="button button--sm button--text" href="{{ feed.url }}" target="_blank">🔗 Original link</a>
             </div>
         </div>
-        <header>
+        <div>
             <div class="feed-list-filters">
                 <h4 class="heading">{% translate 'Hide' noop %}:</h4>
                 <form id="feed-filters"
@@ -31,11 +31,11 @@
                 >
                     {% include 'blocks/feed/filters.html' %}
                 </form>
-                <a class="button button_xs button_ghost" href="{% url 'feed_index' %}">
+                <a class="button button--xs button--ghost" href="{% url 'feed_index' %}">
                     {% translate 'Reset filters' noop %}
                 </a>
             </div>
-        </header>
+        </div>
     </header>
     <div class="content">
         <div id="feed-list"

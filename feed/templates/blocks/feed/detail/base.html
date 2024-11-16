@@ -10,7 +10,7 @@
         >
             {% csrf_token %}
             {% with subscribers=object.feed.subscribers.all %}
-                <button class="button button_ghost button_sm feed-links-list-item-controls__button"
+                <button class="button button--ghost button--sm feed-links-list-item-controls__button"
                         title="{% translate 'Like' noop %}"
                         type="submit"
                         formaction="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_liked' %}"
@@ -24,7 +24,7 @@
                         {% endif %}
                     </span>
                 </button>
-                <button class="button button_ghost button_sm feed-links-list-item-controls__button"
+                <button class="button button--ghost button--sm feed-links-list-item-controls__button"
                         title="{% translate 'Not interesting' noop %}"
                         type="submit"
                         formaction="{% url 'api_feed_item_toggle_interesting' pk=object.id action='toggle_interesting' %}"
@@ -55,7 +55,7 @@
             {{ object.description }}
         {% endautoescape %}
     </section>
-    <a class="button button_ghost button_outline" href="{{ object.link }}" target="_blank">
+    <a class="button button--ghost button--outline" href="{{ object.link }}" target="_blank">
         <span>🔗</span>{% translate 'View on' noop %} <strong>{{ object.feed.domain_name }}</strong>
     </a>
 </div>

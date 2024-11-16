@@ -49,6 +49,8 @@ class FullFeedList(GenericFeedItemListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['feet_item_url_name'] = self.feet_item_url_name
+        context['liked'] = self.request.user.servicefeed_set.filter(type='liked').first()
+        context['disliked'] = self.request.user.servicefeed_set.filter(type='disliked').first()
         return context
 
 class UserFeedList(FullFeedList):
