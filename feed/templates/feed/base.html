@@ -5,7 +5,7 @@
 
 {% block sidebar %}
     <div class="feed-sidebar">
-        <div class="sidebar-block-content">
+        <div class="sidebar-block sidebar-block-content">
             <a class="button button--ghost button--sm"
                href="{% url 'feed_index' %}">
                 <span class="button__icon">{% include 'icons/home.svg' %}</span>
@@ -30,13 +30,15 @@
             <h3 class="heading">{% translate 'Feeds' noop %}:</h3>
             <div class="sidebar-block-content">
                 {% include 'blocks/feed/feeds_full.html' %}
-                <a class="button button--primary button--sm"
-                   href="{% url 'new_feed' %}"
-                >
-                    <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
-                    {% translate 'Add new source' noop %}
-                </a>
             </div>
+        </div>
+        <div class="sidebar-block sidebar-block__sticky">
+            <a class="button button--primary button--sm"
+               href="{% url 'new_feed' %}"
+            >
+                <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
+                {% translate 'Add new source' noop %}
+            </a>
         </div>
     </div>
 {% endblock %}

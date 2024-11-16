@@ -3,7 +3,8 @@
 
 {% block content %}
     <aside id="sidebar" class="section sidebar">
-        <a href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
+        <a class="sidebar-logo"
+           href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
             <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
         </a>
         {% block sidebar %}{% endblock %}
