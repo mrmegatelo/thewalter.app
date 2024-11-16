@@ -8,12 +8,12 @@
         <div class="sidebar-block-content">
             <a class="button button--ghost button--sm"
                href="{% url 'feed_index' %}">
-                {% include 'icons/home.svg' %}
+                <span class="button__icon">{% include 'icons/home.svg' %}</span>
                 {% translate 'Home' noop %}
             </a>
             <a class="button button--ghost button--sm"
                href="{% url 'favorites' %}">
-                {% include 'icons/favorite_filled.svg' %}
+                <span class="button__icon">{% include 'icons/favorite_filled.svg' %}</span>
                 {% translate 'Favorites' noop %}
             </a>
             <form id="feed-types"

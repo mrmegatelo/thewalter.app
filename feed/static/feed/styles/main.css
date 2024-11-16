@@ -428,6 +428,7 @@ small {
 .feed-links-list-item-bloginfo {
     display: flex;
     gap: calc(var(--grid-step) * 1);
+    margin-bottom: calc(var(--grid-step) * 0.5);
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
