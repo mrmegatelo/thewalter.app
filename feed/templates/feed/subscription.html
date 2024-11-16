@@ -2,50 +2,14 @@
 
 {% load i18n %}
 
-{% block main %}
-    <header class="feed-header">
-        <div class="feed-description">
-            <h3 class="heading">{{ feed.title }}</h3>
-            {% if feed.description %}
-                <p class="paragraph">{{ feed.description }}</p>
-            {% endif %}
-            <div class="flex-column-button-container sidebar-block-content">
-                <form id="feed-subscription"
-                      method="post"
-                      hx-target="this"
-                >
-                    {% include 'blocks/feed/subscription.html' %}
-                </form>
-                <a class="button button--sm button--text" href="{{ feed.url }}" target="_blank">🔗 Original link</a>
-            </div>
-        </div>
-        <div>
-            <div class="feed-list-filters">
-                <h4 class="heading">{% translate 'Hide' noop %}:</h4>
-                <form id="feed-filters"
-                      class="button-group"
-                      method="post"
-                      hx-trigger="change"
-                      hx-target="this"
-                      hx-post="{% url 'api_feed_filters' %}"
-                >
-                    {% include 'blocks/feed/filters.html' %}
-                </form>
-                <a class="button button--xs button--ghost" href="{% url 'feed_index' %}">
-                    {% translate 'Reset filters' noop %}
-                </a>
-            </div>
-        </div>
-    </header>
-    <div class="content">
-        <div id="feed-list"
-             class="feed-list-wrapper"
-             hx-trigger="load, change from:#feed-filters, RefreshFeed from:body"
-             hx-get="{% url 'api_feed_feed_list' feed_id=feed.id %}"
-             hx-include="#feed-filters, #feed-types"
-             hx-params="filter"
-        >
-            {% include 'blocks/feed/loader.html' %}
-        </div>
+{% block feed_list %}
+    <div id="feed-list"
+         class="feed-list-wrapper"
+         hx-trigger="load, change from:#feed-filters, RefreshFeed from:body"
+         hx-get="{% url 'api_feed_feed_list' feed_id=feed.id %}"
+         hx-include="#feed-filters, #feed-types"
+         hx-params="filter"
+    >
+        {% include 'blocks/feed/loader.html' %}
     </div>
 {% endblock %}

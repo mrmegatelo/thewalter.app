@@ -93,12 +93,18 @@ class FeedItemListView(FullFeedList):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["feed_id"] = self.kwargs.get("feed_id")
+        context["feed"] = Feed.objects.get(id=context["feed_id"])
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
         feed_id = self.kwargs.get("feed_id")
         return queryset.filter(feed__id=feed_id)
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        response.headers["HX-Trigger"] = "RefreshFeedDescription"
+        return response
 
 
 class FeedFilters(TemplateView, FeedFiltersMixin):
@@ -156,7 +162,7 @@ class FeedUnsubscribe(DetailView):
                 self.subscribe(request, *args, **kwargs)
 
         response = super().get(request, *args, **kwargs)
-        response.headers["HX-Trigger"] = "refresh_feed"
+        response.headers["HX-Trigger"] = "RefreshFeed"
         return response
 
     def subscribe(self, request, *args, **kwargs):

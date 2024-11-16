@@ -158,14 +158,14 @@ urlpatterns = [
     # API URLs
     path("api/v1/feed/", feed.views.api.UserFeedList.as_view(), name="api_feed_list"),
     path(
-        "api/v1/feeds/detail/<int:pk>",
-        views.api.feed_detail.FeedDetail.as_view(),
-        name="api_feed_detail",
-    ),
-    path(
         "api/v1/feed/<int:feed_id>/",
         feed.views.api.FeedItemListView.as_view(),
         name="api_feed_feed_list",
+    ),
+    path(
+        "api/v1/feeds/detail/<int:pk>",
+        views.api.feed_detail.FeedDetail.as_view(),
+        name="api_feed_detail",
     ),
     path(
         "api/v1/feed/favorites",

@@ -1,4 +1,5 @@
 {% load url_with_filters %}
+{% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}
 {% for feed in feed_list %}
     <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
        hx-get="{% url 'api_feed_feed_list' feed_id=feed.id %}"

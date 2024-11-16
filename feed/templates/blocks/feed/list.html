@@ -1,7 +1,33 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
-
+{% load url_with_filters %}
+{% if feed %}
+    <div id="feed-description"
+         class="feed-description"
+         hx-swap-oob="true"
+    >
+        <h3 class="heading">{{ feed.title }}</h3>
+        {% if feed.description %}
+            <p class="paragraph">{{ feed.description }}</p>
+        {% endif %}
+        <div class="flex-column-button-container sidebar-block-content">
+            <form id="feed-subscription"
+                  method="post"
+                  hx-target="this"
+            >
+                {% include 'blocks/feed/subscription.html' %}
+            </form>
+            <a class="button button--sm button--text" href="{{ feed.url }}" target="_blank">🔗 Original link</a>
+        </div>
+    </div>
+{% else %}
+    <div id="feed-description"
+         class="feed-description"
+         hx-swap-oob="true"
+    >
+    </div>
+{% endif %}
 {% if feeditem_list %}
     <ul class="feed-links-list">
         {% for entry in feeditem_list %}
@@ -15,8 +41,12 @@
                     <a class="feed-links-list-item-bloginfo__link link paragraph"
                        title="{{ entry.feed }}"
                        href="{% url 'feed_subscription' entry.feed.slug %}"
+                       hx-get="{% url 'api_feed_feed_list' feed_id=entry.feed.id %}"
+                       hx-target="#feed-list"
+                       hx-swap="innerHTML scroll:#feed-list-section:top"
+                       hx-push-url="{% url 'feed_subscription' slug=entry.feed.slug %}{% provide_filters_qs %}"
                     >
-                        <img src="{{ entry.feed.icon }}" height="16" width="16" />
+                        <img src="{{ entry.feed.icon }}" height="16" width="16"/>
                         <small>{{ entry.feed }}</small>
                     </a>
                     <small class="paragraph">{{ entry.pub_day|naturalday|title }}</small>
