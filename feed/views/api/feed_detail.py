@@ -1,12 +1,8 @@
-from urllib.parse import urlparse
-
-from django.http import QueryDict
 from django.views.generic import DetailView
-
 from feed.models import FeedItem
 
 
-class FeedDetail(DetailView):
+class FeedItemDetailView(DetailView):
     http_method_names = ['get']
     model = FeedItem
 
@@ -25,18 +21,8 @@ class FeedDetail(DetailView):
             case _:
                 return 'blocks/feed/detail/base.html'
 
-class FeedItemActions(FeedDetail):
+class FeedItemActions(FeedItemDetailView):
     http_method_names = ["post"]
-
-    def get_feed_type(self):
-        parsed_url = urlparse(self.request.headers.get("hx-current-url"))
-        query = QueryDict(parsed_url.query, mutable=False)
-        return query.get("feed_type")
-
-    def init_filters(self, request):
-        url = urlparse(request.headers.get("hx-current-url"))
-        query_dict = QueryDict(url.query)
-        return query_dict.getlist("filter")
 
     def post(self, request, *args, **kwargs):
         action = kwargs.get("action")

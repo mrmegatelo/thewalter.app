@@ -9,7 +9,7 @@ from .feed import (
     Favorites,
     ParsingStatus,
 )
-from .feed_detail import FeedDetail, FeedItemActions
+from .feed_detail import FeedItemDetailView, FeedItemActions
 
 __all__ = [
     "dialogs",
@@ -22,5 +22,5 @@ __all__ = [
     "FeedTypes",
     "Favorites",
     "ParsingStatus",
-    "FeedDetail",
+    "FeedItemDetailView",
 ]

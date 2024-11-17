@@ -164,7 +164,7 @@ urlpatterns = [
     ),
     path(
         "api/v1/feeds/detail/<int:pk>",
-        views.api.feed_detail.FeedDetail.as_view(),
+        views.api.feed_detail.FeedItemDetailView.as_view(),
         name="api_feed_detail",
     ),
     path(
