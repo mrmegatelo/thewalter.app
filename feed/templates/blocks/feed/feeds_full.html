@@ -4,7 +4,7 @@
     <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
        hx-get="{% url 'api_feed_feed_list' feed_id=feed.id %}"
        hx-target="#feed-list"
-       hx-swap="innerHTML scroll:#feed-list-section:top"
+       hx-swap="outerHTML scroll:#feed-list-section:top"
        hx-push-url="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
        class="button button--ghost button--sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
        title="{{ feed.title }}"
