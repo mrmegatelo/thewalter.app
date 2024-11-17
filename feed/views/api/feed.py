@@ -84,7 +84,6 @@ class UserFeedList(FullFeedList):
     def get_queryset(self):
         feed_type = self.get_feed_type()
         queryset = super().get_queryset()
-        print(feed_type)
         if feed_type:
             queryset = filter_by_attachments_type(queryset, feed_type)
         return queryset.filter(feed__subscribers=self.request.user)
