@@ -55,7 +55,8 @@
             {{ object.description }}
         {% endautoescape %}
     </section>
-    <a class="button button--ghost button--outline" href="{{ object.link }}" target="_blank">
-        <span>🔗</span>{% translate 'View on' noop %} <strong>{{ object.feed.domain_name }}</strong>
+    <a class="button button--ghost button--sm button--outline" href="{{ object.link }}" target="_blank">
+        <span class="button__icon">{% include 'icons/link.svg' %}</span>
+        {% translate 'View on' noop %} <strong>{{ object.feed.domain_name }}</strong>
     </a>
 </div>

@@ -39,7 +39,7 @@
      hx-get="{{ feed_url }}"
      hx-include="#feed-filters"
      hx-params="filter"
-     hx-swap="outerHTML"
+     hx-swap="morph"
 >
     {% if feeditem_list %}
         <ul class="feed-links-list">
@@ -56,7 +56,7 @@
                            href="{% url 'feed_subscription' entry.feed.slug %}"
                            hx-get="{% url 'api_feed_feed_list' feed_id=entry.feed.id %}"
                            hx-target="#feed-list"
-                           hx-swap="outerHTML scroll:#feed-list-section:top"
+                           hx-swap="morph scroll:#feed-list-section:top"
                            hx-push-url="{% url 'feed_subscription' slug=entry.feed.slug %}{% provide_filters_qs %}"
                         >
                             <img src="{{ entry.feed.icon }}" height="16" width="16"/>

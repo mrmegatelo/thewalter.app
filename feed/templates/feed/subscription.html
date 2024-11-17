@@ -9,7 +9,7 @@
          hx-get="{% url 'api_feed_feed_list' feed_id=feed.id %}"
          hx-include="#feed-filters, #feed-types"
          hx-params="filter"
-         hx-swap="outerHTML"
+         hx-swap="morph"
     >
         {% include 'blocks/feed/loader.html' %}
     </div>
