@@ -428,7 +428,7 @@ small {
 
 .feed-links-list-item-bloginfo {
     display: flex;
-    gap: calc(var(--grid-step) * 1);
+    gap: calc(var(--grid-step) * 2);
     margin-bottom: calc(var(--grid-step) * 0.5);
     align-items: center;
     justify-content: space-between;
@@ -438,12 +438,18 @@ small {
 }
 
 .feed-links-list-item-bloginfo__link {
-    max-width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
     align-items: center;
     gap: calc(var(--grid-step) * 0.5);
+
+    & > * {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+    }
 }
 
 .feed-links-list-item-text {

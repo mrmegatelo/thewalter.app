@@ -14,8 +14,8 @@ from feed.utils.enums import (
     FeedMediaContentMediums,
     FeedContentTypes,
 )
-from feed.utils.helpers import get_wrapped_url
-from feed.utils.feed_parsers import get_form_parser
+from feed.utils.helpers import get_wrapped_url, normalize_url
+from feed.utils.feed_parsers import get_form_parser, RSSFeedParser
 
 AUDIO_MIME_TYPES_SET = set([t.value for t in AudioMimeTypes])
 
@@ -56,7 +56,7 @@ def parse_yt_video(entry, feed_item):
     )
 
 
-def parse_feed_item(entry, feed) -> FeedItem:
+def parse_feed_item(entry, feed) -> tuple[FeedItem, bool]:
     """
     Parses a feed item.
     :param entry:
@@ -65,8 +65,11 @@ def parse_feed_item(entry, feed) -> FeedItem:
     """
     article_content,_ = get_feed_content_by_url(entry.link)
     article = Articulo(article_content)
+    normalized_preview = None
     parsed_pud_date = entry.get("published_parsed") or entry.get("updated_parsed")
 
+    if article.preview and article.preview != b'':
+        normalized_preview = normalize_url(article.preview)
     return FeedItem.objects.update_or_create(
         link=entry.link,
         defaults={
@@ -74,7 +77,7 @@ def parse_feed_item(entry, feed) -> FeedItem:
             "title": entry.title,
             "description": entry.get("summary", ""),
             "pub_date": time.strftime("%Y-%m-%dT%H:%M:%SZ", parsed_pud_date),
-            "preview": article.preview,
+            "preview": normalized_preview,
             "has_paid_content": article.has_paywall,
         }
     )
@@ -131,13 +134,20 @@ def parse_feed(pk, force = False):
     feed = Feed.objects.get(pk=pk)
     try:
         feed_content,_ = get_feed_content_by_url(feed.rss_url)
-        feed_data = feedparser.parse(feed_content)
-        for entry in feed_data.entries:
-            if not FeedItem.objects.filter(link=entry.link).exists() or force:
-                feed_item, created = parse_feed_item(entry, feed)
-                # TODO: need to improve attachment parsing logic for the update case
-                if created:
-                    parse_attachments(entry, feed_item)
+        article = Articulo(feed.url)
+        parser = RSSFeedParser(article)
+        for feed_meta in parser.parse(feed_content):
+            if force:
+                feed.icon = feed_meta.icon_url
+                feed.description = feed_meta.description
+                feed.title = feed_meta.title
+                feed.save()
+            for entry in feed_meta.entries:
+                if not FeedItem.objects.filter(link=entry.link).exists() or force:
+                    feed_item, created = parse_feed_item(entry, feed)
+                    # TODO: need to improve attachment parsing logic for the update case
+                    if created:
+                        parse_attachments(entry, feed_item)
     except Exception as e:
         print(f"Problem parsing feed: {e}")
 
@@ -219,7 +229,7 @@ def parse_feeds_by_url(url):
         feed_content, content_type = get_feed_content_by_url(url)
         articulo = get_articulo_instance(feed_content, content_type)
         parser = get_form_parser(content_type, articulo)
-        parser.parse(feed_content)
+
         feeds = []
 
         for link_meta in parser.parse(url):

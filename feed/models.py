@@ -41,7 +41,7 @@ class FeedItem(models.Model):
     description = models.TextField()
     link = models.URLField(max_length=500, unique=True, blank=True)
     pub_date = models.DateTimeField()
-    preview = models.URLField(max_length=500, blank=True)
+    preview = models.URLField(max_length=500, blank=True, null=True)
     has_paid_content = models.BooleanField(default=False)
 
     def __str__(self):

@@ -41,7 +41,16 @@
             {% endwith %}
         </form>
     </header>
-    <section class="feed-detail-section"><h2>{{ object.title }}</h2></section>
+    <section class="feed-detail-section"><h2>
+        {{ object.title }}&nbsp;
+        {% if object.has_paid_content %}
+            <span class="feed-item-feature feed-item-feature--paid"
+                  title="There may be paid content"
+            >
+                {% include 'icons/paid.svg' %}
+            </span>
+        {% endif %}
+    </h2></section>
     {% block preview %}
         {% if object.preview %}
             <section class="feed-detail-section">

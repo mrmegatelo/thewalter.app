@@ -41,11 +41,15 @@ def normalize_url(url, base_path=None):
     :return:
     """
     parsed_url = urlparse(url)
+
+    if parsed_url.scheme == "":
+        parsed_url = parsed_url._replace(scheme="https")
     if parsed_url.path == "":
         parsed_url = parsed_url._replace(path="")
     if parsed_url.netloc == "" and base_path is not None:
         base_path = urlparse(base_path)
         parsed_url = base_path._replace(path=parsed_url.path)
+
     return str(urlunparse(parsed_url))
 
 

@@ -18,6 +18,7 @@ class FeedMeta:
     icon_url: str
     rss_url: str
     url: str
+    entries: list
 
 class AbstractFeedParser(ABC):
 
@@ -38,13 +39,17 @@ class RSSFeedParser(AbstractFeedParser):
             "Accept": "text/html, text/xml, application/xml, application/rss+xml, application/atom+xml",
         }
         parsed = feedparser.parse(url, request_headers=headers)
+        parsed_icon = self.parse_icon(parsed)
+
+        normalized_icon_url = normalize_url(parsed_icon, parsed.feed.link)
 
         feed_meta = FeedMeta(
             title=parsed.feed.title,
             description=self.parse_description(parsed),
-            icon_url=self.parse_icon(parsed),
+            icon_url=normalized_icon_url,
             rss_url=url,
             url=parsed.feed.link,
+            entries=parsed.entries,
         )
 
         yield feed_meta
