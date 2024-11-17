@@ -1,5 +1,6 @@
 {% extends 'layouts/with_sidebar.html' %}
 {% load i18n %}
+{% load url_with_filters %}
 
 {% block title %}thewalter.app{% endblock %}
 
@@ -7,24 +8,50 @@
     <div class="feed-sidebar">
         <div class="sidebar-block sidebar-block-content">
             <a class="button button--ghost button--sm"
+               hx-target="#feed-list"
+               hx-swap="morph scroll:#feed-list-section:top"
+               hx-get="{% url 'api_feed_list' %}"
+               hx-push-url="{% url 'feed_index' %}{% provide_filters_qs %}"
                href="{% url 'feed_index' %}">
                 <span class="button__icon">{% include 'icons/home.svg' %}</span>
                 {% translate 'Home' noop %}
             </a>
             <a class="button button--ghost button--sm"
+               hx-target="#feed-list"
+               hx-swap="morph scroll:#feed-list-section:top"
+               hx-get="{% url 'api_feed_favorites' %}"
+               hx-push-url="{% url 'favorites' %}{% provide_filters_qs %}"
                href="{% url 'favorites' %}">
                 <span class="button__icon">{% include 'icons/favorite_filled.svg' %}</span>
                 {% translate 'Favorites' noop %}
             </a>
-            <form id="feed-types"
-                  class="sidebar-block-content"
-                  method="post"
-                  hx-trigger="change"
-                  hx-target="this"
-                  hx-post="{% url 'api_feed_types' %}"
-            >
-                {% include 'blocks/feed/types_selector.html' %}
-            </form>
+            <a class="button button--ghost button--sm"
+               hx-target="#feed-list"
+               hx-swap="morph scroll:#feed-list-section:top"
+               hx-get="{% url 'api_feed_articles' %}"
+               hx-push-url="{% url 'feed_articles' %}{% provide_filters_qs %}"
+               href="{% url 'feed_articles' %}">
+                <span class="button__icon">{% include 'icons/article.svg' %}</span>
+                {% translate 'Articles' noop %}
+            </a>
+            <a class="button button--ghost button--sm"
+               hx-target="#feed-list"
+               hx-swap="morph scroll:#feed-list-section:top"
+               hx-get="{% url 'api_feed_podcasts' %}"
+               hx-push-url="{% url 'feed_podcasts' %}{% provide_filters_qs %}"
+               href="{% url 'feed_podcasts' %}">
+                <span class="button__icon">{% include 'icons/headphones.svg' %}</span>
+                {% translate 'Podcasts' noop %}
+            </a>
+            <a class="button button--ghost button--sm"
+               hx-target="#feed-list"
+               hx-swap="morph scroll:#feed-list-section:top"
+               hx-get="{% url 'api_feed_videos' %}"
+               hx-push-url="{% url 'feed_videos' %}{% provide_filters_qs %}"
+               href="{% url 'feed_videos' %}">
+                <span class="button__icon">{% include 'icons/movie.svg' %}</span>
+                {% translate 'Videos' noop %}
+            </a>
         </div>
         <div class="sidebar-block">
             <h3 class="heading">{% translate 'Feeds' noop %}:</h3>

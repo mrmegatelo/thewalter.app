@@ -15,7 +15,9 @@ from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItem
 class FullFeedList(GenericFeedItemListView):
     template_name = "blocks/feed/list.html"
     feet_item_url_name = 'feed_detail'
-    feed_url_name = 'api_feed_list'
+
+    def get_feed_url_name(self):
+        return 'api_feed_list'
 
     def paginate_queryset(self, queryset, page_size):
         url = urlparse(self.request.headers.get("Referer"))
@@ -50,16 +52,28 @@ class FullFeedList(GenericFeedItemListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['feet_item_url_name'] = self.feet_item_url_name
-        context['feed_url_name'] = self.feed_url_name
+        context['feed_url_name'] = self.get_feed_url_name()
         context['liked'] = self.request.user.servicefeed_set.filter(type='liked').first()
         context['disliked'] = self.request.user.servicefeed_set.filter(type='disliked').first()
         return context
 
 class UserFeedList(FullFeedList):
     http_method_names = ["get"]
+    feed_type = None
+
+    def get_feed_url_name(self):
+        match self.feed_type:
+            case 'articles':
+                return 'api_feed_articles'
+            case 'podcasts':
+                return 'api_feed_podcasts'
+            case 'videos':
+                return 'api_feed_videos'
+            case _:
+                return "api_feed_list"
 
     def get_feed_type(self):
-        return self.request.GET.get("feed_type")
+        return self.feed_type
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,9 +82,9 @@ class UserFeedList(FullFeedList):
         return context
 
     def get_queryset(self):
-        feed_type = self.request.GET.get("feed_type")
+        feed_type = self.get_feed_type()
         queryset = super().get_queryset()
-
+        print(feed_type)
         if feed_type:
             queryset = filter_by_attachments_type(queryset, feed_type)
         return queryset.filter(feed__subscribers=self.request.user)
@@ -78,7 +92,9 @@ class UserFeedList(FullFeedList):
 class Favorites(UserFeedList):
     http_method_names = ["get"]
     feet_item_url_name = 'favorites_detail'
-    feed_url_name = 'api_feed_favorites'
+
+    def  get_feed_url_name(self):
+        return 'api_favorites'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -91,7 +107,9 @@ class Favorites(UserFeedList):
 class FeedItemListView(FullFeedList):
     http_method_names = ["get"]
     feet_item_url_name = 'subscription_detail'
-    feed_url_name = 'api_feed_feed_list'
+
+    def get_feed_url_name(self):
+        return 'api_feed_feed_list'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

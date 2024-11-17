@@ -30,6 +30,9 @@ urlpatterns = [
     path(
         "feed/", login_required(feed.views.feed.FeedView.as_view()), name="feed_index"
     ),
+    path("feed/podcasts", login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")), name="feed_podcasts"),
+    path("feed/articles", login_required(feed.views.feed.FeedView.as_view(feed_type="articles")), name="feed_articles"),
+    path("feed/videos", login_required(feed.views.feed.FeedView.as_view(feed_type="videos")), name="feed_videos"),
     path(
         "feed/items/<int:item_pk>", login_required(feed.views.feed.FeedView.as_view()), name="feed_detail"
     ),
@@ -157,6 +160,9 @@ urlpatterns = [
     ),
     # API URLs
     path("api/v1/feed/", feed.views.api.UserFeedList.as_view(), name="api_feed_list"),
+    path("api/v1/feed/articles", feed.views.api.UserFeedList.as_view(feed_type='articles'), name="api_feed_articles"),
+    path("api/v1/feed/podcasts", feed.views.api.UserFeedList.as_view(feed_type='podcasts'), name="api_feed_podcasts"),
+    path("api/v1/feed/videos", feed.views.api.UserFeedList.as_view(feed_type='videos'), name="api_feed_videos"),
     path(
         "api/v1/feed/<int:feed_id>/",
         feed.views.api.FeedItemListView.as_view(),
