@@ -77,6 +77,18 @@ p, h1, h2, h3, h4, h5, h6 {
     --color-yellow-200: #FBE9B1;
     --color-yellow-100: #FDF4D9;
 
+    /* Colors - Blue */
+    --color-blue-1000: #035163;
+    --color-blue-900: #04728B;
+    --color-blue-800: #0593B3;
+    --color-blue-700: #06B4DB;
+    --color-blue-600: #10CEF9;
+    --color0blue-500: #38D6FA;
+    --color-blue-400: #60DEFB;
+    --color-blue-300: #88E7FC;
+    --color-blue-200: #AFEFFD;
+    --color-blue-100: #D7F7FE;
+
     --color-black: #f2e41;
     --color-white: #FFFFFF;
     --color-error: #E02900;
@@ -135,6 +147,18 @@ h5, .h5 {
 small {
     font-size: 0.833rem;
     line-height: 1rem;
+}
+
+a {
+    color: var(--color-blue-800);
+}
+
+a:hover {
+    color: var(--color-blue-1000);
+}
+
+a:hover {
+
 }
 
 /**
@@ -268,16 +292,6 @@ small {
     &.active {
         color: var(--color-grey-600);
     }
-}
-
-.link {
-    color: var(--color-blue);
-    text-decoration: none;
-    transition: color 0.15s;
-}
-
-.link:hover {
-    color: var(--color-blue-dark);
 }
 
 .center {
@@ -992,7 +1006,7 @@ small {
     display: flex;
     flex-direction: column;
     gap: calc(var(--grid-step) * 4);
-    max-width: 768px;
+    max-width: 560px;
     margin: 0 auto 64px auto;
     align-items: flex-start;
 }
@@ -1042,6 +1056,18 @@ small {
         background-color: var(--color-grey-50);
         padding: calc(var(--grid-step) * 2) calc(var(--grid-step) * 2.5);
         border-radius: calc(var(--grid-step) * 2);
+        overflow-x: auto;
+    }
+
+    video, img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        font-style: italic;
+        font-size: 0.833rem;
+        line-height: 1rem;
     }
 
     hr, .hr {
