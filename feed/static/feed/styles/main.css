@@ -1005,7 +1005,7 @@ a:hover {
 .feed-detail-container {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--grid-step) * 4);
+    gap: calc(var(--grid-step) * 6);
     max-width: 560px;
     margin: 0 auto 64px auto;
     align-items: flex-start;
@@ -1017,8 +1017,7 @@ a:hover {
 
 .feed-detail-preview {
     width: 100%;
-    aspect-ratio: 2;
-    object-fit: contain;
+    border-radius: calc(var(--grid-step)* 1.25)
 }
 
 .feed-detail-description {
