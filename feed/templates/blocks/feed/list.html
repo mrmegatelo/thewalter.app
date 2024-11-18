@@ -33,6 +33,8 @@
 {% else %}
     {% url feed_url_name as feed_url %}
 {% endif %}
+{{ feed_url }}
+{{ feed_id }}
 <div id="feed-list"
      class="feed-list-wrapper"
      hx-trigger="change from:#feed-filters, RefreshFeed from:body"
