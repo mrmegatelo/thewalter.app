@@ -635,7 +635,15 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: calc(var(--grid-step) * 0.5);
+}
 
+.feed-description__text {
+    font-size: 0.833rem;
+    line-height: 1.25rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 5;
 }
 
 /* Buttons */
@@ -1017,7 +1025,7 @@ a:hover {
 
 .feed-detail-preview {
     width: 100%;
-    border-radius: calc(var(--grid-step)* 1.25)
+    border-radius: calc(var(--grid-step) * 1.25)
 }
 
 .feed-detail-description {

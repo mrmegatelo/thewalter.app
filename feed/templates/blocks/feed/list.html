@@ -9,7 +9,11 @@
     >
         <h3 class="heading">{{ feed.title }}</h3>
         {% if feed.description %}
-            <p class="paragraph">{{ feed.description }}</p>
+            <p class="paragraph feed-description__text"
+               title="{{ feed.description }}"
+            >
+                {{ feed.description }}
+            </p>
         {% endif %}
         <div class="flex-column-button-container sidebar-block-content">
             <form id="feed-subscription"
@@ -33,8 +37,7 @@
 {% else %}
     {% url feed_url_name as feed_url %}
 {% endif %}
-{{ feed_url }}
-{{ feed_id }}
+
 <div id="feed-list"
      class="feed-list-wrapper"
      hx-trigger="change from:#feed-filters, RefreshFeed from:body"
