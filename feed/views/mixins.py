@@ -2,7 +2,7 @@ from django.views.generic.base import ContextMixin, View
 from django.utils.translation import gettext_noop as _
 
 from feed.models import Feed, FeedItem
-from feed.utils.helpers import filter_by_attachments_type
+from feed.utils.helpers import filter_by_feed_type
 
 
 class PageMetaMixin(ContextMixin):
@@ -56,7 +56,7 @@ class FeedContextMixin(ContextMixin, View):
         #  Need to find a better way to do it.
         if context["feed_type"] is not None:
             filtered_feed = (
-                filter_by_attachments_type(FeedItem.objects, feed_type)
+                filter_by_feed_type(FeedItem.objects, feed_type)
                 .values_list("id", flat=True)
                 .distinct()
             )

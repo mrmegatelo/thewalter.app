@@ -53,8 +53,14 @@ def normalize_url(url, base_path=None):
     return str(urlunparse(parsed_url))
 
 
-def filter_by_attachments_type(queryset, attachments_type):
-    match attachments_type:
+def filter_by_feed_type(queryset, feed_type):
+    """
+    Filter queryset by feed type.
+    :param queryset: 
+    :param feed_type: 
+    :return: 
+    """
+    match feed_type:
         case "podcasts":
             return queryset.filter(attachments__type=Attachment.Type.AUDIO)
         case "videos":

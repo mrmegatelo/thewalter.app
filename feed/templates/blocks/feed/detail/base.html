@@ -1,5 +1,10 @@
 {% load i18n %}
 
+{% if update_list %}
+    <div {% if oob_value %}hx-swap-oob="{{ oob_value }}"{% endif %}>
+        {% include 'blocks/feed/list/item.html' with feed_item=object %}
+    </div>
+{% endif %}
 <div class="feed-detail-container">
     <header class="feed-links-list-item-footer">
         <form method="post"

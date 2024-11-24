@@ -4,7 +4,6 @@ from feed.models import Feed
 from feed.views.generic.feed_items_list import FeedFiltersMixin
 
 class FeedView(FeedFiltersMixin, ListView):
-    template_name = 'feed/index.html'
     feet_item_url_name = 'feed_detail'
     feed_type = None
     model = Feed

@@ -2,4 +2,5 @@ from feed.views.feed import FeedView
 
 
 class Favorites(FeedView):
-    template_name = 'feed/favorites.html'
+    def get_template_names(self):
+        return 'feed/favorites.html'
