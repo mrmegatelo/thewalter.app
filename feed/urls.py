@@ -16,30 +16,46 @@ import feed.views.feed.feed_success
 from . import views
 from .views.decorators import anonym_required
 
-user_feed_path_re = r"^feed/(?P<feed_id>favorites)/$"
-"""
-This is a regex for a service feeds 
-"""
-
-service_feed_path_re = r"^feed/(?P<feed_id>podcasts|articles|videos)/$"
-service_feed_path_api_re = r"^api/v1/feed/(?P<feed_id>podcasts|articles|videos)/$"
-
 urlpatterns = [
     path("", views.index.Index.as_view(), name="index"),
     # Feed  URLs
     path(
         "feed/", login_required(feed.views.feed.FeedView.as_view()), name="feed_index"
     ),
-    path("feed/podcasts", login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")), name="feed_podcasts"),
-    path("feed/articles", login_required(feed.views.feed.FeedView.as_view(feed_type="articles")), name="feed_articles"),
-    path("feed/videos", login_required(feed.views.feed.FeedView.as_view(feed_type="videos")), name="feed_videos"),
     path(
-        "feed/items/<int:item_pk>", login_required(feed.views.feed.FeedView.as_view()), name="feed_detail"
+        "feed/items/<int:item_pk>",
+        login_required(feed.views.feed.FeedView.as_view()),
+        name="feed_detail",
     ),
     path(
-        "feed/<slug:slug>/<int:item_pk>",
-        login_required(feed.views.feed.Subscription.as_view()),
-        name="subscription_detail",
+        "feed/podcasts",
+        login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")),
+        name="feed_podcasts",
+    ),
+    path(
+        "feed/podcasts/<int:item_pk>",
+        login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")),
+        name="feed_podcast_detail",
+    ),
+    path(
+        "feed/articles",
+        login_required(feed.views.feed.FeedView.as_view(feed_type="articles")),
+        name="feed_articles",
+    ),
+    path(
+        "feed/articles/<int:item_pk>",
+        login_required(feed.views.feed.FeedView.as_view(feed_type="articles")),
+        name="feed_article_detail",
+    ),
+    path(
+        "feed/videos",
+        login_required(feed.views.feed.FeedView.as_view(feed_type="videos")),
+        name="feed_videos",
+    ),
+    path(
+        "feed/videos/<int:item_pk>",
+        login_required(feed.views.feed.FeedView.as_view(feed_type="videos")),
+        name="feed_video_detail",
     ),
     path(
         "feed/<slug:slug>",
@@ -49,7 +65,7 @@ urlpatterns = [
     path(
         "feed/<slug:slug>/<int:item_pk>",
         login_required(feed.views.feed.Subscription.as_view()),
-        name="feed_subscription_item",
+        name="subscription_detail",
     ),
     path(
         "favorites/",
@@ -61,8 +77,6 @@ urlpatterns = [
         login_required(feed.views.feed.Favorites.as_view()),
         name="favorites_detail",
     ),
-
-
     # Feed creation
     path(
         "feed/new/",
@@ -160,9 +174,21 @@ urlpatterns = [
     ),
     # API URLs
     path("api/v1/feed/", feed.views.api.UserFeedList.as_view(), name="api_feed_list"),
-    path("api/v1/feed/articles", feed.views.api.UserFeedList.as_view(feed_type='articles'), name="api_feed_articles"),
-    path("api/v1/feed/podcasts", feed.views.api.UserFeedList.as_view(feed_type='podcasts'), name="api_feed_podcasts"),
-    path("api/v1/feed/videos", feed.views.api.UserFeedList.as_view(feed_type='videos'), name="api_feed_videos"),
+    path(
+        "api/v1/feed/articles",
+        feed.views.api.UserFeedList.as_view(feed_type="articles"),
+        name="api_feed_articles",
+    ),
+    path(
+        "api/v1/feed/podcasts",
+        feed.views.api.UserFeedList.as_view(feed_type="podcasts"),
+        name="api_feed_podcasts",
+    ),
+    path(
+        "api/v1/feed/videos",
+        feed.views.api.UserFeedList.as_view(feed_type="videos"),
+        name="api_feed_videos",
+    ),
     path(
         "api/v1/feed/<int:feed_id>/",
         feed.views.api.FeedItemListView.as_view(),

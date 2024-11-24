@@ -8,7 +8,7 @@ from django.views.generic.base import ContextMixin
 
 from feed.models import Feed
 from feed.tasks import parse_feed_info
-from feed.utils.helpers import filter_by_attachments_type
+from feed.utils.helpers import filter_by_feed_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 
 
@@ -16,14 +16,14 @@ class FullFeedList(GenericFeedItemListView):
     template_name = "blocks/feed/list.html"
     feet_item_url_name = 'feed_detail'
 
+    def get_feed_item_url_name(self):
+        return self.feet_item_url_name
+
     def get_feed_url_name(self):
         return 'api_feed_list'
 
     def paginate_queryset(self, queryset, page_size):
-        url = urlparse(self.request.headers.get("Referer"))
-        """TODO: This is a dirty hack to get the page number from the referer. Fix it."""
-        query_dict = QueryDict(url.query, mutable=True)
-        page = query_dict.get("page") or 1
+        page = self.request.GET.get('page') or 1
 
         paginator = self.get_paginator(
             queryset,
@@ -51,7 +51,7 @@ class FullFeedList(GenericFeedItemListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['feet_item_url_name'] = self.feet_item_url_name
+        context['feet_item_url_name'] = self.get_feed_item_url_name()
         context['feed_url_name'] = self.get_feed_url_name()
         context['liked'] = self.request.user.servicefeed_set.filter(type='liked').first()
         context['disliked'] = self.request.user.servicefeed_set.filter(type='disliked').first()
@@ -60,6 +60,17 @@ class FullFeedList(GenericFeedItemListView):
 class UserFeedList(FullFeedList):
     http_method_names = ["get"]
     feed_type = None
+
+    def get_feed_item_url_name(self):
+        match self.feed_type:
+            case "articles":
+                return "feed_article_detail"
+            case "podcasts":
+                return "feed_podcast_detail"
+            case "videos":
+                return "feed_video_detail"
+            case _:
+                return "feed_detail"
 
     def get_feed_url_name(self):
         match self.feed_type:
@@ -85,7 +96,7 @@ class UserFeedList(FullFeedList):
         feed_type = self.get_feed_type()
         queryset = super().get_queryset()
         if feed_type:
-            queryset = filter_by_attachments_type(queryset, feed_type)
+            queryset = filter_by_feed_type(queryset, feed_type)
         return queryset.filter(feed__subscribers=self.request.user)
 
 
@@ -94,7 +105,7 @@ class Favorites(UserFeedList):
     feet_item_url_name = 'favorites_detail'
 
     def  get_feed_url_name(self):
-        return 'api_favorites'
+        return 'api_feed_favorites'
 
     def get_queryset(self):
         queryset = super().get_queryset()

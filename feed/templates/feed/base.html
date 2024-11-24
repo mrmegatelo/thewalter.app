@@ -9,7 +9,7 @@
         <div class="sidebar-block sidebar-block-content">
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
-               hx-swap="morph scroll:#feed-list-section:top"
+               hx-swap="innerHTML scroll:#feed-list-section:top"
                hx-get="{% url 'api_feed_list' %}"
                hx-push-url="{% url 'feed_index' %}{% provide_filters_qs %}"
                href="{% url 'feed_index' %}">
@@ -18,7 +18,7 @@
             </a>
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
-               hx-swap="morph scroll:#feed-list-section:top"
+               hx-swap="innerHTML scroll:#feed-list-section:top"
                hx-get="{% url 'api_feed_favorites' %}"
                hx-push-url="{% url 'favorites' %}{% provide_filters_qs %}"
                href="{% url 'favorites' %}">
@@ -27,7 +27,7 @@
             </a>
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
-               hx-swap="morph scroll:#feed-list-section:top"
+               hx-swap="innerHTML scroll:#feed-list-section:top"
                hx-get="{% url 'api_feed_articles' %}"
                hx-push-url="{% url 'feed_articles' %}{% provide_filters_qs %}"
                href="{% url 'feed_articles' %}">
@@ -36,7 +36,7 @@
             </a>
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
-               hx-swap="morph scroll:#feed-list-section:top"
+               hx-swap="innerHTML scroll:#feed-list-section:top"
                hx-get="{% url 'api_feed_podcasts' %}"
                hx-push-url="{% url 'feed_podcasts' %}{% provide_filters_qs %}"
                href="{% url 'feed_podcasts' %}">
@@ -45,7 +45,7 @@
             </a>
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
-               hx-swap="morph scroll:#feed-list-section:top"
+               hx-swap="innerHTML scroll:#feed-list-section:top"
                hx-get="{% url 'api_feed_videos' %}"
                hx-push-url="{% url 'feed_videos' %}{% provide_filters_qs %}"
                href="{% url 'feed_videos' %}">
