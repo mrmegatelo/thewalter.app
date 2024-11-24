@@ -1117,12 +1117,11 @@ a:hover {
     position: fixed;
     border: none;
     padding: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
+    left: 50%;
     max-width: 100%;
     overflow: hidden;
     color: inherit;
+    transform: translateX(-50%);
 
     &.dialog_top {
         top: 0;
@@ -1158,12 +1157,12 @@ a:hover {
 /*   Open state of the dialog  */
 dialog.dialog_top[open] {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateX(-50%);
 }
 
 dialog.dialog_bottom[open] {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateX(-50%);
 }
 
 /*   Closed state of the dialog   */
@@ -1174,20 +1173,20 @@ dialog.dialog_bottom[open] {
 }
 
 dialog.dialog_top {
-    transform: translateY(-100%);
+    transform: translateY(-100%) translateX(-50%);
 }
 
 dialog.dialog_bottom {
-    transform: translateY(100%);
+    transform: translateY(100%) translateX(-50%);
 }
 
 @starting-style {
     dialog.dialog_top[open] {
-        transform: translateY(-100%);
+        transform: translateY(-100%) translateX(-50%);
     }
 
     dialog.dialog_bottom[open] {
-        transform: translateY(100%);
+        transform: translateY(100%) translateX(-50%);
     }
 }
 

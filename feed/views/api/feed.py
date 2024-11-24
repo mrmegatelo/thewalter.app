@@ -112,7 +112,6 @@ class FeedItemListView(FullFeedList):
         return 'api_feed_feed_list'
 
     def get_context_data(self, **kwargs):
-        print('triggered feed item list view')
         context = super().get_context_data(**kwargs)
         context["feed_id"] = self.kwargs.get("feed_id")
         context["feed"] = Feed.objects.get(id=context["feed_id"])

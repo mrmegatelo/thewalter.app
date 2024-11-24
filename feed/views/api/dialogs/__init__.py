@@ -1,3 +1,3 @@
-from .feed_list import FeedListDialog
+from .new_feed import NewFeed
 
-__all__ = ['FeedListDialog']
+__all__ = ['NewFeed']

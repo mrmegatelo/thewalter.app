@@ -202,8 +202,8 @@ urlpatterns = [
         name="api_feed_parsing_status",
     ),
     path(
-        "api/v1/dialog/feeds",
-        views.api.dialogs.FeedListDialog.as_view(),
-        name="api_dialog_feed_list",
+        "api/v1/dialog/feed/new",
+        views.api.dialogs.NewFeed.as_view(),
+        name="api_dialog_feed_new",
     ),
 ]

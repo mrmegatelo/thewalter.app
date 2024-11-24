@@ -60,12 +60,13 @@
             </div>
         </div>
         <div class="sidebar-block sidebar-block__sticky">
-            <a class="button button--primary button--sm"
-               href="{% url 'new_feed' %}"
+            <button class="button button--primary button--sm"
+               hx-target="#dialogs-root"
+               hx-get="{% url 'api_dialog_feed_new' %}"
             >
                 <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
                 {% translate 'Add new source' noop %}
-            </a>
+            </button>
         </div>
     </div>
 {% endblock %}
