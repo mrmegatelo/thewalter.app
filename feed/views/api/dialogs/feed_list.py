@@ -1,5 +1,5 @@
 from feed.models import FeedItem
-from feed.utils.helpers import filter_by_attachments_type
+from feed.utils.helpers import filter_by_feed_type
 from feed.views.api.dialogs.generic import GenericDialog
 from feed.views.feed.feed import FeedView
 
@@ -21,6 +21,6 @@ class FeedListDialog(FeedView, GenericDialog):
         queryset = super().get_queryset()
 
         if feed_id is not None:
-            filtered_feed = filter_by_attachments_type(FeedItem.objects, feed_id).values_list('id', flat=True).distinct()
+            filtered_feed = filter_by_feed_type(FeedItem.objects, feed_id).values_list('id', flat=True).distinct()
             return queryset.filter(feed_items__in=filtered_feed).distinct()
         return queryset.filter(subscribers=self.request.user)
