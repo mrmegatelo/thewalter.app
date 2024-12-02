@@ -14,13 +14,13 @@ from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItem
 
 class FullFeedList(GenericFeedItemListView):
     template_name = "blocks/feed/list.html"
-    feet_item_url_name = 'feed_detail'
+    feet_item_url_name = "feed_detail"
 
     def get_feed_item_url_name(self):
         return self.feet_item_url_name
 
     def get_feed_url_name(self):
-        return 'api_feed_list'
+        return "api_feed_list"
 
     def paginate_queryset(self, queryset, page_size):
         page = self.request.GET.get('page') or 1
@@ -51,11 +51,16 @@ class FullFeedList(GenericFeedItemListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['feet_item_url_name'] = self.get_feed_item_url_name()
-        context['feed_url_name'] = self.get_feed_url_name()
-        context['liked'] = self.request.user.servicefeed_set.filter(type='liked').first()
-        context['disliked'] = self.request.user.servicefeed_set.filter(type='disliked').first()
+        context["feet_item_url_name"] = self.get_feed_item_url_name()
+        context["feed_url_name"] = self.get_feed_url_name()
+        context["liked"] = self.request.user.servicefeed_set.filter(
+            type="liked"
+        ).first()
+        context["disliked"] = self.request.user.servicefeed_set.filter(
+            type="disliked"
+        ).first()
         return context
+
 
 class UserFeedList(FullFeedList):
     http_method_names = ["get"]
@@ -74,12 +79,12 @@ class UserFeedList(FullFeedList):
 
     def get_feed_url_name(self):
         match self.feed_type:
-            case 'articles':
-                return 'api_feed_articles'
-            case 'podcasts':
-                return 'api_feed_podcasts'
-            case 'videos':
-                return 'api_feed_videos'
+            case "articles":
+                return "api_feed_articles"
+            case "podcasts":
+                return "api_feed_podcasts"
+            case "videos":
+                return "api_feed_videos"
             case _:
                 return "api_feed_list"
 
@@ -102,10 +107,12 @@ class UserFeedList(FullFeedList):
 
 class Favorites(UserFeedList):
     http_method_names = ["get"]
-    feet_item_url_name = 'favorites_detail'
 
-    def  get_feed_url_name(self):
-        return 'api_feed_favorites'
+    def get_feed_url_name(self):
+        return "api_feed_favorites"
+
+    def get_feed_item_url_name(self):
+        return "favorites_detail"
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -117,12 +124,13 @@ class Favorites(UserFeedList):
 
 class FeedItemListView(FullFeedList):
     http_method_names = ["get"]
-    feet_item_url_name = 'subscription_detail'
+    feet_item_url_name = "subscription_detail"
 
     def get_feed_url_name(self):
-        return 'api_feed_feed_list'
+        return "api_feed_feed_list"
 
     def get_context_data(self, **kwargs):
+        print("triggered feed item list view")
         context = super().get_context_data(**kwargs)
         context["feed_id"] = self.kwargs.get("feed_id")
         context["feed"] = Feed.objects.get(id=context["feed_id"])
