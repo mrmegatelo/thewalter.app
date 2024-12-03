@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<form class="form flex-column-button-container"
+      method="post" action="{% url 'new_feed' %}"
+      hx-post="{% url 'new_feed' %}"
+      hx-swap="outerHTML"
+>
+    {% csrf_token %}
+    <div class="form-inline-row">
+        {{ form.as_div }}
+        <button class="button button--primary button--sm" type="submit">
+            {% translate 'Add feed' noop %}
+        </button>
+    </div>
+</form>
+{% block result %}{% endblock %}

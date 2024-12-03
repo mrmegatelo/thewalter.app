@@ -1,7 +1,4 @@
-{% extends 'feed/new.html' %}
-{% load i18n %}
-{% block title %}Success{% endblock %}
-
+{% extends 'forms/feed_new.html' %}
 {% block result %}
     <form method="post" 
           hx-post="{% url 'api_feed_parsing_status' %}"

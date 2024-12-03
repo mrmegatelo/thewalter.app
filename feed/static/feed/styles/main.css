@@ -1147,6 +1147,7 @@ a:hover {
     gap: calc(var(--grid-step) * 3);
     max-height: 90vh;
     overflow-y: auto;
+    width: calc(var(--grid-step) * 64)
 }
 
 .dialog-header {

@@ -8,7 +8,7 @@ from feed.views.mixins import PageMetaMixin, FeedContextMixin, FeedFiltersMixin
 
 class FeedCreate(FormView, PageMetaMixin, FeedContextMixin, FeedFiltersMixin):
     form_class = FeedForm
-    template_name = 'feed/new.html'
+    template_name = 'forms/feed_new.html'
     success_url = '/feed/new/success/?url={url}'
     title = _('My feed')
 

@@ -1,14 +1,5 @@
 <dialog id="{{ dialog_id }}" class="dialog dialog_{{ dialog_position }}">
     <div class="dialog-content">
-{#        <header class="dialog-header">#}
-{#            <form class="dialog-close">#}
-{#                <button class="button button--ghost button--sm" formmethod="dialog">#}
-{#                    {% include 'icons/close.svg' %}#}
-{#                </button>#}
-{#            </form>#}
-{#        </header>#}
-        <div>
-            {% block body %}{% endblock %}
-        </div>
+        {% block body %}{% endblock %}
     </div>
 </dialog>
