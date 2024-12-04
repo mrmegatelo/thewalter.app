@@ -38,10 +38,9 @@ class RSSFeedParser(AbstractFeedParser):
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3",
             "Accept": "text/html, text/xml, application/xml, application/rss+xml, application/atom+xml",
         }
-        normalized_rss_url = normalize_url(url)
-        parsed = feedparser.parse(normalized_rss_url, request_headers=headers)
-        parsed_icon = self.parse_icon(parsed)
 
+        parsed = feedparser.parse(url, request_headers=headers)
+        parsed_icon = self.parse_icon(parsed)
         normalized_icon_url = normalize_url(parsed_icon, parsed.feed.link)
         normalized_url = normalize_url(parsed.feed.link)
 
@@ -49,7 +48,7 @@ class RSSFeedParser(AbstractFeedParser):
             title=parsed.feed.title,
             description=self.parse_description(parsed),
             icon_url=normalized_icon_url,
-            rss_url=normalized_rss_url,
+            rss_url=url,
             url=normalized_url,
             entries=parsed.entries,
         )
