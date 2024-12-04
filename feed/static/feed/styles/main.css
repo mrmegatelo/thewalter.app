@@ -634,6 +634,12 @@ a:hover {
     gap: var(--grid-step);
 }
 
+.feeds-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--grid-step) * 3);
+}
+
 .feed-description {
     display: flex;
     flex-direction: column;
