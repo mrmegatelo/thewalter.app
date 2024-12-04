@@ -646,6 +646,12 @@ a:hover {
     gap: calc(var(--grid-step) * 0.5);
 }
 
+.feed-parsing-result {
+    &:empty {
+        display: none;
+    }
+}
+
 .feed-description__text {
     font-size: 0.833rem;
     line-height: 1.25rem;
