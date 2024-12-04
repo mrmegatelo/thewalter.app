@@ -250,9 +250,11 @@ def parse_feeds_by_url(url):
 @shared_task()
 def parse_feed_info(url):
     result = []
-    feed_list = get_feed_by_url(url)
+    normalized_url = normalize_url(url)
+    feed_list = get_feed_by_url(normalized_url)
+
     if len(feed_list) == 0:
-        return parse_feeds_by_url(url)
+        return parse_feeds_by_url(normalized_url)
 
     for feed in feed_list:
         result.append(feed["id"])
