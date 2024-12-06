@@ -1,5 +1,6 @@
 {% extends 'layouts/with_sidebar.html' %}
 {% load i18n %}
+{% load static %}
 {% load url_with_filters %}
 
 {% block title %}thewalter.app{% endblock %}
@@ -61,8 +62,8 @@
         </div>
         <div class="sidebar-block sidebar-block__sticky">
             <button class="button button--primary button--sm"
-               hx-target="#dialogs-root"
-               hx-get="{% url 'api_dialog_feed_new' %}"
+                    hx-target="#dialogs-root"
+                    hx-get="{% url 'api_dialog_feed_new' %}"
             >
                 <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
                 {% translate 'Add new source' noop %}
@@ -99,12 +100,19 @@
 {% block detail %}
     {% if feed_item_pk %}
         <article id="feed-detail"
+                 class="feed-detail"
                  hx-trigger="load"
                  hx-get="{% url 'api_feed_detail' pk=feed_item_pk %}"
         >
             {% include 'blocks/feed/loader.html' %}
         </article>
     {% else %}
-        <article id="feed-detail"></article>
+        <article id="feed-detail" class="feed-detail">
+            <img src="{% static 'feed/img/logo_compact.svg' %}"
+                 class="feed-detail__logo"
+                 alt="thewalter.app"
+                 width="120"
+                 height="120"/>
+        </article>
     {% endif %}
 {% endblock %}
