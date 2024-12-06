@@ -2,20 +2,22 @@
 {% load i18n %}
 {% load static %}
 {% block main %}
-    <section class="center">
-        <img width="200" src="{% static 'feed/img/landing-main.svg' %}"/>
-    </section>
-    <section class="landing-caption center">
-        <h1 class="heading">{% translate 'The only feed you need.' noop %}</h1>
-        <p class="paragraph">{% translate 'Get what matters, skip the rest.' noop %}</p>
-    </section>
-    <section class="landing-form center">
-        <div id="waitlist-form-wrapper">
-            {% include 'forms/waitlist.html' %}
+    <section class="landing-caption">
+        <div class="landing-caption-hero">
+            <h1 class="heading">{% translate 'The only feed you need.' noop %}</h1>
+            <p class="paragraph">{% translate 'Get what matters, skip the rest.' noop %}</p>
+            <a class="button button--primary" href="#">{% translate 'Get started' noop %}</a>
         </div>
-        <span class="paragraph">
-                {% blocktranslate %}{{ subscribers_count }} people already joined.{% endblocktranslate %}
-            </span>
+        <video src="{% static 'feed/videos/main.mp4' %}" width="858" height="484"
+               class="landing-caption__video"
+               autoplay
+               preload="true"
+               loop
+               muted
+               controls
+               controlslist="nodownload nofullscreen noremoteplayback"
+               disablepictureinpicture
+        ></video>
     </section>
     <section class="landing-advantages">
         <div class="landing-advantages-item">

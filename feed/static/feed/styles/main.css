@@ -982,11 +982,28 @@ a:hover {
 }
 
 .landing-caption {
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
     h1 {
         font-size: 48px;
     }
+}
+
+.landing-caption-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--grid-step) * 3);
+}
+
+.landing-caption__video {
+    border: 1px solid var(--color-grey-200);
+    aspect-ratio: auto 858 / 484;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
 }
 
 .landing-form {
@@ -1251,6 +1268,11 @@ dialog.dialog_bottom {
 
 
     /* Main components styles */
+    .landing-caption {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
     .waitlist-form {
         flex-direction: column;
     }
