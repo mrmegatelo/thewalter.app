@@ -2,17 +2,28 @@
 {% load static %}
 
 {% block content %}
-    <aside id="sidebar" class="section sidebar">
-        <a class="sidebar-logo"
-           href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
-            <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
-        </a>
-        {% block sidebar %}{% endblock %}
-    </aside>
-    <section id="feed-list-section" class="section main">
-        {% block main %}{% endblock %}
-    </section>
-    <section id="detail-section" class="section">
-        {% block detail %}{% endblock %}
-    </section>
+    <main class="root-container">
+        <aside id="sidebar" class="section sidebar">
+            <a class="sidebar-logo"
+               href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
+                <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
+            </a>
+            {% block sidebar %}{% endblock %}
+            <footer class="sidebar-block sidebar-block__sticky">
+                {% block sidebar_bottom %}
+                {% endblock %}
+                <small>
+                    © {% now "Y" %} | thewalter.app
+                    {#                by#}
+                    {#                <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>#}
+                </small>
+            </footer>
+        </aside>
+        <section id="feed-list-section" class="section main">
+            {% block main %}{% endblock %}
+        </section>
+        <section id="detail-section" class="section">
+            {% block detail %}{% endblock %}
+        </section>
+    </main>
 {% endblock %}

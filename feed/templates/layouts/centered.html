@@ -1,7 +1,27 @@
 {% extends 'layouts/base.html' %}
-
+{% load static %}
 {% block content %}
-    <main class="spread v-full center landing-hero">
-        {% block main %}{% endblock %}
-    </main>
+    <body hx class="container">
+        <header class="header spread subgrid">
+        <span class="cols-3">
+            <a href="{% url 'index' %}">
+                <img width="200" src="{% static 'feed/img/logo.svg' %}"/>
+            </a>
+        </span>
+            {% if user.is_authenticated %}
+                {% include 'blocks/header/authenticated.html' %}
+            {% else %}
+                {% include 'blocks/header/anonym.html' %}
+            {% endif %}
+        </header>
+        <section class="spread center landing-hero">
+            {% block main %}{% endblock %}
+        </section>
+        <footer class="footer spread">
+            <small class="spread">
+                © {% now "Y" %} | thewalter.app by
+                <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>
+            </small>
+        </footer>
+    </body>
 {% endblock %}

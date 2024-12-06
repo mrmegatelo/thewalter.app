@@ -59,25 +59,9 @@
         </script>
     {% endif %}
 </head>
-<body class="root-container" hx-ext="morph">
-{#<header class="header subgrid spread">#}
-{#    <span class="cols-3">#}
-{##}
-{#    </span>#}
-{#    {% if user.is_authenticated %}#}
-{#        {% include 'blocks/header/authenticated.html' %}#}
-{#    {% else %}#}
-{#        {% include 'blocks/header/anonym.html' %}#}
-{#    {% endif %}#}
-{#</header>#}
+<body hx-ext="morph">
 {% block content %}
 {% endblock %}
-<footer class="spread">
-    <footer class="footer">
-        © {% now "Y" %} | thewalter.app by
-        <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>
-    </footer>
-</footer>
 <div id="dialogs-root"
 ></div>
 <script>
