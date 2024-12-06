@@ -180,7 +180,7 @@ a:hover {
 
 .root-container {
     display: grid;
-    grid-template-columns: 300px minmax(1000px, 1fr);
+    grid-template-columns: 300px 1fr;
     height: 100vh;
 }
 
@@ -198,16 +198,14 @@ a:hover {
 }
 
 
-.main {
+.main, .list, .splitted {
     --side-padding: 0;
     --vertical-padding: 0;
-    display: grid;
-    grid-template-columns: 500px minmax(500px, 1fr);
 }
 
-.list {
-    --side-padding: 0;
-    --vertical-padding: 0;
+.splitted {
+    display: grid;
+    grid-template-columns: 500px minmax(500px, 1fr);
 }
 
 

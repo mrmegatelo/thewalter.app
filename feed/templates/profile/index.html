@@ -6,26 +6,17 @@
     {% url 'password_change' as change_password_url %}
     {% translate 'Change password' noop as change_password_text %}
     <div class="sidebar-block">
-        {% include 'blocks/page-heading.html' %}
-        <nav>
-            <ul class="nav-list vertical">
-                <li>
-                    {% include 'blocks/header/nav-link.html' with url=profile_edit_url text=profile_edit_text %}
-                </li>
-                <li>
-                    {% include 'blocks/header/nav-link.html' with url=change_password_url text=change_password_text %}
-                </li>
-                <li>
-                    {% include 'blocks/logout.html' %}
-                </li>
-            </ul>
+        <nav class="sidebar-block-content">
+            {% include 'blocks/header/nav-link.html' with url=profile_edit_url text=profile_edit_text %}
+            {% include 'blocks/header/nav-link.html' with url=change_password_url text=change_password_text %}
+            {% include 'blocks/logout.html' %}
         </nav>
     </div>
 {% endblock %}
 {% block main %}
-
-    <div class="content content-inner">
-        <div class="cols-4 cols-mobile-12 ">
+    <div class="section">
+        <div class="centered-form-wrapper ">
+            {% include 'blocks/page-heading.html' %}
             {% block profile_content %}
             {% endblock %}
         </div>

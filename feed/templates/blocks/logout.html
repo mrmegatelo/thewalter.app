@@ -1,5 +1,5 @@
 {% load i18n %}
 <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
-    <button class="button--text link nav-list__link" type="submit">{% translate 'Log out' noop %}</button>
+    <button class="button button--ghost button--sm" type="submit">{% translate 'Log out' noop %}</button>
 </form>
