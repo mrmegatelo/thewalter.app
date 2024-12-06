@@ -1,27 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'layouts/with_sidebar.html' %}
 {% load i18n %}
-{% block content %}
+{% block sidebar %}
     {% url 'profile_edit' as profile_edit_url %}
     {% translate 'Edit profile' noop as profile_edit_text %}
     {% url 'password_change' as change_password_url %}
     {% translate 'Change password' noop as change_password_text %}
-    <div class="content content-inner">
+    <div class="sidebar-block">
         {% include 'blocks/page-heading.html' %}
-        <aside class="cols-3 cols-mobile-12">
-            <nav>
-                <ul class="nav-list vertical">
-                    <li>
-                        {% include 'blocks/header/nav-link.html' with url=profile_edit_url text=profile_edit_text %}
-                    </li>
-                    <li>
-                        {% include 'blocks/header/nav-link.html' with url=change_password_url text=change_password_text %}
-                    </li>
-                    <li>
-                        {% include 'blocks/logout.html' %}
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+        <nav>
+            <ul class="nav-list vertical">
+                <li>
+                    {% include 'blocks/header/nav-link.html' with url=profile_edit_url text=profile_edit_text %}
+                </li>
+                <li>
+                    {% include 'blocks/header/nav-link.html' with url=change_password_url text=change_password_text %}
+                </li>
+                <li>
+                    {% include 'blocks/logout.html' %}
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+{% block main %}
+
+    <div class="content content-inner">
         <div class="cols-4 cols-mobile-12 ">
             {% block profile_content %}
             {% endblock %}

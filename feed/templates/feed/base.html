@@ -73,46 +73,50 @@
 {% endblock %}
 
 {% block main %}
-    <header class="feed-header">
-        <div id="feed-description"
-             class="feed-description"
-        >
-        </div>
-        <div class="feed-list-filters">
-            <h4 class="heading">{% translate 'Hide' noop %}:</h4>
-            <form id="feed-filters"
-                  class="button-group"
-                  method="post"
-                  hx-trigger="change"
-                  hx-target="this"
-                  hx-post="{% url 'api_feed_filters' %}"
+    <section id="feed-list-section" class="section list">
+        <header class="feed-header">
+            <div id="feed-description"
+                 class="feed-description"
             >
-                {% include 'blocks/feed/filters.html' %}
-            </form>
-            <a class="button button--xs button--ghost" href="{% url 'feed_index' %}">
-                {% translate 'Reset filters' noop %}
-            </a>
-        </div>
-    </header>
-    {% block feed_list %}{% endblock %}
-{% endblock %}
+            </div>
+            <div class="feed-list-filters">
+                <h4 class="heading">{% translate 'Hide' noop %}:</h4>
+                <form id="feed-filters"
+                      class="button-group"
+                      method="post"
+                      hx-trigger="change"
+                      hx-target="this"
+                      hx-post="{% url 'api_feed_filters' %}"
+                >
+                    {% include 'blocks/feed/filters.html' %}
+                </form>
+                <a class="button button--xs button--ghost" href="{% url 'feed_index' %}">
+                    {% translate 'Reset filters' noop %}
+                </a>
+            </div>
+        </header>
+        {% block feed_list %}{% endblock %}
+    </section>
+    <section id="detail-section" class="section">
 
-{% block detail %}
-    {% if feed_item_pk %}
-        <article id="feed-detail"
-                 class="feed-detail"
-                 hx-trigger="load"
-                 hx-get="{% url 'api_feed_detail' pk=feed_item_pk %}"
-        >
-            {% include 'blocks/feed/loader.html' %}
-        </article>
-    {% else %}
-        <article id="feed-detail" class="feed-detail">
-            <img src="{% static 'feed/img/logo_compact.svg' %}"
-                 class="feed-detail__logo"
-                 alt="thewalter.app"
-                 width="120"
-                 height="120"/>
-        </article>
-    {% endif %}
+        {% block detail %}
+            {% if feed_item_pk %}
+                <article id="feed-detail"
+                         class="feed-detail"
+                         hx-trigger="load"
+                         hx-get="{% url 'api_feed_detail' pk=feed_item_pk %}"
+                >
+                    {% include 'blocks/feed/loader.html' %}
+                </article>
+            {% else %}
+                <article id="feed-detail" class="feed-detail">
+                    <img src="{% static 'feed/img/logo_compact.svg' %}"
+                         class="feed-detail__logo"
+                         alt="thewalter.app"
+                         width="120"
+                         height="120"/>
+                </article>
+            {% endif %}
+        {% endblock %}
+    </section>
 {% endblock %}
