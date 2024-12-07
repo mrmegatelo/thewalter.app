@@ -6,7 +6,7 @@
         <div class="landing-caption-hero">
             <h1 class="heading">{% translate 'The only feed you need.' noop %}</h1>
             <p class="paragraph">{% translate 'Get what matters, skip the rest.' noop %}</p>
-            <a class="button button--primary" href="#">{% translate 'Get started' noop %}</a>
+            <a class="button button--primary" href="{% url 'registration' %}">{% translate 'Get started' noop %}</a>
         </div>
         <video src="{% static 'feed/videos/main.mp4' %}" width="858" height="484"
                class="landing-caption__video"

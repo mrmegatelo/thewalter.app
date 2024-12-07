@@ -1,16 +1,24 @@
+from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils import timezone
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 # Register your models here.
-from .models import Feed, FeedItem, UserSettings, WaitlistRequest, Invite, Attachment, ServiceFeed
+from .models import (
+    Feed,
+    FeedItem,
+    UserSettings,
+    WaitlistRequest,
+    Invite,
+    Attachment,
+    ServiceFeed,
+)
 from .tasks import parse_feed
 
 

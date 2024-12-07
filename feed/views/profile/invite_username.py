@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.forms import ModelForm
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_decode
@@ -7,7 +7,7 @@ from django.views.generic import FormView
 
 class InviteUsernameForm(ModelForm):
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ['username']
 
 
@@ -21,7 +21,7 @@ class InviteUsernameView(FormView):
 
     def get_form_kwargs(self):
         uid = urlsafe_base64_decode(self.kwargs['uidb64']).decode()
-        user = User.objects.get(id=uid)
+        user = get_user_model().objects.get(id=uid)
         kwargs = super().get_form_kwargs()
         kwargs['instance'] = user
         return kwargs

@@ -1,7 +1,7 @@
 from datetime import datetime
 from urllib.parse import urlparse
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
 from slugify import slugify
 
@@ -15,7 +15,7 @@ class Feed(models.Model):
     rss_url = models.URLField(unique=True)
     icon = models.URLField(max_length=500, blank=True)
     pub_date = models.DateTimeField()
-    subscribers = models.ManyToManyField(User, blank=True)
+    subscribers = models.ManyToManyField(get_user_model(), blank=True)
 
     def __str__(self):
         return self.title
@@ -79,7 +79,7 @@ class ServiceFeed(models.Model):
         LIKED = 'liked'
         DISLIKED = 'disliked'
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     type = models.CharField(max_length=20, choices=Type, default=Type.LIKED)
     feed_items = models.ManyToManyField(FeedItem, related_name='service_feeds', blank=True)
 
@@ -99,7 +99,7 @@ class Attachment(models.Model):
 
 
 class UserSettings(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     hidden_feed_items = models.ManyToManyField(FeedItem, blank=True, related_name='hidden')
     liked_feed_items = models.ManyToManyField(FeedItem, blank=True, related_name='liked')
 
@@ -111,7 +111,7 @@ class Invite(models.Model):
         ACCEPTED = 'Accepted'
         ACTIVATED = 'Activated'
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
     sent_at = models.DateTimeField(null=True, blank=True)
@@ -132,7 +132,7 @@ class Invite(models.Model):
 
 class WaitlistRequest(models.Model):
     email = models.EmailField()
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     invite = models.OneToOneField('Invite', on_delete=models.SET_NULL, null=True, blank=True)
 

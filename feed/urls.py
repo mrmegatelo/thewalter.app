@@ -166,11 +166,11 @@ urlpatterns = [
         name="invite_accept_complete",
     ),
     # Waitlist URLs
-    path("waitlist/", feed.views.waitlist.WaitlistView.as_view(), name="waitlist"),
+    path("profile/registration/", feed.views.waitlist.WaitlistView.as_view(), name="registration"),
     path(
-        "waitlist/success/",
+        "profile/registration/success/",
         feed.views.waitlist.WaitlistSuccessView.as_view(),
-        name="waitlist_success",
+        name="registration_success",
     ),
     # API URLs
     path('api/v1/subscriptions', feed.views.api.SubscriptionsView.as_view(), name='api_subscriptions'),
