@@ -201,7 +201,7 @@ class FeedUnsubscribe(DetailView):
                 self.subscribe(request, *args, **kwargs)
 
         response = super().get(request, *args, **kwargs)
-        response.headers["HX-Trigger"] = "RefreshFeed"
+        response.headers["HX-Trigger"] = "RefreshFeed, RefreshFeedList"
         return response
 
     def subscribe(self, request, *args, **kwargs):

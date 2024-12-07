@@ -8,6 +8,7 @@
        hx-push-url="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
        class="button button--ghost button--sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
        title="{{ feed.title }}"
+       id="feed_{{ feed.id }}"
     >
         <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
         <span>{{ feed.title }}</span>

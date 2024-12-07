@@ -64,7 +64,10 @@
         </div>
         <div class="sidebar-block">
             <h3 class="heading">{% translate 'Feeds' noop %}:</h3>
-            <div class="sidebar-block-content">
+            <div class="sidebar-block-content"
+                 hx-get="{% url 'api_subscriptions' %}"
+                 hx-trigger="RefreshFeedList from:body"
+            >
                 {% include 'blocks/feed/feeds_full.html' %}
             </div>
         </div>

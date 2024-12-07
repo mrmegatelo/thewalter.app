@@ -10,6 +10,7 @@ from .feed import (
     ParsingStatus,
 )
 from .feed_detail import FeedItemDetailView, FeedItemActions
+from .subscriptions import SubscriptionsView
 
 __all__ = [
     "dialogs",
@@ -23,4 +24,5 @@ __all__ = [
     "Favorites",
     "ParsingStatus",
     "FeedItemDetailView",
+    "SubscriptionsView"
 ]

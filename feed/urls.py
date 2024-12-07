@@ -173,6 +173,7 @@ urlpatterns = [
         name="waitlist_success",
     ),
     # API URLs
+    path('api/v1/subscriptions', feed.views.api.SubscriptionsView.as_view(), name='api_subscriptions'),
     path("api/v1/feed/", feed.views.api.UserFeedList.as_view(), name="api_feed_list"),
     path(
         "api/v1/feed/articles",
