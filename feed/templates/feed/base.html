@@ -11,7 +11,7 @@
             <a class="button button--ghost button--sm"
                href="{% url 'profile' %}"
             >
-                 <span class="button__icon">{% include 'icons/account.svg' %}</span>
+                <span class="button__icon">{% include 'icons/account.svg' %}</span>
                 {% translate 'Profile' %}
             </a>
         </div>
@@ -68,16 +68,17 @@
                 {% include 'blocks/feed/feeds_full.html' %}
             </div>
         </div>
-        {% block sidebar_bottom %}
-            <button class="button button--primary button--sm"
-                    hx-target="#dialogs-root"
-                    hx-get="{% url 'api_dialog_feed_new' %}"
-            >
-                <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
-                {% translate 'Add new source' noop %}
-            </button>
-        {% endblock %}
     </div>
+{% endblock %}
+
+{% block sidebar_bottom %}
+    <button class="button button--primary button--sm"
+            hx-target="#dialogs-root"
+            hx-get="{% url 'api_dialog_feed_new' %}"
+    >
+        <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
+        {% translate 'Add new feed' noop %}
+    </button>
 {% endblock %}
 
 {% block main %}
@@ -107,7 +108,6 @@
             {% block feed_list %}{% endblock %}
         </section>
         <section id="detail-section" class="section">
-
             {% block detail %}
                 {% if feed_item_pk %}
                     <article id="feed-detail"

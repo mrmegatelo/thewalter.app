@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-12 20:53+0100\n"
+"POT-Creation-Date: 2024-12-07 11:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,29 +20,21 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
+#: feed/templates/blocks/feed/detail/base.html:19
+msgid "Like"
+msgstr ""
+
+#: feed/templates/blocks/feed/detail/base.html:33
 #: feed/templates/blocks/feed/filters.html:17
-#: feed/templates/blocks/feed/list.html:75
 msgid "Not interesting"
+msgstr ""
+
+#: feed/templates/blocks/feed/detail/base.html:76
+msgid "View on"
 msgstr ""
 
 #: feed/templates/blocks/feed/filters.html:33
 msgid "Paid content"
-msgstr ""
-
-#: feed/templates/blocks/feed/list.html:65
-msgid "Like"
-msgstr ""
-
-#: feed/templates/blocks/feed/list.html:98
-msgid "Your feed is empty"
-msgstr ""
-
-#: feed/templates/blocks/feed/list.html:99
-msgid "Start your journey by adding your first feed source."
-msgstr ""
-
-#: feed/templates/blocks/feed/list.html:105 feed/templates/feed/base.html:27
-msgid "Add new source"
 msgstr ""
 
 #: feed/templates/blocks/feed/pagination.html:11
@@ -54,6 +46,7 @@ msgid "Next"
 msgstr ""
 
 #: feed/templates/blocks/feed/parsing_progress.html:4
+#: feed/templates/feed/success.html:10
 msgid "Parsing in progress..."
 msgstr ""
 
@@ -64,22 +57,12 @@ msgid "Sign in"
 msgstr ""
 
 #: feed/templates/blocks/header/authenticated.html:3
-#: feed/views/feed/feed_create.py:13 feed/views/feed/feed_success.py:15
-#: feed/views/generic/feed_items_list.py:11
-msgid "My feed"
-msgstr ""
-
-#: feed/templates/blocks/header/authenticated.html:5
-#: feed/views/profile/index.py:7
+#: feed/templates/feed/base.html:15 feed/views/profile/index.py:7
 msgid "Profile"
 msgstr ""
 
 #: feed/templates/blocks/logout.html:4
 msgid "Log out"
-msgstr ""
-
-#: feed/templates/dialogs/feed/detail/base.html:21
-msgid "View on"
 msgstr ""
 
 #: feed/templates/emails/registration/invite_subject.txt:2
@@ -113,27 +96,43 @@ msgstr ""
 msgid "The %(site_name)s team"
 msgstr ""
 
-#: feed/templates/feed/base.html:20
+#: feed/templates/feed/base.html:26
+msgid "Home"
+msgstr ""
+
+#: feed/templates/feed/base.html:35
+msgid "Favorites"
+msgstr ""
+
+#: feed/templates/feed/base.html:44
+msgid "Articles"
+msgstr ""
+
+#: feed/templates/feed/base.html:53
+msgid "Podcasts"
+msgstr ""
+
+#: feed/templates/feed/base.html:62
+msgid "Videos"
+msgstr ""
+
+#: feed/templates/feed/base.html:66
 msgid "Feeds"
 msgstr ""
 
-#: feed/templates/feed/base.html:32
+#: feed/templates/feed/base.html:80
+msgid "Add new feed"
+msgstr ""
+
+#: feed/templates/feed/base.html:93
 msgid "Hide"
 msgstr ""
 
-#: feed/templates/feed/base.html:43
+#: feed/templates/feed/base.html:104
 msgid "Reset filters"
 msgstr ""
 
-#: feed/templates/feed/new.html:7
-msgid "New feed source"
-msgstr ""
-
-#: feed/templates/feed/new.html:8
-msgid "Follow your favorite websites, blogs, YouTube channels and more."
-msgstr ""
-
-#: feed/templates/feed/new.html:14
+#: feed/templates/forms/feed_new.html:12
 msgid "Add feed"
 msgstr ""
 
@@ -145,17 +144,16 @@ msgstr ""
 msgid "Join the waitlist"
 msgstr ""
 
-#: feed/templates/index.html:9 feed/views/mixins.py:10
+#: feed/templates/index.html:7 feed/views/mixins.py:10
 msgid "The only feed you need."
 msgstr ""
 
-#: feed/templates/index.html:10
+#: feed/templates/index.html:8
 msgid "Get what matters, skip the rest."
 msgstr ""
 
-#: feed/templates/index.html:17
-#, python-format
-msgid "%(subscribers_count)s people already joined."
+#: feed/templates/index.html:9
+msgid "Get started"
 msgstr ""
 
 #: feed/templates/profile/edit.html:7
@@ -257,13 +255,18 @@ msgstr ""
 msgid "Go back"
 msgstr ""
 
-#: feed/views/api/feed.py:38
+#: feed/views/api/feed.py:41
 msgid "Page is not “last”, nor can it be converted to an int."
 msgstr ""
 
-#: feed/views/api/feed.py:45
+#: feed/views/api/feed.py:48
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: feed/views/feed/feed_create.py:13 feed/views/feed/feed_success.py:15
+#: feed/views/generic/feed_items_list.py:11
+msgid "My feed"
 msgstr ""
 
 #: feed/views/profile/edit.py:20
