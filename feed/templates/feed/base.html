@@ -19,7 +19,7 @@
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
                hx-swap="innerHTML scroll:#feed-list-section:top"
-               hx-get="{% url 'api_feed_list' %}"
+               hx-get="{% url 'feed_index' %}{% provide_filters_qs %}"
                hx-push-url="{% url 'feed_index' %}{% provide_filters_qs %}"
                href="{% url 'feed_index' %}">
                 <span class="button__icon">{% include 'icons/home.svg' %}</span>
@@ -28,7 +28,7 @@
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
                hx-swap="innerHTML scroll:#feed-list-section:top"
-               hx-get="{% url 'api_feed_favorites' %}"
+               hx-get="{% url 'favorites' %}"
                hx-push-url="{% url 'favorites' %}{% provide_filters_qs %}"
                href="{% url 'favorites' %}">
                 <span class="button__icon">{% include 'icons/favorite_filled.svg' %}</span>
@@ -37,7 +37,7 @@
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
                hx-swap="innerHTML scroll:#feed-list-section:top"
-               hx-get="{% url 'api_feed_articles' %}"
+               hx-get="{% url 'feed_articles' %}"
                hx-push-url="{% url 'feed_articles' %}{% provide_filters_qs %}"
                href="{% url 'feed_articles' %}">
                 <span class="button__icon">{% include 'icons/article.svg' %}</span>
@@ -46,7 +46,7 @@
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
                hx-swap="innerHTML scroll:#feed-list-section:top"
-               hx-get="{% url 'api_feed_podcasts' %}"
+               hx-get="{% url 'feed_podcasts' %}"
                hx-push-url="{% url 'feed_podcasts' %}{% provide_filters_qs %}"
                href="{% url 'feed_podcasts' %}">
                 <span class="button__icon">{% include 'icons/headphones.svg' %}</span>
@@ -55,7 +55,7 @@
             <a class="button button--ghost button--sm"
                hx-target="#feed-list"
                hx-swap="innerHTML scroll:#feed-list-section:top"
-               hx-get="{% url 'api_feed_videos' %}"
+               hx-get="{% url 'feed_videos' %}"
                hx-push-url="{% url 'feed_videos' %}{% provide_filters_qs %}"
                href="{% url 'feed_videos' %}">
                 <span class="button__icon">{% include 'icons/movie.svg' %}</span>

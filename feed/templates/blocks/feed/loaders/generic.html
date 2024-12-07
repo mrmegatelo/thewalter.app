@@ -1,0 +1,11 @@
+<ul id="feed-list"
+    class="feed-list-wrapper"
+    hx-trigger="load, change from:#feed-filters, RefreshFeed from:body"
+    hx-get="{{ load_url }}"
+    hx-include="#feed-filters"
+    hx-params="filter"
+    hx-swap="innerHTML"
+    hx-swap-oob="true"
+>
+    {% include 'blocks/feed/loader.html' %}
+</ul>

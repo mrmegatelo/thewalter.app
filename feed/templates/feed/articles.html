@@ -1,14 +1,5 @@
 {% extends 'feed/base.html' %}
 
 {% block feed_list %}
-    <ul id="feed-list"
-        class="feed-list-wrapper"
-        hx-trigger="load, change from:#feed-filters, RefreshFeed from:body"
-        hx-get="{% url 'api_feed_articles' %}"
-        hx-include="#feed-filters, #feed-types"
-        hx-params="filter, feed_type"
-        hx-swap="innerHTML"
-    >
-        {% include 'blocks/feed/loader.html' %}
-    </ul>
+    {% include 'blocks/feed/loaders/articles.html' %}
 {% endblock %}
