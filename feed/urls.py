@@ -93,9 +93,13 @@ urlpatterns = [
         login_required(feed.views.profile.edit.ProfileEditView.as_view()),
         name="profile_edit",
     ),
+    path(
+        "profile/register/",
+        anonym_required(views.profile.RegistrationView.as_view()),
+        name="register",
+    ),
     path("profile/", include("django_registration.backends.activation.urls")),
     path("profile/", include("django.contrib.auth.urls")),
-    path("profile/register/", anonym_required(views.profile.RegistrationView.as_view()), name="register"),
     # Invite accept URLs
     path(
         "profile/invite/<uidb64>/<token>/set_username",
@@ -124,7 +128,6 @@ urlpatterns = [
         ),
         name="invite_accept_complete",
     ),
-
     # API URLs
     path(
         "api/v1/subscriptions",

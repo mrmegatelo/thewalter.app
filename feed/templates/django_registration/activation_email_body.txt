@@ -7,12 +7,10 @@ It means the world to me that you’re excited to be a part of thewalter.app.
 There only one thing left for you to is your account activation.
 
 To activate our account, simply click the link below and follow the instructions:
-<a href="{{ protocol }}://{{ site }}{% url 'django_registration_activate' %}?activation_key={{activation_key}}"
-   target="_blank"
->Activate an account</a>
+{{ scheme }}://{{ site }}{% url 'django_registration_activate' %}?activation_key={{activation_key}}
 
 If you have any questions or need assistance, don&#39;t hesitate to reach out to me directly via
-<a href="https://t.me/mrmike24" target="_blank">Telegram</a> or <a href="https://x.com/mrmegatelo" target="_blank">Twitter</a>.
+https://t.me/mrmike24 or https://x.com/mrmegatelo.
 Your feedback is invaluable as the service continues to improve.
 I genuinely look forward to hearing about your experiences and how thewalter.app is making a difference for you.
 

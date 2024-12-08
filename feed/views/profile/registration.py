@@ -22,15 +22,16 @@ class RegistrationView(BaseRegistrationView):
         # issues.
         subject = ''.join(subject.splitlines())
         text_content = render_to_string(
-            template_name='activation_email_body.txt',
+            template_name='django_registration/activation_email_body.txt',
             context=context,
             request=self.request
         )
         html_content = render_to_string(
-            template_name='activation_email_body.html',
+            template_name='django_registration/activation_email_body.html',
             context=context,
             request=self.request
         )
+
         send_mail(
             subject,
             text_content,
