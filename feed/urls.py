@@ -95,6 +95,7 @@ urlpatterns = [
     ),
     path("profile/", include("django_registration.backends.activation.urls")),
     path("profile/", include("django.contrib.auth.urls")),
+    path("profile/register/", anonym_required(views.profile.RegistrationView.as_view()), name="register"),
     # Invite accept URLs
     path(
         "profile/invite/<uidb64>/<token>/set_username",
@@ -123,13 +124,7 @@ urlpatterns = [
         ),
         name="invite_accept_complete",
     ),
-    # Waitlist URLs
-    # path("profile/registration/", feed.views.waitlist.WaitlistView.as_view(), name="registration"),
-    # path(
-    #     "profile/registration/success/",
-    #     feed.views.waitlist.WaitlistSuccessView.as_view(),
-    #     name="registration_success",
-    # ),
+
     # API URLs
     path(
         "api/v1/subscriptions",
