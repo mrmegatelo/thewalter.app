@@ -381,6 +381,20 @@ files = [
 ]
 
 [[package]]
+name = "confusable-homoglyphs"
+version = "3.3.1"
+description = "Detect confusable usage of unicode homoglyphs, prevent homograph attacks."
+optional = false
+python-versions = "*"
+files = [
+    {file = "confusable_homoglyphs-3.3.1-py2.py3-none-any.whl", hash = "sha256:84c92cb79dc7f55aa290d0762b2349abd8dee4c16fbe6f99eac978d394e2e6a1"},
+    {file = "confusable_homoglyphs-3.3.1.tar.gz", hash = "sha256:b995001c9b2e1b4cea0cf5f3840a7c79188a8cbbad053d693572bd8c1c1ec460"},
+]
+
+[package.extras]
+cli = ["click"]
+
+[[package]]
 name = "cron-descriptor"
 version = "1.4.5"
 description = "A Python library that converts cron expressions into human readable strings."
@@ -458,6 +472,21 @@ files = [
 [package.dependencies]
 celery = ">=5.2.7,<6.0"
 Django = ">=3.2.18"
+
+[[package]]
+name = "django-registration"
+version = "5.1.0"
+description = "An extensible user-registration application for Django."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "django_registration-5.1.0-py3-none-any.whl", hash = "sha256:5e3677e64f39a5d659768b93938870286b90ff500b983fd69153012fabea73fd"},
+    {file = "django_registration-5.1.0.tar.gz", hash = "sha256:e64b0b1d24886fc740122862630ec00b8c2ffd4ab6d0e0a9bced870374d1436b"},
+]
+
+[package.dependencies]
+confusable-homoglyphs = ">=3.0"
+Django = ">=4.2"
 
 [[package]]
 name = "django-timezone-field"
@@ -1676,4 +1705,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "3.10.9"
-content-hash = "25616506611950b103b66d6aeb61dd600c43855a8d6e7c419e8d9f888bb830c5"
+content-hash = "96c90597fc43523fd98916133810d00b2e8b91c02b1691b2e4bd3d6f6959b39d"

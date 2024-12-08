@@ -4,8 +4,8 @@
 
 {% block main %}
     <div class="centered-form-wrapper">
-        {% include 'blocks/page-heading.html' with title='Sign up' %}
-        <form class="form" action="{% url 'registration' %}" method="post">
+        {% include 'blocks/page-heading.html' with title=title %}
+        <form class="form" action="{% url 'django_registration_register' %}" method="post">
             {% csrf_token %}
             {{ form.as_div }}
             <button class="button button--primary flex-column-button-container" type="submit">{% translate 'Sign up' noop %}</button>

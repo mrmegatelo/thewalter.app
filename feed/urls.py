@@ -1,14 +1,8 @@
 from django.contrib.auth.views import (
-    LoginView,
-    LogoutView,
-    PasswordChangeView,
-    PasswordChangeDoneView,
-    PasswordResetView,
-    PasswordResetDoneView,
     PasswordResetConfirmView,
     PasswordResetCompleteView,
 )
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.decorators import login_required
 from django.views.generic import RedirectView
 
@@ -99,44 +93,8 @@ urlpatterns = [
         login_required(feed.views.profile.edit.ProfileEditView.as_view()),
         name="profile_edit",
     ),
-    path("profile/login/", anonym_required(LoginView.as_view()), name="login"),
-    path("profile/logout/", login_required(LogoutView.as_view()), name="logout"),
-    # Password change URLs
-    path(
-        "profile/password_change/",
-        login_required(PasswordChangeView.as_view()),
-        name="password_change",
-    ),
-    path(
-        "profile/password_change/done/",
-        login_required(PasswordChangeDoneView.as_view()),
-        name="password_change_done",
-    ),
-    # Password reset URLs
-    path(
-        "profile/password_reset/",
-        anonym_required(
-            PasswordResetView.as_view(
-                html_email_template_name="emails/registration/password_reset_email.html"
-            )
-        ),
-        name="password_reset",
-    ),
-    path(
-        "profile/password_reset/done/",
-        anonym_required(PasswordResetDoneView.as_view()),
-        name="password_reset_done",
-    ),
-    path(
-        "profile/reset/<uidb64>/<token>/",
-        anonym_required(PasswordResetConfirmView.as_view()),
-        name="password_reset_confirm",
-    ),
-    path(
-        "profile/reset/done/",
-        anonym_required(PasswordResetCompleteView.as_view()),
-        name="password_reset_complete",
-    ),
+    path("profile/", include("django_registration.backends.activation.urls")),
+    path("profile/", include("django.contrib.auth.urls")),
     # Invite accept URLs
     path(
         "profile/invite/<uidb64>/<token>/set_username",
@@ -166,14 +124,18 @@ urlpatterns = [
         name="invite_accept_complete",
     ),
     # Waitlist URLs
-    path("profile/registration/", feed.views.waitlist.WaitlistView.as_view(), name="registration"),
-    path(
-        "profile/registration/success/",
-        feed.views.waitlist.WaitlistSuccessView.as_view(),
-        name="registration_success",
-    ),
+    # path("profile/registration/", feed.views.waitlist.WaitlistView.as_view(), name="registration"),
+    # path(
+    #     "profile/registration/success/",
+    #     feed.views.waitlist.WaitlistSuccessView.as_view(),
+    #     name="registration_success",
+    # ),
     # API URLs
-    path('api/v1/subscriptions', feed.views.api.SubscriptionsView.as_view(), name='api_subscriptions'),
+    path(
+        "api/v1/subscriptions",
+        feed.views.api.SubscriptionsView.as_view(),
+        name="api_subscriptions",
+    ),
     path("api/v1/feed/", feed.views.api.UserFeedList.as_view(), name="api_feed_list"),
     path(
         "api/v1/feed/articles",

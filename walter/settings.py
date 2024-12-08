@@ -87,12 +87,16 @@ WSGI_APPLICATION = "walter.wsgi.application"
 # Auth settings
 AUTHENTICATION_BACKENDS = (
     "rules.permissions.ObjectPermissionBackend",
-    "django.contrib.auth.backends.ModelBackend",
+    "django.contrib.auth.backends.AllowAllUsersModelBackend",
 )
 
 LOGIN_REDIRECT_URL = "/feed/"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "/profile/login/"
+
+# Registration and account activation
+ACCOUNT_ACTIVATION_DAYS = 1
+REGISTRATION_OPEN = True
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

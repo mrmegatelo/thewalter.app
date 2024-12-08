@@ -1,0 +1,14 @@
+{% extends 'layouts/centered.html' %}
+{% load i18n %}
+{% block main %}
+    <div class="centered-form-wrapper">
+        <div>
+            <h1 class="heading">{% translate "Your account is activated🥳" noop %}</h1>
+        <p class="paragraph">{% translate 'You can start you journey.' noop %}</p>
+        </div>
+        <a class="button button--ghost" href="{% url 'feed_index' %}">
+            <span class="button__icon">{% include 'icons/arrow_back.svg' %}</span>
+            {% translate 'Go to my feed' noop %}
+        </a>
+    </div>
+{% endblock %}
