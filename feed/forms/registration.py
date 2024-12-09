@@ -1,25 +1,35 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.forms import EmailField
 from django.contrib.auth import get_user_model
+from django import forms
+from django.forms import CharField
+from django_registration.forms import RegistrationFormUniqueEmail, UserModel
 
-class RegistrationForm(UserCreationForm):
-    email = EmailField(required=True)
+class HiddenUsernameField(CharField):
+    required = False
+    disabled = True
+    widget = forms.HiddenInput()
 
-    def clean_email(self):
-        email = self.cleaned_data["email"]
-        if User.objects.filter(email=email).exists():
-            raise ValidationError("An user with this email already exists!")
-        return email
+    def bound_data(self, data, initial):
+        return initial
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.username = user.email
-        user.is_active = False
-        user.save()
-        return user
+    def validate(self, value):
+        pass
 
+    def run_validators(self, value):
+        pass
+
+    def clean(self, value):
+        return value
+
+    def get_bound_field(self, form, field_name):
+        bound_field = super().get_bound_field(form, field_name)
+        return bound_field
+
+    def _clean_bound_field(self, bf):
+        return self.clean(bf.initial)
+
+
+class RegistrationForm(RegistrationFormUniqueEmail):
     class Meta:
+        fields = RegistrationFormUniqueEmail.Meta.fields
         model = get_user_model()
-        fields = ['email']
+        field_classes = {UserModel.USERNAME_FIELD: HiddenUsernameField}

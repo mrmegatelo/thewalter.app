@@ -3,8 +3,17 @@ from django.template.loader import render_to_string
 from django_registration.backends.activation.views import RegistrationView as BaseRegistrationView
 from django.conf import settings
 
+from feed.forms.registration import RegistrationForm
+
 
 class RegistrationView(BaseRegistrationView):
+
+    form_class = RegistrationForm
+
+    def get_initial(self):
+        return {
+            'username': self.request.POST.get('email'),
+        }
 
     def send_activation_email(self, user):
         """
