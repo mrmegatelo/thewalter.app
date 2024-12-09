@@ -98,6 +98,16 @@ urlpatterns = [
         anonym_required(views.profile.RegistrationView.as_view()),
         name="register",
     ),
+    path(
+        "profile/activate/",
+        feed.views.profile.ActivationView.as_view(),
+        name="django_registration_activate",
+    ),
+    path(
+        "profile/activate/complete/",
+        feed.views.profile.ActivationSuccessView.as_view(),
+        name="django_registration_activation_complete",
+    ),
     path("profile/", include("django_registration.backends.activation.urls")),
     path("profile/", include("django.contrib.auth.urls")),
     # Invite accept URLs

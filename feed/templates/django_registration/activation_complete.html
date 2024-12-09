@@ -4,11 +4,13 @@
     <div class="centered-form-wrapper">
         <div>
             <h1 class="heading">{% translate "Your account is activated🥳" noop %}</h1>
-        <p class="paragraph">{% translate 'You can start you journey.' noop %}</p>
+            <p class="paragraph">{% translate 'You can start you journey.' noop %}</p>
         </div>
-        <a class="button button--ghost" href="{% url 'feed_index' %}">
-            <span class="button__icon">{% include 'icons/arrow_back.svg' %}</span>
-            {% translate 'Go to my feed' noop %}
-        </a>
+        <form class="form" action="{% url 'django_registration_activation_complete' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <button class="button button--primary flex-column-button-container"
+                    type="submit">{% translate 'Sign in' noop %}</button>
+        </form>
     </div>
 {% endblock %}
