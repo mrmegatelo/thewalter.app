@@ -920,6 +920,12 @@ a:hover {
 
 .feed-filters-item__checkbox {
     display: none;
+
+    &:checked {
+        & + .button--primary {
+            background-color: var(--color-orange-100);
+        }
+    }
 }
 
 .input {
