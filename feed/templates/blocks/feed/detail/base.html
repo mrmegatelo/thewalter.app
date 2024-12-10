@@ -46,6 +46,17 @@
             {% endwith %}
         </form>
     </header>
+    {% block preview %}
+        {% if object.preview %}
+            <section class="feed-detail-section">
+                <img class="feed-detail-preview"
+                     src="{{ object.preview }}"
+                     alt="{{ object.title }}"
+                     onerror="this.src='{{ object.feed.icon }}'"
+                />
+            </section>
+        {% endif %}
+    {% endblock %}
     <section class="feed-detail-section">
         <h1>
             {{ object.title }}&nbsp;
@@ -58,13 +69,6 @@
             {% endif %}
         </h1>
     </section>
-    {% block preview %}
-        {% if object.preview %}
-            <section class="feed-detail-section">
-                <img class="feed-detail-preview" src="{{ object.preview }}" alt="{{ object.title }}"/>
-            </section>
-        {% endif %}
-    {% endblock %}
     {% block enclosures %}{% endblock %}
     <section class="feed-detail-section feed-detail-description">
         {% autoescape off %}

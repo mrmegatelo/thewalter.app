@@ -61,7 +61,10 @@
                hx-swap="innerHTML scroll:#feed-list-section:top"
                hx-push-url="{% url 'feed_subscription' slug=entry.feed.slug %}{% provide_filters_qs %}"
             >
-                <img src="{{ entry.feed.icon }}" height="16" width="16"/>
+                <img src="{{ entry.feed.icon }}"
+                     height="16"
+                     width="16"
+                />
                 <small>{{ entry.feed }}</small>
             </a>
             <small class="paragraph">{{ entry.pub_day|naturalday|title }}</small>
@@ -115,6 +118,7 @@
                 <img class="feed-links-list-item-bloginfo-cover__image"
                      src="{{ entry.preview }}"
                      alt="{{ entry.feed.title }}"
+                     onerror="this.src='{{ entry.feed.icon }}'"
                 />
             </a>
         {% endif %}
