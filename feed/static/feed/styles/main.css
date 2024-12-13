@@ -1169,6 +1169,63 @@ a:hover {
     opacity: 0.05;
 }
 
+.openable {
+
+    &[open] {
+        & .openable-control__icon svg {
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.openable-body {
+    padding-left: 16px;
+    padding-top: 8px;
+}
+
+.openable-control {
+    display: flex;
+    width: 100%;
+    position: relative;
+
+    &:hover {
+        & .openable-control__icon {
+            opacity: 1;
+            color: inherit;
+        }
+    }
+}
+
+.openable-control__icon {
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.05s, color 0.15s ease 0.05s, background-color 0.15s;
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    background-color: var(--color-grey-100);
+    color: var(--color-grey-100);
+
+    &:hover {
+        background-color: var(--color-grey-200);
+    }
+
+    & > svg {
+        transition: transform 0.15s;
+    }
+}
+
+.openable__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    text-align: left;
+}
+
 /**
 * Dialogs
  */

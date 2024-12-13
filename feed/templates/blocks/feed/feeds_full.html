@@ -1,16 +1,67 @@
 {% load url_with_filters %}
 {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}
-{% for feed in feed_list %}
-    <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
-       hx-get="{% url 'feed_subscription' slug=feed.slug %}"
-       hx-target="#feed-list"
-       hx-swap="innerHTML scroll:#feed-list-section:top"
-       hx-push-url="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
-       class="button button--ghost button--sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
-       title="{{ feed.title }}"
-       id="feed_{{ feed.id }}"
-    >
-        <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
-        <span>{{ feed.title }}</span>
-    </a>
+{% regroup feed_list by collection_set.first as feeds_by_collection %}
+{#123#}
+{#{{ feed_list }}#}
+{#321#}
+{% for collection in feeds_by_collection %}
+    {% if not collection.grouper %}
+        {% for feed in collection.list|dictsort:"title" %}
+            <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
+               hx-get="{% url 'feed_subscription' slug=feed.slug %}"
+               hx-target="#feed-list"
+               hx-swap="innerHTML scroll:#feed-list-section:top"
+               hx-push-url="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
+               class="button button--ghost button--sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
+               title="{{ feed.title }}"
+               id="feed_{{ feed.id }}"
+            >
+                <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
+                <span>{{ feed.title }}</span>
+            </a>
+        {% endfor %}
+    {% else %}
+        <details class="openable">
+            <summary class="button button--ghost button--sm openable-control">
+                <span class="button__icon openable-control__icon">
+                   {% include 'icons/chevron_right.svg' %}
+                </span>
+                <span class="button__icon">
+                    {% include 'icons/folder.svg' %}
+                </span>
+                <a class="openable__link" href="#">{{ collection.grouper.title }}</a>
+            </summary>
+            <div class="openable-body sidebar-block-content">
+                {% for feed in collection.list|dictsort:"title" %}
+                    <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
+                       hx-get="{% url 'feed_subscription' slug=feed.slug %}"
+                       hx-target="#feed-list"
+                       hx-swap="innerHTML scroll:#feed-list-section:top"
+                       hx-push-url="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
+                       class="button button--ghost button--sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"
+                       title="{{ feed.title }}"
+                       id="feed_{{ feed.id }}"
+                    >
+                        <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">
+                        <span>{{ feed.title }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </details>
+    {% endif %}
 {% endfor %}
+{##}
+{#{% for feed in feed_list %}#}
+{#    <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"#}
+{#       hx-get="{% url 'feed_subscription' slug=feed.slug %}"#}
+{#       hx-target="#feed-list"#}
+{#       hx-swap="innerHTML scroll:#feed-list-section:top"#}
+{#       hx-push-url="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"#}
+{#       class="button button--ghost button--sm {% if request.GET.selected_feed_id == feed.id|stringformat:'d' %}active{% endif %}"#}
+{#       title="{{ feed.title }}"#}
+{#       id="feed_{{ feed.id }}"#}
+{#    >#}
+{#        <img width="20" height="20" alt="{{ feed.title }}" src="{{ feed.icon }}">#}
+{#        <span>{{ feed.title }}</span>#}
+{#    </a>#}
+{#{% endfor %}#}

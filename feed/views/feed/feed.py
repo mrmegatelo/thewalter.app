@@ -1,6 +1,7 @@
+from django.db.models import Prefetch
 from django.views.generic import ListView
 
-from feed.models import Feed
+from feed.models import Feed, Collection
 from feed.views.generic.feed_items_list import FeedFiltersMixin
 
 
@@ -55,5 +56,14 @@ class FeedView(FeedFiltersMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(subscribers=self.request.user)
+        collections_queryset = Collection.objects.filter(user=self.request.user)
+        queryset = queryset.filter(subscribers=self.request.user).prefetch_related(
+            Prefetch(
+                "collection_set",
+                to_attr="collections",
+                queryset=collections_queryset,
+            )
+        ).order_by("collection__title")
+        print("User collections: ", collections_queryset)
+        print("Feed collections: ", queryset.get(id=215).collections)
         return queryset
