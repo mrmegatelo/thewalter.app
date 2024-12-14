@@ -9,10 +9,18 @@
             <span class="button__icon">
                     {% include 'icons/folder.svg' %}
                 </span>
-            <a class="openable__link" href="#">{{ collection.title }}</a>
+            <a class="openable__link"
+               href="{% url 'collection_feed' slug=collection.slug %}"
+               hx-get="{% url 'collection_feed' slug=collection.slug %}"
+               hx-push-url="{% url 'collection_feed' slug=collection.slug %}"
+               hx-swap="innerHTML scroll:#feed-list-section:top"
+               hx-target="#feed-list"
+               title="{{ collection.title }}"
+               id="collection_{{ collection.id }}"
+            >{{ collection.title }}</a>
         </summary>
         <div class="openable-body sidebar-block-content">
-            {% for feed in collection.feeds.all %}
+            {% for feed in collection.feeds_list %}
                 <a href="{% url 'feed_subscription' slug=feed.slug %}{% provide_filters_qs %}"
                    hx-get="{% url 'feed_subscription' slug=feed.slug %}"
                    hx-target="#feed-list"

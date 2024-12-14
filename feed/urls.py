@@ -84,6 +84,11 @@ urlpatterns = [
     ),
     # Collection URLs
     path(
+        "collection/<slug:slug>",
+        login_required(feed.views.collection.CollectionFeedItemsListView.as_view()),
+        name="collection_feed",
+    ),
+    path(
         "collection/new/",
         login_required(feed.views.collection.CollectionCreate.as_view()),
         name="new_collection",
@@ -203,6 +208,11 @@ urlpatterns = [
         "api/v1/feed/parsing_status",
         feed.views.api.ParsingStatus.as_view(),
         name="api_feed_parsing_status",
+    ),
+    path(
+        "api/v1/collection/<int:collection_id>/feed/",
+        feed.views.api.CollectionFeed.as_view(),
+        name="api_collection_feed",
     ),
     path(
         "api/v1/dialog/hide",

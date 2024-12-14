@@ -32,11 +32,11 @@
     >
     </div>
 {% endif %}
-{% if feed_id %}
-    {% url feed_url_name feed_id=feed_id as feed_url %}
-{% else %}
-    {% url feed_url_name as feed_url %}
-{% endif %}
+{#{% if feed_id %}#}
+{#    {% url feed_url_name feed_id=feed_id as feed_url %}#}
+{#{% else %}#}
+{#    {% url feed_url_name as feed_url %}#}
+{#{% endif %}#}
 {% for entry in feeditem_list %}
     {% if feed_id %}
         {% url feet_item_url_name item_pk=entry.id slug=entry.feed.slug as detail_url %}

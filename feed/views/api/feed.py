@@ -2,11 +2,12 @@ from urllib.parse import urlparse, urlunparse
 
 from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
 
-from feed.models import Feed
+from feed.models import Feed, Collection
 from feed.tasks import parse_feed_info
 from feed.utils.helpers import filter_by_feed_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
@@ -20,10 +21,10 @@ class FullFeedList(GenericFeedItemListView):
         return self.feet_item_url_name
 
     def get_feed_url_name(self):
-        return "api_feed_list"
+        return reverse("api_feed_list")
 
     def paginate_queryset(self, queryset, page_size):
-        page = self.request.GET.get('page') or 1
+        page = self.request.GET.get("page") or 1
 
         paginator = self.get_paginator(
             queryset,
@@ -52,7 +53,7 @@ class FullFeedList(GenericFeedItemListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["feet_item_url_name"] = self.get_feed_item_url_name()
-        context["feed_url_name"] = self.get_feed_url_name()
+        context["feed_url"] = self.get_feed_url_name()
         context["liked"] = self.request.user.servicefeed_set.filter(
             type="liked"
         ).first()
@@ -80,13 +81,13 @@ class UserFeedList(FullFeedList):
     def get_feed_url_name(self):
         match self.feed_type:
             case "articles":
-                return "api_feed_articles"
+                return reverse("api_feed_articles")
             case "podcasts":
-                return "api_feed_podcasts"
+                return reverse("api_feed_podcasts")
             case "videos":
-                return "api_feed_videos"
+                return reverse("api_feed_videos")
             case _:
-                return "api_feed_list"
+                return reverse("api_feed_list")
 
     def get_feed_type(self):
         return self.feed_type
@@ -109,7 +110,7 @@ class Favorites(UserFeedList):
     http_method_names = ["get"]
 
     def get_feed_url_name(self):
-        return "api_feed_favorites"
+        return reverse("api_feed_favorites")
 
     def get_feed_item_url_name(self):
         return "favorites_detail"
@@ -120,6 +121,20 @@ class Favorites(UserFeedList):
         if favorites:
             return queryset.filter(id__in=favorites.feed_items.all())
         return queryset
+
+
+class CollectionFeed(UserFeedList):
+    http_method_names = ["get"]
+
+    def get_feed_url_name(self):
+        return reverse(
+            "api_collection_feed",
+            kwargs={"collection_id": self.kwargs.get("collection_id")},
+        )
+
+    def get_queryset(self):
+        collection = Collection.objects.get(pk=self.kwargs.get("collection_id"))
+        return super().get_queryset().filter(feed__collection=collection)
 
 
 class FeedItemListView(FullFeedList):

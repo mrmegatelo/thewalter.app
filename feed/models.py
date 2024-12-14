@@ -76,8 +76,25 @@ class FeedItem(models.Model):
 
 class Collection(models.Model):
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     feeds = models.ManyToManyField(Feed, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.pub_date = datetime.now()
+        # Create a slug if it is not provided. Just to make it easier for the user.
+        if not self.slug:
+            self.slug = slugify(self.title)
+
+        super().save(*args, **kwargs)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'title'],
+                name='unique_name_per_user',
+            )
+        ]
 
 
 class ServiceFeed(models.Model):
