@@ -1,13 +1,12 @@
-from feed.views.generic.feed import GenericFeedView
+from feed.views.feed import FeedView
 
 
-class Subscription(GenericFeedView):
-
+class Subscription(FeedView):
     def get_regular_template_names(self):
-        return 'feed/subscription.html'
+        return "feed/subscription.html"
 
     def get_loader_template_names(self):
-        return 'blocks/feed/loaders/subscription.html'
+        return "blocks/feed/loaders/subscription.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

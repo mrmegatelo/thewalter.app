@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.views.generic import ListView
 
 from feed.models import Feed, Collection
@@ -11,7 +12,15 @@ class SubscriptionsView(ListView, FeedFiltersMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["collections"] = Collection.objects.filter(user=self.request.user)
+        context["collections"] = Collection.objects.filter(
+            user=self.request.user
+        ).prefetch_related(
+            Prefetch(
+                "feeds",
+                to_attr="feeds_list",
+                queryset=Feed.objects.filter(subscribers=self.request.user),
+            )
+        )
         return context
 
     def get_queryset(self):
