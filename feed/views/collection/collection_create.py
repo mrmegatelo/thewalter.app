@@ -9,6 +9,11 @@ class CollectionCreate(FormView, PageMetaMixin, FeedContextMixin, FeedFiltersMix
     form_class = CollectionForm
     template_name = 'forms/collection/new.html'
 
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        response.headers["HX-Trigger"] = "RefreshFeedList"
+        return response
+
     def get_success_url(self):
         if self.request.headers.get('Hx-Request'):
             return reverse('api_dialog_hide')

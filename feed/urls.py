@@ -205,7 +205,7 @@ urlpatterns = [
         name="api_feed_parsing_status",
     ),
     path(
-        "api/v1/dialog/feed/hide",
+        "api/v1/dialog/hide",
         views.api.dialogs.DialogHide.as_view(),
         name="api_dialog_hide",
     ),

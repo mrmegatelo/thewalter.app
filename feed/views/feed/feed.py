@@ -1,4 +1,3 @@
-from django.db.models import Prefetch
 from django.views.generic import ListView
 
 from feed.models import Feed, Collection
@@ -43,6 +42,7 @@ class FeedView(FeedFiltersMixin, ListView):
         context["feed_item_id"] = self.kwargs.get("feed_item_id")
         context["feed_type"] = self.request.GET.get("feed_type")
         context["feed_item_url_name"] = self.feet_item_url_name
+        context["collections"] = Collection.objects.filter(user=self.request.user)
 
         if "slug" in self.kwargs:
             slug = self.kwargs.get("slug")
@@ -55,13 +55,9 @@ class FeedView(FeedFiltersMixin, ListView):
         return context
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        collections_queryset = Collection.objects.filter(user=self.request.user)
-        queryset = queryset.filter(subscribers=self.request.user).prefetch_related(
-            Prefetch(
-                "collection_set",
-                to_attr="collections",
-                queryset=collections_queryset,
-            )
-        ).order_by("collection__title")
-        return queryset
+        return (
+            super()
+            .get_queryset()
+            .filter(subscribers=self.request.user)
+            .filter(collection__isnull=True)
+        )
