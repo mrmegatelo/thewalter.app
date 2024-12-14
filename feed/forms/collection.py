@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.forms import HiddenInput, TextInput, CheckboxSelectMultiple
 from django.forms.models import ModelForm
 
@@ -11,7 +12,7 @@ class CollectionForm(ModelForm):
         if user is not None:
             self.fields["feeds"].queryset = Feed.objects.filter(
                 subscribers=user
-            ).filter(collection__isnull=True)
+            ).filter(Q(collection__isnull=True) | Q(collection__pk=self.instance.pk))
 
     class Meta:
         fields = ["title", "feeds", "user"]

@@ -93,6 +93,11 @@ urlpatterns = [
         login_required(feed.views.collection.CollectionCreate.as_view()),
         name="new_collection",
     ),
+    path(
+        "collection/<slug:slug>/update",
+        login_required(feed.views.collection.CollectionUpdateView.as_view()),
+        name="collection_update",
+    ),
     # Auth URLs
     path(
         "profile/",
@@ -228,5 +233,10 @@ urlpatterns = [
         "api/v1/dialog/collection/new",
         views.api.dialogs.NewCollectionView.as_view(),
         name="api_dialog_collection_new",
+    ),
+    path(
+        "api/v1/dialog/collection/<int:collection_id>/update",
+        views.api.dialogs.CollectionUpdateView.as_view(),
+        name="api_dialog_collection_edit",
     ),
 ]

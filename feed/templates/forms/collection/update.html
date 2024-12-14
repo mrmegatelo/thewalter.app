@@ -1,0 +1,17 @@
+{% load i18n %}
+<form class="form flex-column-button-container"
+      method="post" action="{% url 'collection_update' slug=collection.slug %}"
+      hx-post="{% url 'collection_update' slug=collection.slug %}"
+      hx-swap="outerHTML"
+>
+    {% csrf_token %}
+    <div class="form-inline-row">
+        {{ form.as_div }}
+        <button class="button button--primary button--sm" type="submit">
+            {% translate 'Create' noop %}
+        </button>
+    </div>
+</form>
+<div class="feed-parsing-result" id="feed-parsing-result" hx-swap-oob="true">
+    {% block result %}{% endblock %}
+</div>

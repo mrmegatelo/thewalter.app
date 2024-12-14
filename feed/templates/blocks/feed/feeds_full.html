@@ -3,12 +3,12 @@
 {% for collection in collections %}
     <details class="openable">
         <summary class="button button--ghost button--sm openable-control">
-                <span class="button__icon openable-control__icon">
-                   {% include 'icons/chevron_right.svg' %}
-                </span>
+            <span class="button__icon openable-control__icon">
+                {% include 'icons/chevron_right.svg' %}
+            </span>
             <span class="button__icon">
-                    {% include 'icons/folder.svg' %}
-                </span>
+                {% include 'icons/folder.svg' %}
+            </span>
             <a class="openable__link"
                href="{% url 'collection_feed' slug=collection.slug %}"
                hx-get="{% url 'collection_feed' slug=collection.slug %}"
@@ -18,6 +18,15 @@
                title="{{ collection.title }}"
                id="collection_{{ collection.id }}"
             >{{ collection.title }}</a>
+            <button class="button button--text button--sm"
+                    hx-target="#dialogs-root"
+                    hx-get="{% url 'api_dialog_collection_edit' collection_id=collection.id %}"
+                    title="Edit collection"
+            >
+                 <span class="button__icon">
+                {% include 'icons/settings.svg' %}
+            </span>
+            </button>
         </summary>
         <div class="openable-body sidebar-block-content">
             {% for feed in collection.feeds_list %}
