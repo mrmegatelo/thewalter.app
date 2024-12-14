@@ -13,3 +13,6 @@ class CollectionFeedItemsListView(GenericFeedView):
         context = super().get_context_data(**kwargs)
         context["collection"] = Collection.objects.get(slug=self.kwargs.get("slug"))
         return context
+
+    def get_queryset(self):
+        return super().get_queryset().filter(collection__isnull=True)
