@@ -82,6 +82,12 @@ urlpatterns = [
         login_required(feed.views.feed.feed_success.Created.as_view()),
         name="feed_success",
     ),
+    # Collection URLs
+    path(
+        "collection/new/",
+        login_required(feed.views.collection.CollectionCreate.as_view()),
+        name="new_collection",
+    ),
     # Auth URLs
     path(
         "profile/",
@@ -199,8 +205,18 @@ urlpatterns = [
         name="api_feed_parsing_status",
     ),
     path(
+        "api/v1/dialog/feed/hide",
+        views.api.dialogs.DialogHide.as_view(),
+        name="api_dialog_hide",
+    ),
+    path(
         "api/v1/dialog/feed/new",
         views.api.dialogs.NewFeed.as_view(),
         name="api_dialog_feed_new",
+    ),
+    path(
+        "api/v1/dialog/collection/new",
+        views.api.dialogs.NewCollectionView.as_view(),
+        name="api_dialog_collection_new",
     ),
 ]

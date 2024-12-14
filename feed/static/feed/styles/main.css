@@ -602,6 +602,19 @@ a:hover {
     width: 100%;
 }
 
+.sidebar-block-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-block-header-buttons {
+    display: flex;
+    gap: 8px;
+    color: var(--color-grey-500)
+}
+
 .sidebar-block__sticky {
     position: sticky;
     bottom: 0;
@@ -712,6 +725,10 @@ a:hover {
         }
     }
 
+    &.button--text {
+        padding: 0;
+    }
+
     .loader {
         position: absolute;
         left: 0;
@@ -799,10 +816,9 @@ a:hover {
 
 .button--text {
     background: transparent;
-    color: var(--color-grey-1000);
+    color: inherit;
     box-shadow: none;
     border: none;
-    padding: 0;
 }
 
 .button-group {

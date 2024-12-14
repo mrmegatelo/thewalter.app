@@ -63,7 +63,29 @@
             </a>
         </div>
         <div class="sidebar-block">
-            <h3 class="heading">{% translate 'Feeds' noop %}:</h3>
+            <header class="sidebar-block-header">
+                <h4 class="heading">{% translate 'Feeds' noop %}:</h4>
+
+                <div class="sidebar-block-header-buttons">
+                    <button class="button button--sm button--text"
+                            hx-target="#dialogs-root"
+                            hx-get="{% url 'api_dialog_collection_new' %}"
+                            title="New collection">
+                    <span class="button__icon">
+                        {% include 'icons/folder_new.svg' %}
+                    </span>
+                    </button>
+                    <button class="button button--sm button--text"
+                            hx-target="#dialogs-root"
+                            hx-get="{% url 'api_dialog_feed_new' %}"
+                            title="New feed"
+                    >
+                        <span class="button__icon">
+                            {% include 'icons/plus_circle.svg' %}
+                        </span>
+                    </button>
+                </div>
+            </header>
             <div class="sidebar-block-content"
                  hx-get="{% url 'api_subscriptions' %}"
                  hx-trigger="RefreshFeedList from:body"

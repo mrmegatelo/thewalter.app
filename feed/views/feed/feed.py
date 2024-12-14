@@ -64,6 +64,4 @@ class FeedView(FeedFiltersMixin, ListView):
                 queryset=collections_queryset,
             )
         ).order_by("collection__title")
-        print("User collections: ", collections_queryset)
-        print("Feed collections: ", queryset.get(id=215).collections)
         return queryset
