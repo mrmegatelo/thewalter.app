@@ -21,7 +21,7 @@ class FeedItemDetailView(DetailView):
         return context
 
     def get_template_names(self):
-        match self.object.type():
+        match self.object.type:
             case "audio":
                 return "blocks/feed/detail/podcast.html"
             case "video":

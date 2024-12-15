@@ -2,41 +2,6 @@
 {% load static %}
 {% load humanize %}
 {% load url_with_filters %}
-{% if feed %}
-    <div id="feed-description"
-         class="feed-description"
-         hx-swap-oob="true"
-    >
-        <h3 class="heading">{{ feed.title }}</h3>
-        {% if feed.description %}
-            <p class="paragraph feed-description__text"
-               title="{{ feed.description }}"
-            >
-                {{ feed.description }}
-            </p>
-        {% endif %}
-        <div class="flex-column-button-container sidebar-block-content">
-            <form id="feed-subscription"
-                  method="post"
-                  hx-target="this"
-            >
-                {% include 'blocks/feed/subscription.html' %}
-            </form>
-            <a class="button button--sm button--text" href="{{ feed.url }}" target="_blank">🔗 Original link</a>
-        </div>
-    </div>
-{% else %}
-    <div id="feed-description"
-         class="feed-description"
-         hx-swap-oob="true"
-    >
-    </div>
-{% endif %}
-{#{% if feed_id %}#}
-{#    {% url feed_url_name feed_id=feed_id as feed_url %}#}
-{#{% else %}#}
-{#    {% url feed_url_name as feed_url %}#}
-{#{% endif %}#}
 {% for entry in feeditem_list %}
     {% if feed_id %}
         {% url feet_item_url_name item_pk=entry.id slug=entry.feed.slug as detail_url %}

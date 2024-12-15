@@ -1,7 +1,8 @@
 {% load i18n %}
 {% csrf_token %}
 <input type="hidden" name="filter" value="enabled"/>
-<div class="button-wrapper">
+{% if 'not_interesting' in available_filters %}
+    <div class="button-wrapper">
     <input type="checkbox"
            class="feed-filters-item__checkbox"
            name="filter"
@@ -17,6 +18,8 @@
         {% translate 'Not interesting' noop %}
     </label>
 </div>
+{% endif %}
+{% if 'viewed' in available_filters %}
 <div class="button-wrapper">
     <input type="checkbox"
            class="feed-filters-item__checkbox"
@@ -33,6 +36,8 @@
         {% translate 'Viewed' noop %}
     </label>
 </div>
+{% endif %}
+{% if 'paid' in available_filters %}
 <div class="button-wrapper">
     <input type="checkbox"
            class="feed-filters-item__checkbox"
@@ -49,3 +54,4 @@
         {% translate 'Paid content' noop %}
     </label>
 </div>
+{% endif %}

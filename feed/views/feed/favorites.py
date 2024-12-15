@@ -2,6 +2,8 @@ from feed.views.feed import FeedView
 
 
 class Favorites(FeedView):
+    available_filters = ["paid"]
+
     def get_regular_template_names(self):
         return 'feed/favorites.html'
 

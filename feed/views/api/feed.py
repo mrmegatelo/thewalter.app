@@ -108,6 +108,7 @@ class UserFeedList(FullFeedList):
 
 class Favorites(UserFeedList):
     http_method_names = ["get"]
+    available_filters = ["paid"]
 
     def get_feed_url_name(self):
         return reverse("api_feed_favorites")
@@ -142,7 +143,9 @@ class FeedItemListView(FullFeedList):
     feet_item_url_name = "subscription_detail"
 
     def get_feed_url_name(self):
-        return "api_feed_feed_list"
+        return reverse(
+            "api_feed_feed_list", kwargs={"feed_id": self.kwargs.get("feed_id")}
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

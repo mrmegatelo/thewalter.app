@@ -10,7 +10,6 @@ class Subscription(FeedView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         if "slug" in self.kwargs:
             slug = self.kwargs.get("slug")
             context["feed"] = self.model.objects.get(slug=slug)

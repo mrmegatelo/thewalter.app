@@ -55,6 +55,7 @@ class FeedItem(models.Model):
         """
         return self.pub_date.replace(hour=0, minute=0, second=0, microsecond=0)
 
+    @property
     def type(self):
         """
         Return the type of the feed item based on the type of its attachments.

@@ -24,6 +24,7 @@ class PageMetaMixin(ContextMixin):
 
 class FeedFiltersMixin(ContextMixin, View):
     applied_filters = {"not_interesting": True, "viewed": True}
+    available_filters = ["not_interesting", "viewed", "paid"]
 
     def setup(self, request, *args, **kwargs):
         filters = self.init_filters(request)
@@ -41,6 +42,8 @@ class FeedFiltersMixin(ContextMixin, View):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["applied_filters"] = self.applied_filters
+        context["available_filters"] = self.available_filters
+        context["reload_filters"] = self.request.headers.get("HX-Request") == "true"
         return context
 
 
