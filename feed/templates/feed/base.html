@@ -126,7 +126,9 @@
                         {% include 'blocks/feed/filters.html' %}
                     </form>
                     <a class="button button--xs button--ghost" href="{% url 'feed_index' %}">
-                        {% translate 'Reset filters' noop %}
+                        <span class="button__icon">
+                            {% include 'icons/reset_settings.svg' %}
+                        </span>
                     </a>
                 </div>
             </header>

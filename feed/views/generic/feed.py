@@ -38,7 +38,6 @@ class GenericFeedView(FeedFiltersMixin, ListView):
         )
 
         if "item_pk" in self.kwargs:
-            pass
             pk = self.kwargs.get("item_pk")
             context["feed_item_pk"] = pk
         return context

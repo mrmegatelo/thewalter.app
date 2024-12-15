@@ -3,8 +3,8 @@ from django.db.models.signals import post_save
 
 
 class FeedConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'feed'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "feed"
 
     def ready(self):
         from feed.models import Feed, ServiceFeed, UserSettings
@@ -21,9 +21,15 @@ class FeedConfig(AppConfig):
                 instance.usersettings = UserSettings.objects.create(user=instance)
                 instance.usersettings.save()
 
-            for service_feed_type in ['liked', 'disliked']:
+            for service_feed_type in [
+                ServiceFeed.Type.LIKED,
+                ServiceFeed.Type.DISLIKED,
+                ServiceFeed.Type.VIEWED,
+            ]:
                 if not instance.servicefeed_set.filter(type=service_feed_type).exists():
-                    service_feed = ServiceFeed.objects.create(user=instance, type=service_feed_type)
+                    service_feed = ServiceFeed.objects.create(
+                        user=instance, type=service_feed_type
+                    )
                     instance.servicefeed_set.add(service_feed)
 
         post_save.connect(feed_parse_handler, sender=Feed, weak=False)

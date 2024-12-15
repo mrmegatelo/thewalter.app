@@ -23,7 +23,7 @@ class PageMetaMixin(ContextMixin):
 
 
 class FeedFiltersMixin(ContextMixin, View):
-    applied_filters = {"not_interesting": True}
+    applied_filters = {"not_interesting": True, "viewed": True}
 
     def setup(self, request, *args, **kwargs):
         filters = self.init_filters(request)

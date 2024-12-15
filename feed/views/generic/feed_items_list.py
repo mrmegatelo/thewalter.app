@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_noop as _
 from django.views.generic import ListView
 
-from feed.models import FeedItem
+from feed.models import FeedItem, ServiceFeed
 from feed.views.mixins import PageMetaMixin, FeedFiltersMixin
 
 
@@ -14,16 +14,21 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
 
         not_interesting = self.applied_filters.get('not_interesting', False)
         paid = self.applied_filters.get('paid', False)
+        viewed = self.applied_filters.get('viewed', False)
 
         base_queryset = super().get_queryset()
 
         if not_interesting:
-            not_interesting_qs = self.request.user.servicefeed_set.filter(type='disliked').first().feed_items.all()
+            not_interesting_qs = self.request.user.servicefeed_set.filter(type=ServiceFeed.Type.DISLIKED).first().feed_items.all()
             base_queryset = base_queryset.exclude(id__in=not_interesting_qs)
 
         if paid:
             paid_qs = self.model.objects.filter(has_paid_content=True)
             base_queryset = base_queryset.exclude(id__in=paid_qs)
+
+        if viewed:
+            viewed_qs = self.request.user.servicefeed_set.filter(type=ServiceFeed.Type.VIEWED).first().feed_items.all()
+            base_queryset = base_queryset.exclude(id__in=viewed_qs)
         return base_queryset
 
     def get_context_data(self, **kwargs):

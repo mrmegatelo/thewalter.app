@@ -101,6 +101,7 @@ class ServiceFeed(models.Model):
     class Type(models.TextChoices):
         LIKED = "liked"
         DISLIKED = "disliked"
+        VIEWED = "viewed"
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     type = models.CharField(max_length=20, choices=Type, default=Type.LIKED)

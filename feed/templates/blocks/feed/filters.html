@@ -21,6 +21,22 @@
     <input type="checkbox"
            class="feed-filters-item__checkbox"
            name="filter"
+           id="filter_by_viewed"
+           value="viewed"
+            {% if applied_filters.viewed %}
+           checked
+            {% endif %}
+    />
+    <label for="filter_by_viewed"
+           class="feed-filters-item__title button button--xs button--primary button--outline">
+        <span class="button__icon">{% include 'icons/task_alt.svg' %}</span>
+        {% translate 'Viewed' noop %}
+    </label>
+</div>
+<div class="button-wrapper">
+    <input type="checkbox"
+           class="feed-filters-item__checkbox"
+           name="filter"
            id="filter_by_paid"
            value="paid"
             {% if applied_filters.paid %}
