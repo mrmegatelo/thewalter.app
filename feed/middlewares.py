@@ -40,9 +40,10 @@ def get_viewed(get_response):
                 if key.startswith("viewed_"):
                     request.session.delete(key)
             request.session[session_key] = []
-            for item in get_viewed_qs(request).feed_items.all():
-                request.session[session_key].append(item.pk)
-            print("Viewed items in the session: ", request.session[session_key])
+            viewed = get_viewed_qs(request)
+            if viewed:
+                for item in viewed.feed_items.all():
+                    request.session[session_key].append(item.pk)
 
     def get_processed_response(request):
         resolved = resolve(request.path)
