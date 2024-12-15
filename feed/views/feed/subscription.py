@@ -13,5 +13,5 @@ class Subscription(FeedView):
 
         if "slug" in self.kwargs:
             slug = self.kwargs.get("slug")
-            context["feed"] = self.get_queryset().get(slug=slug)
+            context["feed"] = self.model.objects.get(slug=slug)
         return context
