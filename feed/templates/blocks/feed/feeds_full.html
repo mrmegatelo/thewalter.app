@@ -3,7 +3,7 @@
 {% for collection in collections %}
     <details class="openable">
         <summary class="button button--ghost button--sm openable-control">
-            <span class="button__icon openable-control__icon">
+            <span class="button__icon openable-control__icon openable-control__indicator">
                 {% include 'icons/chevron_right.svg' %}
             </span>
             <span class="button__icon">
@@ -23,7 +23,7 @@
                     hx-get="{% url 'api_dialog_collection_edit' collection_id=collection.id %}"
                     title="Edit collection"
             >
-                 <span class="button__icon">
+                 <span class="button__icon openable-control__icon">
                 {% include 'icons/settings.svg' %}
             </span>
             </button>
