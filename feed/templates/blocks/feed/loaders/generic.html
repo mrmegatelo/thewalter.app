@@ -12,10 +12,10 @@
 {% endif %}
 <ul id="feed-list"
     class="feed-list-wrapper"
-    hx-trigger="load, change from:#feed-filters, RefreshFeed from:body"
+    hx-trigger="load, change from:#feed-filters, RefreshFeed from:body, keyup changed from:#feed-search delay:1s"
     hx-get="{{ load_url }}"
-    hx-include="#feed-filters"
-    hx-params="filter"
+    hx-include="#feed-filters, #feed-search"
+    hx-params="filter, search"
     hx-swap="innerHTML"
     hx-swap-oob="true"
 >
