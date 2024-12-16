@@ -1,21 +1,22 @@
 from django.urls import resolve
 
-from feed.models import ServiceFeed
+from feed.models import FeedItemAction
 
 
 def get_viewed_qs(request):
-    return (
-        ServiceFeed.objects.filter(type=ServiceFeed.Type.VIEWED)
-        .filter(user=request.user)
-        .first()
+    return FeedItemAction.objects.filter(type=FeedItemAction.Type.VIEW).filter(
+        user=request.user
     )
 
 
 def queue_mark_viewed(get_response):
     def try_mark_as_temp_viewed(request, pk):
-        viewed_qs = get_viewed_qs(request)
-        if viewed_qs:
-            viewed_qs.feed_items.add(pk)
+        actions_qs = get_viewed_qs(request).filter(feed_item_id=pk)
+
+        if not actions_qs.exists():
+            FeedItemAction(
+                user=request.user, type=FeedItemAction.Type.VIEW, feed_item_id=pk
+            ).save()
 
     def get_processed_response(request):
         resolved = resolve(request.path)
@@ -41,9 +42,8 @@ def get_viewed(get_response):
                     request.session.delete(key)
             request.session[session_key] = []
             viewed = get_viewed_qs(request)
-            if viewed:
-                for item in viewed.feed_items.all():
-                    request.session[session_key].append(item.pk)
+            for item in viewed.all():
+                request.session[session_key].append(item.pk)
 
     def get_processed_response(request):
         resolved = resolve(request.path)

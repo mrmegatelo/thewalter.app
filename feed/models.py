@@ -74,6 +74,19 @@ class FeedItem(models.Model):
     class Meta:
         ordering = ["-pub_date"]
 
+class FeedItemAction(models.Model):
+    class Type(models.IntegerChoices):
+        LIKE = 1
+        DISLIKE = 2
+        VIEW = 3
+
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    type = models.IntegerField(choices=Type)
+    feed_item = models.ForeignKey(FeedItem, related_name="actions", on_delete=models.CASCADE)
+    performed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "feed_item", "type")
 
 class Collection(models.Model):
     title = models.CharField(max_length=200)
@@ -96,22 +109,6 @@ class Collection(models.Model):
                 name='unique_name_per_user',
             )
         ]
-
-
-class ServiceFeed(models.Model):
-    class Type(models.TextChoices):
-        LIKED = "liked"
-        DISLIKED = "disliked"
-        VIEWED = "viewed"
-
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    type = models.CharField(max_length=20, choices=Type, default=Type.LIKED)
-    feed_items = models.ManyToManyField(
-        FeedItem, related_name="service_feeds", blank=True
-    )
-
-    def __str__(self):
-        return f"{self.type} feed items for {self.user}"
 
 
 class Attachment(models.Model):

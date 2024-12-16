@@ -10,7 +10,7 @@ from .feed import (
     ParsingStatus,
     CollectionFeed,
 )
-from .feed_detail import FeedItemDetailView, FeedItemActions
+from .feed_detail import FeedItemDetailView, FeedItemActionsView
 from .subscriptions import SubscriptionsView
 
 __all__ = [
@@ -18,7 +18,7 @@ __all__ = [
     "FullFeedList",
     "UserFeedList",
     "FeedUnsubscribe",
-    "FeedItemActions",
+    "FeedItemActionsView",
     "FeedFilters",
     "FeedItemListView",
     "FeedTypes",

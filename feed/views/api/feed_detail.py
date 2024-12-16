@@ -2,7 +2,7 @@ from urllib.parse import urlparse
 
 from django.urls import resolve
 from django.views.generic import DetailView
-from feed.models import FeedItem, ServiceFeed
+from feed.models import FeedItem, FeedItemAction
 from feed.utils.helpers import filter_by_feed_type
 
 
@@ -12,12 +12,14 @@ class FeedItemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["liked"] = self.request.user.servicefeed_set.filter(
-            type="liked"
-        ).first()
-        context["disliked"] = self.request.user.servicefeed_set.filter(
-            type="disliked"
-        ).first()
+        feed_item_actions_qs = self.object.actions.filter(user=self.request.user)
+        context["is_liked"] = feed_item_actions_qs.filter(
+            type=FeedItemAction.Type.LIKE,
+        ).exists()
+        context["is_disliked"] = feed_item_actions_qs.filter(
+            type=FeedItemAction.Type.DISLIKE,
+        ).exists()
+
         return context
 
     def get_template_names(self):
@@ -30,7 +32,7 @@ class FeedItemDetailView(DetailView):
                 return "blocks/feed/detail/base.html"
 
 
-class FeedItemActions(FeedItemDetailView):
+class FeedItemActionsView(FeedItemDetailView):
     http_method_names = ["post"]
 
     def get_context_data(self, **kwargs):
@@ -44,35 +46,46 @@ class FeedItemActions(FeedItemDetailView):
 
         match action:
             case "toggle_interesting":
-                self.toggle_interesting(request, *args, **kwargs)
+                self.toggle_interesting(*args, **kwargs)
             case "toggle_liked":
-                self.toggle_liked(request, *args, **kwargs)
+                self.toggle_liked(*args, **kwargs)
             case _:
                 pass
         response = super().get(request, *args, **kwargs)
         return response
 
-    def toggle_interesting(self, request, *args, **kwargs):
+    def toggle_interesting(self, *args, **kwargs):
         feed_item = self.get_object()
-        user = request.user
+        user = self.request.user
 
-        disliked_qs = user.servicefeed_set.filter(type="disliked").first().feed_items
-        if disliked_qs.contains(feed_item):
-            disliked_qs.remove(feed_item)
+        dislike_item = FeedItemAction.objects.filter(
+            feed_item=feed_item, user=user, type=FeedItemAction.Type.DISLIKE
+        )
+        if dislike_item.exists():
+            dislike_item.get().delete()
         else:
-            disliked_qs.add(feed_item)
+            FeedItemAction(
+                feed_item=feed_item, user=user, type=FeedItemAction.Type.DISLIKE
+            ).save()
         return feed_item
 
-    def toggle_liked(self, request, *args, **kwargs):
+    def toggle_liked(self, *args, **kwargs):
         feed_item = self.get_object()
-        user = request.user
 
-        liked_qs = user.servicefeed_set.filter(type="liked").first().feed_items
+        liked_qs = feed_item.actions.filter(user=self.request.user).filter(
+            type=FeedItemAction.Type.LIKE
+        )
 
-        if liked_qs.contains(feed_item):
-            liked_qs.remove(feed_item)
+        was_liked = liked_qs.exists()
+
+        if was_liked:
+            liked_qs.get().delete()
         else:
-            liked_qs.add(feed_item)
+            FeedItemAction(
+                feed_item=feed_item,
+                user=self.request.user,
+                type=FeedItemAction.Type.LIKE,
+            ).save()
 
         return feed_item
 
@@ -86,7 +99,11 @@ class FeedItemActions(FeedItemDetailView):
 
     def get_interesting_action_oob_value(self):
         feed_item = self.get_object()
-        was_disliked = feed_item.service_feeds.filter(type="disliked").exists()
+        was_disliked = (
+            feed_item.actions.filter(user=self.request.user)
+            .filter(type=FeedItemAction.Type.DISLIKE)
+            .exists()
+        )
 
         if was_disliked:
             return f"delete:#feed_item_{feed_item.id}"
@@ -107,9 +124,9 @@ class FeedItemActions(FeedItemDetailView):
             return self.get_object().feed.feed_items
 
         if resolved_url.url_name == "favorites_detail":
-            return FeedItem.objects.filter(
-                service_feeds__user=self.request.user
-            ).filter(service_feeds__type=ServiceFeed.Type.LIKED)
+            return FeedItem.objects.filter(actions__user=self.request.user).filter(
+                actions__type=FeedItemAction.Type.LIKE
+            )
 
         user_feed_items_qs = FeedItem.objects.filter(
             feed__subscribers=self.request.user

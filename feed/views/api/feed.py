@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
 
-from feed.models import Feed, Collection
+from feed.models import Feed, Collection, FeedItemAction, FeedItem
 from feed.tasks import parse_feed_info
 from feed.utils.helpers import filter_by_feed_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
@@ -54,12 +54,16 @@ class FullFeedList(GenericFeedItemListView):
         context = super().get_context_data(**kwargs)
         context["feet_item_url_name"] = self.get_feed_item_url_name()
         context["feed_url"] = self.get_feed_url_name()
-        context["liked"] = self.request.user.servicefeed_set.filter(
-            type="liked"
-        ).first()
-        context["disliked"] = self.request.user.servicefeed_set.filter(
-            type="disliked"
-        ).first()
+        context["liked"] = (
+            FeedItem.objects.filter(actions__user=self.request.user)
+            .filter(actions__type=FeedItemAction.Type.LIKE)
+            .all()
+        )
+        context["disliked"] = (
+            FeedItem.objects.filter(actions__user=self.request.user)
+            .filter(actions__type=FeedItemAction.Type.DISLIKE)
+            .all()
+        )
         return context
 
 
@@ -117,11 +121,12 @@ class Favorites(UserFeedList):
         return "favorites_detail"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        favorites = self.request.user.servicefeed_set.filter(type="liked").first()
-        if favorites:
-            return queryset.filter(id__in=favorites.feed_items.all())
-        return queryset
+        return (
+            super()
+            .get_queryset()
+            .filter(actions__user=self.request.user, actions__type=FeedItemAction.Type.LIKE)
+            .order_by("-actions__performed_at")
+        )
 
 
 class CollectionFeed(UserFeedList):

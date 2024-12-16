@@ -7,7 +7,7 @@ class FeedConfig(AppConfig):
     name = "feed"
 
     def ready(self):
-        from feed.models import Feed, ServiceFeed, UserSettings
+        from feed.models import Feed, UserSettings
         from feed.tasks import parse_feed
         from django.contrib.auth import get_user_model
 
@@ -20,17 +20,6 @@ class FeedConfig(AppConfig):
             except UserSettings.DoesNotExist:
                 instance.usersettings = UserSettings.objects.create(user=instance)
                 instance.usersettings.save()
-
-            for service_feed_type in [
-                ServiceFeed.Type.LIKED,
-                ServiceFeed.Type.DISLIKED,
-                ServiceFeed.Type.VIEWED,
-            ]:
-                if not instance.servicefeed_set.filter(type=service_feed_type).exists():
-                    service_feed = ServiceFeed.objects.create(
-                        user=instance, type=service_feed_type
-                    )
-                    instance.servicefeed_set.add(service_feed)
 
         post_save.connect(feed_parse_handler, sender=Feed, weak=False)
         post_save.connect(usersettings_handler, sender=get_user_model(), weak=False)

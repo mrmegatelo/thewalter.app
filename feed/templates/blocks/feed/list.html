@@ -81,7 +81,7 @@
                             </span>
                 {% endif %}
                 {% with subscribers=entry.feed.subscribers.all %}
-                    {% if user in subscribers and entry in disliked.feed_items.all %}
+                    {% if user in subscribers and entry in disliked %}
                         <span class="feed-item-feature" title="Not interesting">
                                     {% include 'icons/thumb_down.svg' %}
                                 </span>

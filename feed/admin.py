@@ -17,8 +17,8 @@ from .models import (
     WaitlistRequest,
     Invite,
     Attachment,
-    ServiceFeed,
-    Collection
+    Collection,
+    FeedItemAction,
 )
 from .tasks import parse_feed
 
@@ -51,20 +51,19 @@ class FeedAdmin(admin.ModelAdmin):
     actions = [restart_parsing_task]
 
 
-class ServiceFeedAdmin(admin.ModelAdmin):
-    list_display = ['user', 'type']
-    list_filter = ['type', 'user']
-
-
 class FeedItemAdmin(admin.ModelAdmin):
     list_display = ['title', 'feed', 'pub_date']
-    list_filter = ['feed', 'service_feeds']
+    list_filter = ['feed']
     search_fields = ['title', 'description']
     inlines = [AttachmentInline]
 
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ['title', 'user']
     list_filter = ['user']
+
+class FeedItemActionAdmin(admin.ModelAdmin):
+    list_display = ['user', 'type', 'feed_item']
+    list_filter = ['user', 'type']
 
 
 @admin.action(description='Send selected invites')
@@ -120,8 +119,8 @@ admin.site.unregister(User)
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Feed, FeedAdmin)
-admin.site.register(ServiceFeed, ServiceFeedAdmin)
 admin.site.register(FeedItem, FeedItemAdmin)
 admin.site.register(Invite, InviteAdmin)
 admin.site.register(WaitlistRequest, WaitlistRequestAdmin)
 admin.site.register(Collection,CollectionAdmin)
+admin.site.register(FeedItemAction, FeedItemActionAdmin)

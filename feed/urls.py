@@ -206,7 +206,7 @@ urlpatterns = [
     ),
     path(
         "api/v1/feed/actions/<int:pk>/<str:action>",
-        views.api.FeedItemActions.as_view(),
+        views.api.FeedItemActionsView.as_view(),
         name="api_feed_item_toggle_interesting",
     ),
     path(

@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.utils.translation import gettext_noop as _
 from django.views.generic import ListView
 
-from feed.models import FeedItem, ServiceFeed
+from feed.models import FeedItem, FeedItemAction
 from feed.views.mixins import PageMetaMixin, FeedFiltersMixin
 
 
@@ -48,24 +48,20 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
         temp_viewed = self.request.session.get(f"viewed_{self.request.path}", [])
 
         if not_interesting:
-            not_interesting_qs = (
-                self.request.user.servicefeed_set.filter(type=ServiceFeed.Type.DISLIKED)
-                .first()
-                .feed_items.all()
+            not_interesting_qs = self.request.user.feeditemaction_set.filter(
+                type=FeedItemAction.Type.DISLIKE
             )
-            queryset = queryset.exclude(id__in=not_interesting_qs)
+            queryset = queryset.exclude(actions__in=not_interesting_qs)
 
         if paid:
             paid_qs = self.model.objects.filter(has_paid_content=True)
             queryset = queryset.exclude(id__in=paid_qs)
 
         if viewed:
-            viewed_qs = (
-                self.request.user.servicefeed_set.filter(type=ServiceFeed.Type.VIEWED)
-                .first()
-                .feed_items.all()
+            viewed_qs = self.request.user.feeditemaction_set.filter(
+                type=FeedItemAction.Type.VIEW
             )
-            queryset = queryset.exclude(id__in=viewed_qs).exclude(
-                id__in=temp_viewed
+            queryset = queryset.exclude(actions__in=viewed_qs).exclude(
+                actions__in=temp_viewed
             )
         return queryset
