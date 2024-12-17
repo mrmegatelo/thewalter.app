@@ -1,7 +1,5 @@
 from urllib.parse import urlparse, urlunparse
 
-from django.core.cache import cache
-from django.core.cache.utils import make_template_fragment_key
 from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
 from django.urls import reverse
@@ -13,6 +11,7 @@ from feed.models import Feed, Collection, FeedItemAction, FeedItem
 from feed.tasks import parse_feed_info
 from feed.utils.helpers import filter_by_feed_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
+from feed.views.mixins import SidebarCacheCleaningMixin
 
 
 class FullFeedList(GenericFeedItemListView):
@@ -209,7 +208,7 @@ class FeedTypes(TemplateView, ContextMixin):
         return response
 
 
-class FeedUnsubscribe(DetailView):
+class FeedUnsubscribe(DetailView, SidebarCacheCleaningMixin):
     http_method_names = ["post"]
     template_name = "blocks/feed/subscription.html"
     model = Feed
@@ -240,14 +239,6 @@ class FeedUnsubscribe(DetailView):
         feed = Feed.objects.get(pk=feed_id)
         feed.subscribers.remove(request.user)
         feed.save()
-
-    def clean_sidebar_feeds_cache(self):
-        sidebar_feeds_cache_key = make_template_fragment_key(
-            "sidebar_feeds", [self.request.user.username]
-        )
-
-        if cache.get(sidebar_feeds_cache_key):
-            cache.delete(sidebar_feeds_cache_key)
 
 
 class ParsingStatus(TemplateView):

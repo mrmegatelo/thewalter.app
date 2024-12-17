@@ -2,10 +2,13 @@ from django.urls import reverse
 from django.views.generic import FormView
 
 from feed.forms.collection import CollectionForm
-from feed.views.mixins import PageMetaMixin, FeedContextMixin, FeedFiltersMixin
+from feed.views.mixins import (
+    FeedFiltersMixin,
+    SidebarCacheCleaningMixin,
+)
 
 
-class CollectionCreate(FormView, PageMetaMixin, FeedContextMixin, FeedFiltersMixin):
+class CollectionCreate(FormView, FeedFiltersMixin, SidebarCacheCleaningMixin):
     form_class = CollectionForm
     template_name = 'forms/collection/new.html'
 
@@ -21,6 +24,7 @@ class CollectionCreate(FormView, PageMetaMixin, FeedContextMixin, FeedFiltersMix
 
     def form_valid(self, form):
         form.save()
+        self.clean_sidebar_feeds_cache()
         return super().form_valid(form)
 
     def get_initial(self):

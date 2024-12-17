@@ -1,3 +1,5 @@
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 from django.views.generic.base import ContextMixin, View
 from django.utils.translation import gettext_noop as _
 
@@ -68,3 +70,12 @@ class FeedContextMixin(ContextMixin, View):
             )
 
         return context
+
+class SidebarCacheCleaningMixin(View):
+    def clean_sidebar_feeds_cache(self):
+        sidebar_feeds_cache_key = make_template_fragment_key(
+            "sidebar_feeds", [self.request.user.username]
+        )
+
+        if cache.get(sidebar_feeds_cache_key):
+            cache.delete(sidebar_feeds_cache_key)
