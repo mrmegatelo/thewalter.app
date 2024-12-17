@@ -169,6 +169,11 @@ CACHES = {
     }
 }
 
+# Debug toolbar config
+DEBUG_TOOLBAR_CONFIG = {
+    "ROOT_TAG_EXTRA_ATTRS": "hx-preserve",
+    "SHOW_TOOLBAR_CALLBACK": "feed.utils.helpers.show_debug_toolbar_callback",
+}
 
 if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

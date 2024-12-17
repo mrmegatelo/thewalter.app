@@ -9,6 +9,8 @@ from django.http import QueryDict
 from feed.models import Attachment
 from feed.utils.enums import FeedContentTypes
 
+from walter import settings
+
 
 def get_url_content_type(url):
     req = Request(
@@ -81,3 +83,12 @@ def get_articulo_instance(url_or_content, content_type=None):
         return Articulo(url_or_content)
     parsed = feedparser.parse(url_or_content)
     return Articulo(parsed.feed.get("link") or parsed.feed.get("href"))
+
+def show_debug_toolbar_callback(request):
+    if not settings.DEBUG:
+        return False
+    if not request.user.is_authenticated:
+        return False
+    if not request.user.is_staff:
+        return False
+    return True
