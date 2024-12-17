@@ -57,12 +57,10 @@ class FullFeedList(GenericFeedItemListView):
         context["liked"] = (
             FeedItem.objects.filter(actions__user=self.request.user)
             .filter(actions__type=FeedItemAction.Type.LIKE)
-            .all()
         )
         context["disliked"] = (
             FeedItem.objects.filter(actions__user=self.request.user)
             .filter(actions__type=FeedItemAction.Type.DISLIKE)
-            .all()
         )
         return context
 
