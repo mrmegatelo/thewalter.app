@@ -1,5 +1,7 @@
 from urllib.parse import urlparse, urlunparse
 
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 from django.core.paginator import InvalidPage
 from django.http import QueryDict, Http404
 from django.urls import reverse
@@ -54,14 +56,12 @@ class FullFeedList(GenericFeedItemListView):
         context = super().get_context_data(**kwargs)
         context["feet_item_url_name"] = self.get_feed_item_url_name()
         context["feed_url"] = self.get_feed_url_name()
-        context["liked"] = (
-            FeedItem.objects.filter(actions__user=self.request.user)
-            .filter(actions__type=FeedItemAction.Type.LIKE)
-        )
-        context["disliked"] = (
-            FeedItem.objects.filter(actions__user=self.request.user)
-            .filter(actions__type=FeedItemAction.Type.DISLIKE)
-        )
+        context["liked"] = FeedItem.objects.filter(
+            actions__user=self.request.user
+        ).filter(actions__type=FeedItemAction.Type.LIKE)
+        context["disliked"] = FeedItem.objects.filter(
+            actions__user=self.request.user
+        ).filter(actions__type=FeedItemAction.Type.DISLIKE)
         return context
 
 
@@ -122,7 +122,9 @@ class Favorites(UserFeedList):
         return (
             super()
             .get_queryset()
-            .filter(actions__user=self.request.user, actions__type=FeedItemAction.Type.LIKE)
+            .filter(
+                actions__user=self.request.user, actions__type=FeedItemAction.Type.LIKE
+            )
             .order_by("-actions__performed_at")
         )
 
@@ -221,6 +223,8 @@ class FeedUnsubscribe(DetailView):
             case "subscribe":
                 self.subscribe(request, *args, **kwargs)
 
+        self.clean_sidebar_feeds_cache()
+
         response = super().get(request, *args, **kwargs)
         response.headers["HX-Trigger"] = "RefreshFeed, RefreshFeedList"
         return response
@@ -236,6 +240,14 @@ class FeedUnsubscribe(DetailView):
         feed = Feed.objects.get(pk=feed_id)
         feed.subscribers.remove(request.user)
         feed.save()
+
+    def clean_sidebar_feeds_cache(self):
+        sidebar_feeds_cache_key = make_template_fragment_key(
+            "sidebar_feeds", [self.request.user.username]
+        )
+
+        if cache.get(sidebar_feeds_cache_key):
+            cache.delete(sidebar_feeds_cache_key)
 
 
 class ParsingStatus(TemplateView):
