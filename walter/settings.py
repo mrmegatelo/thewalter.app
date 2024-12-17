@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "very_secret_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", 1)) == 1
+
 SENTRY_DSN = os.getenv("SENTRY_DSN")
 INTERNAL_IPS = ["192.168.65.1", "127.0.0.1", "0.0.0.0"]
 
@@ -38,6 +39,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 INSTALLED_APPS = [
     "feed",
     "rules",
+    "debug_toolbar",
     "django_celery_beat",
     "django_celery_results",
     "django.contrib.admin",
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "feed.middlewares.queue_mark_viewed",
     "feed.middlewares.get_viewed",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "walter.urls"
@@ -156,7 +159,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Celery settings
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379/0")
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = "django-db"
 
 # Cache settings
 CACHES = {
