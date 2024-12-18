@@ -9,10 +9,6 @@
                 <img src="{% static 'feed/img/logo.svg' %}" alt="thewalter.app" class="logo">
             </a>
             {% block sidebar %}{% endblock %}
-            <footer class="sidebar-block sidebar-block__sticky">
-                {% block sidebar_bottom %}
-                {% endblock %}
-            </footer>
         </aside>
         <main class="section main">
             {% block main %}{% endblock %}

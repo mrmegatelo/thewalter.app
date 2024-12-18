@@ -10,15 +10,6 @@
     <div class="feed-sidebar">
         <div class="sidebar-block sidebar-block-content">
             <a class="button button--ghost button--sm"
-               href="{% url 'profile' %}"
-            >
-                <span class="button__icon">{% include 'icons/account.svg' %}</span>
-                {% translate 'Profile' %}
-            </a>
-        </div>
-
-        <div class="sidebar-block sidebar-block-content">
-            <a class="button button--ghost button--sm"
                hx-target="#feed-list"
                hx-swap="innerHTML scroll:#feed-list-section:top"
                hx-get="{% url 'feed_index' %}{% provide_filters_qs %}"
@@ -98,17 +89,16 @@
                 </div>
             </div>
         {% endcache %}
-    </div>
-{% endblock %}
 
-{% block sidebar_bottom %}
-    <button class="button button--primary button--sm"
-            hx-target="#dialogs-root"
-            hx-get="{% url 'api_dialog_feed_new' %}"
-    >
-        <span class="button__icon">{% include 'icons/plus_circle.svg' %}</span>
-        {% translate 'Add new feed' noop %}
-    </button>
+        <div class="sidebar-block sidebar-block-content">
+            <a class="button button--ghost button--sm"
+               href="{% url 'profile' %}"
+            >
+                <span class="button__icon">{% include 'icons/account.svg' %}</span>
+                {% translate 'Profile' %}
+            </a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block main %}
