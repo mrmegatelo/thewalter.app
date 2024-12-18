@@ -49,7 +49,7 @@
     >
         <div class="feed-links-list-item-bloginfo">
             <a class="feed-links-list-item-bloginfo__link link paragraph"
-               title="{{ entry.feed }}"
+               title="{{ entry.feed.title }}"
                href="{% url 'feed_subscription' entry.feed.slug %}"
                hx-get="{% url 'api_feed_feed_list' feed_id=entry.feed.id %}"
                hx-target="#feed-list"
@@ -60,7 +60,7 @@
                      height="16"
                      width="16"
                 />
-                <small>{{ entry.feed }}</small>
+                <small>{{ entry.feed.title }}</small>
             </a>
             <small class="paragraph">{{ entry.pub_day|naturalday|title }}</small>
         </div>

@@ -1,9 +1,7 @@
 from urllib.parse import urlparse, urlunparse
 
-from django.core.paginator import InvalidPage
-from django.http import QueryDict, Http404
+from django.http import QueryDict
 from django.urls import reverse
-from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
 
@@ -24,40 +22,10 @@ class FullFeedList(GenericFeedItemListView):
     def get_feed_url_name(self):
         return reverse("api_feed_list")
 
-    def paginate_queryset(self, queryset, page_size):
-        page = self.request.GET.get("page") or 1
-
-        paginator = self.get_paginator(
-            queryset,
-            page_size,
-            orphans=self.get_paginate_orphans(),
-            allow_empty_first_page=self.get_allow_empty(),
-        )
-        try:
-            page_number = int(page)
-        except ValueError:
-            if page == "last":
-                page_number = paginator.num_pages
-            else:
-                raise Http404(
-                    _("Page is not “last”, nor can it be converted to an int.")
-                )
-        try:
-            page = paginator.page(page_number)
-            return paginator, page, page.object_list, page.has_other_pages()
-        except InvalidPage as e:
-            raise Http404(
-                _("Invalid page (%(page_number)s): %(message)s")
-                % {"page_number": page_number, "message": str(e)}
-            )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["feet_item_url_name"] = self.get_feed_item_url_name()
         context["feed_url"] = self.get_feed_url_name()
-        context["liked"] = FeedItem.objects.filter(
-            actions__user=self.request.user
-        ).filter(actions__type=FeedItemAction.Type.LIKE)
         context["disliked"] = FeedItem.objects.filter(
             actions__user=self.request.user
         ).filter(actions__type=FeedItemAction.Type.DISLIKE)

@@ -15,17 +15,14 @@ class GenericFeedItemListView(FeedFiltersMixin, PageMetaMixin, ListView):
         base_queryset = super().get_queryset()
         base_queryset = self.__get_queryset_with_filters(base_queryset)
         base_queryset = self.__get_queryset_with_search(base_queryset)
+        base_queryset = base_queryset.select_related("feed")
+        base_queryset = base_queryset.prefetch_related("feed__subscribers")
+        base_queryset = base_queryset.prefetch_related("actions")
         return base_queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        page = context["page_obj"]
-
-        context["paginator_range"] = page.paginator.get_elided_page_range(
-            page.number, on_each_side=2, on_ends=1
-        )
         context["applied_filters_str"] = self.applied_filters_str
-
         return context
 
     @property
