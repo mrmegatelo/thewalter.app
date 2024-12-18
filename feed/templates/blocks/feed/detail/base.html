@@ -6,7 +6,7 @@
         {% include 'blocks/feed/list/item.html' with feed_item=object %}
     </div>
 {% endif %}
-{% cache None feed_item_detail request.user.username is_liked is_disliked %}
+{% cache 86400 feed_item_detail object.id request.user.username is_liked is_disliked %}
     <div class="feed-detail-container">
         <header class="feed-links-list-item-footer">
             <form method="post"
