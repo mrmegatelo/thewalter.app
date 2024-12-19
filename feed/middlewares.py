@@ -26,9 +26,14 @@ def queue_mark_viewed(get_response):
 
     def middleware(request):
         is_admin_request = request.path.startswith("/admin/")
-        if request.user.is_authenticated and is_admin_request:
-            return get_processed_response(request)
-        return get_response(request)
+        is_debug_sidebar_request = request.path.startswith("/__debug__/")
+        if is_admin_request:
+            return get_response(request)
+        if is_debug_sidebar_request:
+            return get_response(request)
+        if not request.user.is_authenticated:
+            return get_response(request)
+        return get_processed_response(request)
 
     return middleware
 
@@ -36,7 +41,6 @@ def queue_mark_viewed(get_response):
 def get_viewed(get_response):
     def try_process_viewed_session(request, url_name):
         session_key = f"viewed_{request.path}"
-
         if session_key not in request.session:
             for key in request.session.keys():
                 if key.startswith("viewed_"):
@@ -54,8 +58,13 @@ def get_viewed(get_response):
 
     def middleware(request):
         is_admin_request = request.path.startswith("/admin/")
-        if request.user.is_authenticated and not is_admin_request:
-            return get_processed_response(request)
-        return get_response(request)
+        is_debug_sidebar_request = request.path.startswith("/__debug__/")
+        if is_admin_request:
+            return get_response(request)
+        if is_debug_sidebar_request:
+            return get_response(request)
+        if not request.user.is_authenticated:
+            return get_response(request)
+        return get_processed_response(request)
 
     return middleware
