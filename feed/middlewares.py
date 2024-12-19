@@ -25,7 +25,8 @@ def queue_mark_viewed(get_response):
         return get_response(request)
 
     def middleware(request):
-        if request.user.is_authenticated:
+        is_admin_request = request.path.startswith("/admin/")
+        if request.user.is_authenticated and is_admin_request:
             return get_processed_response(request)
         return get_response(request)
 
@@ -52,7 +53,8 @@ def get_viewed(get_response):
         return get_response(request)
 
     def middleware(request):
-        if request.user.is_authenticated:
+        is_admin_request = request.path.startswith("/admin/")
+        if request.user.is_authenticated and not is_admin_request:
             return get_processed_response(request)
         return get_response(request)
 
