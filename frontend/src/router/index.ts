@@ -1,13 +1,35 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import FeedView from '@/views/FeedView.vue'
 
 const router = createRouter({
-  history: createWebHistory('test'),
+  history: createWebHistory('feed'),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'root',
+      component: FeedView,
+      children: [
+        {
+          path: '/favorites',
+          name: 'favorites',
+          component: FeedView,
+        },
+        {
+          path: '/articles',
+          name: 'articles',
+          component: FeedView,
+        },
+        {
+          path: '/podcasts',
+          name: 'podcasts',
+          component: FeedView,
+        },
+        {
+          path: '/videos',
+          name: 'videos',
+          component: FeedView,
+        },
+      ],
     },
     {
       path: '/about',

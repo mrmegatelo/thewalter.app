@@ -13,7 +13,7 @@ register = template.Library()
 
 @register.simple_tag()
 def hmr_client():
-    return mark_safe('<script type="module" src="http://localhost:5173/@vite/client"></script>')
+    return mark_safe('<script type="module" src="http://localhost:5173/static/@vite/client"></script>')
 
 @register.simple_tag()
 def entrypoint_assets():

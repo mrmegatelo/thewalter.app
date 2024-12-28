@@ -13,91 +13,91 @@ from .views.decorators import anonym_required
 urlpatterns = [
     path("", views.index.Index.as_view(), name="index"),
     # Feed  URLs
-    path(
-        "feed/", login_required(feed.views.feed.FeedView.as_view()), name="feed_index"
-    ),
-    path(
-        "feed/items/<int:item_pk>",
-        login_required(feed.views.feed.FeedView.as_view()),
-        name="feed_detail",
-    ),
-    path(
-        "feed/podcasts",
-        login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")),
-        name="feed_podcasts",
-    ),
-    path(
-        "feed/podcasts/<int:item_pk>",
-        login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")),
-        name="feed_podcast_detail",
-    ),
-    path(
-        "feed/articles",
-        login_required(feed.views.feed.FeedView.as_view(feed_type="articles")),
-        name="feed_articles",
-    ),
-    path(
-        "feed/articles/<int:item_pk>",
-        login_required(feed.views.feed.FeedView.as_view(feed_type="articles")),
-        name="feed_article_detail",
-    ),
-    path(
-        "feed/videos",
-        login_required(feed.views.feed.FeedView.as_view(feed_type="videos")),
-        name="feed_videos",
-    ),
-    path(
-        "feed/videos/<int:item_pk>",
-        login_required(feed.views.feed.FeedView.as_view(feed_type="videos")),
-        name="feed_video_detail",
-    ),
-    path(
-        "feed/<slug:slug>",
-        login_required(feed.views.feed.Subscription.as_view()),
-        name="feed_subscription",
-    ),
-    path(
-        "feed/<slug:slug>/<int:item_pk>",
-        login_required(feed.views.feed.Subscription.as_view()),
-        name="subscription_detail",
-    ),
-    path(
-        "favorites/",
-        login_required(feed.views.feed.Favorites.as_view()),
-        name="favorites",
-    ),
-    path(
-        "favorites/<int:item_pk>",
-        login_required(feed.views.feed.Favorites.as_view()),
-        name="favorites_detail",
-    ),
-    # Feed creation
-    path(
-        "feed/new/",
-        login_required(feed.views.feed.FeedCreate.as_view()),
-        name="new_feed",
-    ),
-    path(
-        "feed/new/success/",
-        login_required(feed.views.feed.feed_success.Created.as_view()),
-        name="feed_success",
-    ),
-    # Collection URLs
-    path(
-        "collection/<slug:slug>",
-        login_required(feed.views.collection.CollectionFeedItemsListView.as_view()),
-        name="collection_feed",
-    ),
-    path(
-        "collection/new/",
-        login_required(feed.views.collection.CollectionCreate.as_view()),
-        name="new_collection",
-    ),
-    path(
-        "collection/<slug:slug>/update",
-        login_required(feed.views.collection.CollectionUpdateView.as_view()),
-        name="collection_update",
-    ),
+    # path(
+    #     "feed/", login_required(feed.views.feed.FeedView.as_view()), name="feed_index"
+    # ),
+    # path(
+    #     "feed/items/<int:item_pk>",
+    #     login_required(feed.views.feed.FeedView.as_view()),
+    #     name="feed_detail",
+    # ),
+    # path(
+    #     "feed/podcasts",
+    #     login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")),
+    #     name="feed_podcasts",
+    # ),
+    # path(
+    #     "feed/podcasts/<int:item_pk>",
+    #     login_required(feed.views.feed.FeedView.as_view(feed_type="podcasts")),
+    #     name="feed_podcast_detail",
+    # ),
+    # path(
+    #     "feed/articles",
+    #     login_required(feed.views.feed.FeedView.as_view(feed_type="articles")),
+    #     name="feed_articles",
+    # ),
+    # path(
+    #     "feed/articles/<int:item_pk>",
+    #     login_required(feed.views.feed.FeedView.as_view(feed_type="articles")),
+    #     name="feed_article_detail",
+    # ),
+    # path(
+    #     "feed/videos",
+    #     login_required(feed.views.feed.FeedView.as_view(feed_type="videos")),
+    #     name="feed_videos",
+    # ),
+    # path(
+    #     "feed/videos/<int:item_pk>",
+    #     login_required(feed.views.feed.FeedView.as_view(feed_type="videos")),
+    #     name="feed_video_detail",
+    # ),
+    # path(
+    #     "feed/<slug:slug>",
+    #     login_required(feed.views.feed.Subscription.as_view()),
+    #     name="feed_subscription",
+    # ),
+    # path(
+    #     "feed/<slug:slug>/<int:item_pk>",
+    #     login_required(feed.views.feed.Subscription.as_view()),
+    #     name="subscription_detail",
+    # ),
+    # path(
+    #     "favorites/",
+    #     login_required(feed.views.feed.Favorites.as_view()),
+    #     name="favorites",
+    # ),
+    # path(
+    #     "favorites/<int:item_pk>",
+    #     login_required(feed.views.feed.Favorites.as_view()),
+    #     name="favorites_detail",
+    # ),
+    # # Feed creation
+    # path(
+    #     "feed/new/",
+    #     login_required(feed.views.feed.FeedCreate.as_view()),
+    #     name="new_feed",
+    # ),
+    # path(
+    #     "feed/new/success/",
+    #     login_required(feed.views.feed.feed_success.Created.as_view()),
+    #     name="feed_success",
+    # ),
+    # # Collection URLs
+    # path(
+    #     "collection/<slug:slug>",
+    #     login_required(feed.views.collection.CollectionFeedItemsListView.as_view()),
+    #     name="collection_feed",
+    # ),
+    # path(
+    #     "collection/new/",
+    #     login_required(feed.views.collection.CollectionCreate.as_view()),
+    #     name="new_collection",
+    # ),
+    # path(
+    #     "collection/<slug:slug>/update",
+    #     login_required(feed.views.collection.CollectionUpdateView.as_view()),
+    #     name="collection_update",
+    # ),
     # Auth URLs
     path(
         "profile/",

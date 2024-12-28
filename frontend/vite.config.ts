@@ -21,6 +21,7 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
+    origin: 'http://localhost:5173',
   },
   build: {
     manifest: true,

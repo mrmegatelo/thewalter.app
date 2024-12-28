@@ -1,86 +1,163 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/**
+* Vars
+ */
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  /* Grid system */
+  --grid-columns: 12;
+  --grid-step: 8px;
+  --grid-column-gap: calc(var(--grid-step) * 8);
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
+  /* Colors - Grey*/
+  --color-grey-1000: #2a2a3c;
+  --color-grey-900: #3b3b54;
+  --color-grey-800: #4c4c6b;
+  --color-grey-700: #5d5d83;
+  --color-grey-600: #707099;
+  --color-grey-500: #8888aa;
+  --color-grey-400: #a0a0bb;
+  --color-grey-300: #b7b7cc;
+  --color-grey-200: #cfcfde;
+  --color-grey-100: #e7e7ee;
+  --color-grey-50: #f3f3f7;
 
-  --vt-c-indigo: #2c3e50;
+  /* Colors - Orange */
+  --color-orange-1000: #661300;
+  --color-orange-900: #8f1a00;
+  --color-orange-800: #b82200;
+  --color-orange-700: #e02900;
+  --color-orange-600: #ff370a;
+  --color-orange-500: #ff5833;
+  --color-orange-400: #ff7a5c;
+  --color-orange-300: #ff9b85;
+  --color-orange-200: #ffbcad;
+  --color-orange-100: #ffded6;
 
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+  /* Colors - Yellow */
+  --color-yellow-1000: #614a05;
+  --color-yellow-900: #886807;
+  --color-yellow-800: #ae8509;
+  --color-yellow-700: #d5a30b;
+  --color-yellow-600: #f3bc16;
+  --color-yellow-500: #f5c73d;
+  --color-yellow-400: #f7d264;
+  --color-yellow-300: #f9dd8b;
+  --color-yellow-200: #fbe9b1;
+  --color-yellow-100: #fdf4d9;
 
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  /* Colors - Blue */
+  --color-blue-1000: #035163;
+  --color-blue-900: #04728b;
+  --color-blue-800: #0593b3;
+  --color-blue-700: #06b4db;
+  --color-blue-600: #10cef9;
+  --color0blue-500: #38d6fa;
+  --color-blue-400: #60defb;
+  --color-blue-300: #88e7fc;
+  --color-blue-200: #afeffd;
+  --color-blue-100: #d7f7fe;
+
+  --color-black: #f2e41;
+  --color-white: #ffffff;
+  --color-error: #e02900;
+  --color-blue: #2c67f2;
+  --color-blue-dark: #1a4fdb;
+
+  /* Shadows */
+  --shadow-primary: 0 0 12px -4px rgba(255, 99, 64, 0.9);
 }
 
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
-
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
-
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
-
+/*
+* Josh's Custom CSS Reset
+* https://www.joshwcomeau.com/css/custom-css-reset/
+*/
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+* {
   margin: 0;
-  font-weight: normal;
 }
 
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+html,
+.root {
+  font-size: 16px;
+}
+
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1rem;
+  line-height: 1.5rem;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-grey-1000);
+}
+
+h1,
+.h1 {
+  font-size: 1.75rem;
+  line-height: 3rem;
+}
+
+h2,
+.h2 {
+  font-size: 1.4375rem;
+  line-height: 1.5rem;
+}
+
+h3,
+.h3 {
+  font-size: 1.1875rem;
+  line-height: 1.5rem;
+}
+
+h4,
+.h4 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+h5,
+.h5 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+small {
+  font-size: 0.833rem;
+  line-height: 1rem;
 }
