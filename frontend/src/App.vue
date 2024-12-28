@@ -1,24 +1,39 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterLink, RouterView} from 'vue-router'
 import Button from '@/components/Button.vue'
 import IconHome from '@/components/icons/IconHome.vue'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconArticle from '@/components/icons/IconArticle.vue'
 import IconHeadphones from '@/components/icons/IconHeadphones.vue'
 import IconMovie from '@/components/icons/IconMovie.vue'
+import {reactive} from "vue";
+
+const feedsStore = reactive({
+  feeds: [],
+  loading: true,
+  setFeeds(feeds: any[]) {
+    this.feeds = feeds
+  }
+})
+
+fetch('/api/v1/feed/')
+  .then((res) => res.json())
+  .then((res) => {
+    feedsStore.setFeeds(res)
+  })
 </script>
 
 <template>
   <div class="root-container">
     <aside id="sidebar" class="section sidebar">
       <a class="sidebar-logo" href="#">
-        <img alt="thewalter.app logo" class="logo" src="@/assets/logo.svg" />
+        <img alt="thewalter.app logo" class="logo" src="@/assets/logo.svg"/>
       </a>
       <div class="sidebar-block sidebar-block-content">
         <RouterLink to="/" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconHome />
+              <IconHome/>
             </template>
             Home
           </Button>
@@ -26,7 +41,7 @@ import IconMovie from '@/components/icons/IconMovie.vue'
         <RouterLink to="/favorites" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconFavorite filled />
+              <IconFavorite filled/>
             </template>
             Favorites
           </Button>
@@ -34,7 +49,7 @@ import IconMovie from '@/components/icons/IconMovie.vue'
         <RouterLink to="/articles" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconArticle />
+              <IconArticle/>
             </template>
             Articles
           </Button>
@@ -42,7 +57,7 @@ import IconMovie from '@/components/icons/IconMovie.vue'
         <RouterLink to="/podcasts" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconHeadphones />
+              <IconHeadphones/>
             </template>
             Podcasts
           </Button>
@@ -50,15 +65,28 @@ import IconMovie from '@/components/icons/IconMovie.vue'
         <RouterLink to="/videos" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconMovie />
+              <IconMovie/>
             </template>
             Videos
           </Button>
         </RouterLink>
       </div>
+      <div class="sidebar-block">
+        <div class="sidebar-block-header">
+          <h4>Feeds:</h4>
+        </div>
+        <div class="sidebar-block-content">
+          <RouterLink v-for="feed in feedsStore.feeds" :to="feed.slug" v-slot="{ href, navigate }" custom>
+            <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
+              <img  width="20" height="20" :alt="feed.name" :src="feed.icon" />
+              {{ feed.title }}
+            </Button>
+          </RouterLink>
+        </div>
+      </div>
     </aside>
     <main class="section main">
-      <RouterView />
+      <RouterView/>
     </main>
   </div>
 </template>

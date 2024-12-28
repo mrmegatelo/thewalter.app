@@ -29,6 +29,11 @@ const router = createRouter({
           name: 'videos',
           component: FeedView,
         },
+        {
+          path: '/:slug',
+          name: 'feed_list',
+          component: FeedView,
+        }
       ],
     },
     {

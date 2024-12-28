@@ -160,7 +160,7 @@ urlpatterns = [
         feed.views.api.SubscriptionsView.as_view(),
         name="api_subscriptions",
     ),
-    path("api/v1/feed/", feed.views.api.UserFeedList.as_view(), name="api_feed_list"),
+    path("api/v1/feed/", feed.views.api.FeedListView.as_view(), name="api_feed_list"),
     path(
         "api/v1/feed/articles",
         feed.views.api.UserFeedList.as_view(feed_type="articles"),

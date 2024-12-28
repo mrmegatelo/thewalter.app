@@ -1,15 +1,27 @@
 from urllib.parse import urlparse, urlunparse
 
+from django.db.models import Prefetch
 from django.http import QueryDict
 from django.urls import reverse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
+from rest_framework.generics import ListCreateAPIView
 
 from feed.models import Feed, Collection, FeedItemAction, FeedItem
+from feed.serializers import FeedSerializer
 from feed.tasks import parse_feed_info
 from feed.utils.helpers import filter_by_feed_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 from feed.views.mixins import SidebarCacheCleaningMixin
+
+class FeedListView(ListCreateAPIView):
+    model = Feed
+    serializer_class = FeedSerializer
+
+    def get_queryset(self):
+        return self.model.objects.filter(subscribers=self.request.user).prefetch_related(
+            Prefetch('collection_set', to_attr="collections")
+        )
 
 
 class FullFeedList(GenericFeedItemListView):
