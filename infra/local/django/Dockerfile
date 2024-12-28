@@ -29,23 +29,23 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false
 RUN poetry install --only main
 
-COPY ./infra/local/entrypoint /entrypoint
+COPY ./infra/local/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
 RUN chmod +x /entrypoint
 
-COPY ./infra/local/start /start
+COPY ./infra/local/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
-COPY ./infra/local/celery/worker/start /start-celeryworker
+COPY ./infra/local/django/celery/worker/start /start-celeryworker
 RUN sed -i 's/\r$//g' /start-celeryworker
 RUN chmod +x /start-celeryworker
 
-COPY ./infra/local/celery/beat/start /start-celerybeat
+COPY ./infra/local/django/celery/beat/start /start-celerybeat
 RUN sed -i 's/\r$//g' /start-celerybeat
 RUN chmod +x /start-celerybeat
 
-COPY ./infra/local/celery/flower/start /start-flower
+COPY ./infra/local/django/celery/flower/start /start-flower
 RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
 

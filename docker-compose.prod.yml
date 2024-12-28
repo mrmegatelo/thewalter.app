@@ -33,9 +33,24 @@ services:
       - mediafiles:/app/mediafiles
     env_file:
       - .env
+    environment:
+      DOCKER: true
     depends_on:
-      - redis
-      - db
+      frontend:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+      db:
+        condition: service_started
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./infra/local/frontend/Dockerfile
+    command: build
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
   db:
     image: postgres:16-alpine

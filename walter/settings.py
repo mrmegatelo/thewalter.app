@@ -28,8 +28,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "very_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", 1)) == 1
 
-SENTRY_DSN = os.getenv("SENTRY_DSN")
 INTERNAL_IPS = ["192.168.65.1", "127.0.0.1", "0.0.0.0"]
+if os.getenv("DOCKER"):
+    import socket
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS += [ip[:-1] + '1' for ip in ips]
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(" ")
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -38,6 +41,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 INSTALLED_APPS = [
     "feed",
+    "frontend",
     "rules",
     "debug_toolbar",
     "django_celery_beat",
@@ -186,6 +190,8 @@ if not DEBUG:
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
     DEFAULT_FROM_EMAIL = "no-reply@thewalter.app"
+
+    SENTRY_DSN = os.getenv("SENTRY_DSN")
 
     if SENTRY_DSN:
         sentry_sdk.init(

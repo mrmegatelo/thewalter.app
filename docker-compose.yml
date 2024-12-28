@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./infra/local/Dockerfile
+      dockerfile: ./infra/local/django/Dockerfile
     image: walter_web
     # '/start' is the shell script used to run the service
     command: /start
@@ -13,13 +13,27 @@ services:
     volumes:
       - .:/app
     ports:
-      - 8000:8000
+      - "8000:8000"
     # env_file is used to manage the env variables of our project
     env_file:
       - .env
+    environment:
+      DOCKER: true
     depends_on:
       - redis
       - db
+      - frontend
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./infra/local/frontend/Dockerfile
+    command: dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
 
   db:
     image: postgres:16-alpine
@@ -36,7 +50,7 @@ services:
   celery_worker:
     build:
       context: .
-      dockerfile: ./infra/local/Dockerfile
+      dockerfile: ./infra/local/django/Dockerfile
     image: walter_worker
     command: /start-celeryworker
     volumes:
@@ -50,7 +64,7 @@ services:
   celery_beat:
     build:
       context: .
-      dockerfile: ./infra/local/Dockerfile
+      dockerfile: ./infra/local/django/Dockerfile
     image: walter_beat
     command: /start-celerybeat
     volumes:
@@ -64,7 +78,7 @@ services:
   flower:
     build:
       context: .
-      dockerfile: ./infra/local/Dockerfile
+      dockerfile: ./infra/local/django/Dockerfile
     image: walter_flower
     command: /start-flower
     volumes:
@@ -72,7 +86,7 @@ services:
     env_file:
       - .env
     ports:
-      - 5555:5555
+      - "5555:5555"
     depends_on:
       - redis
       - db
