@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "frontend",
     "rules",
     "debug_toolbar",
+    "rest_framework",
     "django_celery_beat",
     "django_celery_results",
     "django.contrib.admin",
@@ -177,6 +178,14 @@ CACHES = {
 DEBUG_TOOLBAR_CONFIG = {
     "ROOT_TAG_EXTRA_ATTRS": "hx-preserve",
     "SHOW_TOOLBAR_CALLBACK": "feed.utils.helpers.show_debug_toolbar_callback",
+}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
 
 if DEBUG:

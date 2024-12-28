@@ -505,6 +505,20 @@ files = [
 Django = ">=3.2,<6.0"
 
 [[package]]
+name = "djangorestframework"
+version = "3.15.2"
+description = "Web APIs for Django, made easy."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "djangorestframework-3.15.2-py3-none-any.whl", hash = "sha256:2b8871b062ba1aefc2de01f773875441a961fefbf79f5eed1e32b2f096944b20"},
+    {file = "djangorestframework-3.15.2.tar.gz", hash = "sha256:36fe88cd2d6c6bec23dca9804bab2ba5517a8bb9d8f47ebc68981b56840107ad"},
+]
+
+[package.dependencies]
+django = ">=4.2"
+
+[[package]]
 name = "exceptiongroup"
 version = "1.2.2"
 description = "Backport of PEP 654 (exception groups)"
@@ -1707,4 +1721,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "3.10.9"
-content-hash = "1d7d299bac3d7d9dd7b05b94bf43f0fa42d7adf9f4e41d2d6f497c061e2a5540"
+content-hash = "5b2d525f5d2e1aefd38ecd0d3f90707807600daa49138c0c5f1aab6010701252"
