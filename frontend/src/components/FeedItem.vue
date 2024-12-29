@@ -2,9 +2,11 @@
 import { useFeedStore } from '@/stores/feed.ts'
 import { onMounted, useTemplateRef } from 'vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
+import { useRoute } from 'vue-router'
 
 const emit = defineEmits(['appear'])
 
+const route = useRoute()
 const { id } = defineProps({ id: Number })
 const { getFeedById } = useSubscriptionsStore()
 const feedStore = useFeedStore()
@@ -22,35 +24,61 @@ onMounted(() => {
   })
   observer.observe(feedItemRef.value)
 })
+
+function getDetailLinkParams() {
+  return {
+    name: 'feed_item_detail',
+    params: {
+      slug: feed?.slug,
+      id: feedItem.id
+    }
+  }
+}
+
+function getFeedLinkParams() {
+  return {
+    name: 'feed_list',
+    params: {
+      slug: feed?.slug
+    }
+  }
+}
 </script>
 
 <template>
   <li ref="feed-item" class="feed-links-list-item" :key="feedItem.id">
     <div class="feed-links-list-item-bloginfo">
-      <a :href="`/feed/${feed.slug}`" class="feed-links-list-item-bloginfo__link link paragraph">
+      <RouterLink
+        :to="getFeedLinkParams()"
+        class="feed-links-list-item-bloginfo__link link paragraph"
+      >
         <img :src="feed.icon" height="16" width="16" />
         <small>{{ feed.title }}</small>
-      </a>
+      </RouterLink>
       <small class="paragraph">
         {{ feedItem.pub_date }}
       </small>
     </div>
-    <a href="#" class="feed-links-list-item-link">
+    <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-link">
       <h4 class="heading feed-links-list-item__title">{{ feedItem.title }}</h4>
-    </a>
+    </RouterLink>
     <div class="feed-links-list-item-body">
-      <a href="#" class="feed-links-list-item-text">
+      <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-text">
         <p class="feed-links-list-item__description">{{ feedItem.description }}</p>
-      </a>
+      </RouterLink>
     </div>
-    <a class="feed-links-list-item-bloginfo-cover" href="#" :title="feedItem.title">
+    <RouterLink
+      class="feed-links-list-item-bloginfo-cover"
+      :to="getDetailLinkParams()"
+      :title="feedItem.title"
+    >
       <img
         v-if="feedItem.preview"
         class="feed-links-list-item-bloginfo-cover__image"
         :src="feedItem.preview"
         :alt="feedItem.title"
       />
-    </a>
+    </RouterLink>
   </li>
 </template>
 

@@ -1,20 +1,72 @@
 <script setup lang="ts">
-import { computed, watch, defineProps } from 'vue'
+import { computed, defineProps, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
+import FeedItem from '@/components/FeedItem.vue'
+import { useFeedStore } from '@/stores/feed.ts'
 import { useCollectionsStore } from '@/stores/collections.ts'
 
 const route = useRoute()
-
+const { feed_type } = defineProps({ feed_type: String })
+const feedStore = useFeedStore()
 const subscriptions = useSubscriptionsStore()
-const collections = useCollectionsStore()
+const { getFeedBySlug } = subscriptions
+const { getCollectionBySlug } = useCollectionsStore()
 
-const currentFeed = computed(() => subscriptions.getFeedBySlug(route.params.slug))
+const nextLink = ref(null)
+
+const currentFeed = computed(() => {
+  if (!route.params.slug) {
+    return null
+  }
+  return subscriptions.getFeedBySlug(route.params.slug as string)
+})
+
+function get_fetch_url_by_type() {
+  switch (feed_type) {
+    case 'feed':
+      const feed = getFeedBySlug(route.params.slug as string)
+      return `/api/v1/subscriptions/${feed?.id}/feed/`
+    case 'collection':
+      const collection = getCollectionBySlug(route.params.slug as string)
+      return `/api/v1/collections/${collection?.id}/feed/`
+    case 'favorites':
+      return '/api/v1/favorites/'
+    case 'podcasts':
+      return '/api/v1/podcasts/'
+    case 'videos':
+      return '/api/v1/videos/'
+    default:
+      return '/api/v1/feed/'
+  }
+}
+
+async function fetchFeed(url: string) {
+  return fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      feedStore.appendItems(res.results)
+      nextLink.value = res.next
+    })
+}
+
+watch(get_fetch_url_by_type, (fetch_url) => {
+  feedStore.$reset()
+  fetchFeed(fetch_url)
+})
+
+function handleScroll(idx: number) {
+  if (idx === feedStore.items.length - 1) {
+    if (nextLink.value) {
+      fetchFeed(nextLink.value)
+    }
+  }
+}
 </script>
 
 <template>
   <div class="section splitted">
-    <section id="feed-list-section" class="section list">
+    <section id="list" class="section list">
       <header class="feed-header">
         <div class="feed-description">
           <h3 class="heading">{{ currentFeed?.title }}</h3>
@@ -27,9 +79,18 @@ const currentFeed = computed(() => subscriptions.getFeedBySlug(route.params.slug
           </p>
         </div>
       </header>
+      <ul class="feed-list-wrapper">
+        <FeedItem
+          v-for="(feedItem, idx) in feedStore.items"
+          v-on:appear.once="handleScroll(idx)"
+          :key="feedItem.id"
+          :id="feedItem.id"
+        />
+      </ul>
+    </section>
+    <section id="detail" class="section">
       <RouterView />
     </section>
-    <section class="section"></section>
   </div>
 </template>
 
@@ -59,5 +120,14 @@ const currentFeed = computed(() => subscriptions.getFeedBySlug(route.params.slug
   -webkit-box-orient: vertical;
   overflow: hidden;
   -webkit-line-clamp: 5;
+  line-clamp: 5;
+}
+
+.feed-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0 0 calc(var(--grid-step) * 4);
+  list-style: none;
 }
 </style>
