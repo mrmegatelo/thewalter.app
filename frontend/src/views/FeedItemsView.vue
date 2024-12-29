@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { defineProps, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { defineProps, watch, ref } from 'vue'
+import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { useFeedStore } from '@/stores/feed.ts'
 import FeedItem from '@/components/FeedItem.vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { useCollectionsStore } from '@/stores/collections.ts'
 
 const { feed_type } = defineProps({ feed_type: String })
-const { getFeedBySlug, getFeedById } = useSubscriptionsStore()
+const { getFeedBySlug } = useSubscriptionsStore()
 const { getCollectionBySlug } = useCollectionsStore()
 const feedStore = useFeedStore()
 const route = useRoute()
+const nextLink = ref(null)
 
-const get_fetch_url_by_type = () => {
+function get_fetch_url_by_type() {
   switch (feed_type) {
     case 'feed':
       const feed = getFeedBySlug(route.params.slug)
@@ -31,19 +32,25 @@ const get_fetch_url_by_type = () => {
   }
 }
 
-watch(get_fetch_url_by_type, (fetch_url) => {
-  fetchFeed(fetch_url).then((res) => {
-    feedStore.setItems(res.results)
-  })
-})
-
 async function fetchFeed(url: string) {
-  return fetch(url).then((res) => res.json())
+  return fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      feedStore.appendItems(res.results)
+      nextLink.value = res.next
+    })
 }
+
+watch(get_fetch_url_by_type, (fetch_url) => {
+  feedStore.$reset()
+  fetchFeed(fetch_url)
+})
 
 function handleScroll(idx: number) {
   if (idx === feedStore.items.length - 1) {
-    console.log('scroll')
+    if (nextLink.value) {
+      fetchFeed(nextLink.value)
+    }
   }
 }
 </script>
@@ -52,7 +59,7 @@ function handleScroll(idx: number) {
   <ul class="feed-list-wrapper">
     <FeedItem
       v-for="(feedItem, idx) in feedStore.items"
-      v-on:appear="handleScroll(idx)"
+      v-on:appear.once="handleScroll(idx)"
       :key="feedItem.id"
       :id="feedItem.id"
     />
