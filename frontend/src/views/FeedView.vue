@@ -29,7 +29,7 @@ const currentFeed = computed(() => subscriptions.getFeedBySlug(route.params.slug
       </header>
       <RouterView />
     </section>
-    <section class="detail-section"></section>
+    <section class="section"></section>
   </div>
 </template>
 

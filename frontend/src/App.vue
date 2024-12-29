@@ -139,6 +139,17 @@ Promise.all([
   }
 }
 
+.main, .list, .splitted {
+    --side-padding: 0;
+    --vertical-padding: 0;
+}
+
+.splitted {
+    display: grid;
+    grid-template-columns: 500px minmax(500px, 1fr);
+}
+
+
 .sidebar {
   --sidebar-bg: var(--color-grey-50);
   --side-padding: 0;
