@@ -30,6 +30,11 @@ const router = createRouter({
           component: FeedView,
         },
         {
+          path: 'collection/:slug',
+          name: 'collection_feed_list',
+          component: FeedView,
+        },
+        {
           path: '/:slug',
           name: 'feed_list',
           component: FeedView,

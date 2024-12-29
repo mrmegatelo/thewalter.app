@@ -76,7 +76,9 @@ Promise.all([
         <div class="sidebar-block-content">
           <Openable :key="collection.id" v-for="collection in feedsStore.feedsByCollection">
             <template v-slot:trigger>
-              <span>{{ collection.title }}</span>
+              <RouterLink class="openable__link" :to="`/collection/${collection.slug}`">
+                {{collection.title}}
+              </RouterLink>
             </template>
             <template v-slot:icon>
               <IconFolder />

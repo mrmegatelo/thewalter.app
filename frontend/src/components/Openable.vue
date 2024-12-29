@@ -21,7 +21,7 @@ import IconFolder from '@/components/icons/IconFolder.vue'
   </details>
 </template>
 
-<style scoped>
+<style>
 .openable {
   &[open] {
     & .openable-control__indicator svg {
