@@ -1,35 +1,34 @@
 <script setup lang="ts">
-import {useFeedStore} from '@/stores/feed.ts'
-import {useFeedsStore} from '@/stores/feeds.ts'
-import {onMounted, useTemplateRef} from "vue";
+import { useFeedStore } from '@/stores/feed.ts'
+import { onMounted, useTemplateRef } from 'vue'
+import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 
-const emit = defineEmits(["appear"])
+const emit = defineEmits(['appear'])
 
-const {id} = defineProps({id: Number})
-const {getFeedById} = useFeedsStore()
+const { id } = defineProps({ id: Number })
+const { getFeedById } = useSubscriptionsStore()
 const feedStore = useFeedStore()
 const feedItem = feedStore.getItemById(id)
-const feed = getFeedById(feedItem.feed);
-const feedItemRef = useTemplateRef("feed-item")
+const feed = getFeedById(feedItem.feed)
+const feedItemRef = useTemplateRef('feed-item')
 
 onMounted(() => {
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        emit("appear")
+        emit('appear')
       }
     })
-  });
-  observer.observe(feedItemRef.value);
-});
-
+  })
+  observer.observe(feedItemRef.value)
+})
 </script>
 
 <template>
   <li ref="feed-item" class="feed-links-list-item" :key="feedItem.id">
     <div class="feed-links-list-item-bloginfo">
       <a :href="`/feed/${feed.slug}`" class="feed-links-list-item-bloginfo__link link paragraph">
-        <img :src="feed.icon" height="16" width="16"/>
+        <img :src="feed.icon" height="16" width="16" />
         <small>{{ feed.title }}</small>
       </a>
       <small class="paragraph">

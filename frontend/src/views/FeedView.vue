@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed, watch, defineProps } from 'vue'
 import { useRoute } from 'vue-router'
-import { useFeedsStore } from '@/stores/feeds.ts'
+import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
+import { useCollectionsStore } from '@/stores/collections.ts'
 
 const route = useRoute()
 
-const store = useFeedsStore()
+const subscriptions = useSubscriptionsStore()
+const collections = useCollectionsStore()
 
-const currentFeed = computed(() => store.getFeedBySlug(route.params.slug))
+const currentFeed = computed(() => subscriptions.getFeedBySlug(route.params.slug))
 </script>
 
 <template>

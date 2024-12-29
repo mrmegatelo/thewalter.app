@@ -6,18 +6,20 @@ import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconArticle from '@/components/icons/IconArticle.vue'
 import IconHeadphones from '@/components/icons/IconHeadphones.vue'
 import IconMovie from '@/components/icons/IconMovie.vue'
-import { useFeedsStore } from '@/stores/feeds.ts'
+import { useSubscriptionsStore } from '@/stores/subscriptions'
+import { useCollectionsStore } from '@/stores/collections.ts'
 import Openable from '@/components/Openable.vue'
 import IconFolder from '@/components/icons/IconFolder.vue'
 
-const feedsStore = useFeedsStore()
+const subscriptionsStore = useSubscriptionsStore()
+const collectionsStore = useCollectionsStore()
 
 Promise.all([
   fetch('/api/v1/subscriptions/').then((res) => res.json()),
   fetch('/api/v1/collections/').then((res) => res.json()),
 ]).then(([feeds, collections]) => {
-  feedsStore.setFeeds(feeds)
-  feedsStore.setCollections(collections)
+  subscriptionsStore.setSubscriptions(feeds)
+  collectionsStore.setCollections(collections)
 })
 </script>
 
@@ -74,7 +76,7 @@ Promise.all([
           <h4>Feeds:</h4>
         </div>
         <div class="sidebar-block-content">
-          <Openable :key="collection.id" v-for="collection in feedsStore.feedsByCollection">
+          <Openable :key="collection.id" v-for="collection in collectionsStore.feedsByCollection">
             <template v-slot:trigger>
               <RouterLink class="openable__link" :to="`/collection/${collection.slug}`">
                 {{ collection.title }}
@@ -97,7 +99,7 @@ Promise.all([
           </Openable>
           <RouterLink
             :key="feed.id"
-            v-for="feed in feedsStore.feedsWithoutCollection"
+            v-for="feed in subscriptionsStore.feedsWithoutCollection"
             :to="`/${feed.slug}`"
             v-slot="{ href, navigate }"
             custom

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import {computed, defineProps, watch} from 'vue'
-import {useFeedsStore} from '@/stores/feeds.ts'
-import {useRoute} from 'vue-router'
-import {useFeedStore} from '@/stores/feed.ts'
+import { defineProps, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { useFeedStore } from '@/stores/feed.ts'
 import FeedItem from '@/components/FeedItem.vue'
+import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
+import { useCollectionsStore } from '@/stores/collections.ts'
 
-const {feed_type} = defineProps({feed_type: String})
-const {getFeedBySlug, getFeedById, getCollectionBySlug} = useFeedsStore()
+const { feed_type } = defineProps({ feed_type: String })
+const { getFeedBySlug, getFeedById } = useSubscriptionsStore()
+const { getCollectionBySlug } = useCollectionsStore()
 const feedStore = useFeedStore()
 const route = useRoute()
 
