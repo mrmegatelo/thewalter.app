@@ -5,19 +5,20 @@ from django.http import QueryDict
 from django.urls import reverse
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView
 
 from feed.models import Feed, Collection, FeedItemAction, FeedItem
-from feed.serializers import FeedSerializer, CollectionSerializer
+from feed.serializers import FeedSerializer, CollectionSerializer, FeedItemSerializer
 from feed.tasks import parse_feed_info
 from feed.utils.helpers import filter_by_feed_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 from feed.views.mixins import SidebarCacheCleaningMixin
 
 
-class FeedListView(ListCreateAPIView):
+class SubscriptionsListView(ListCreateAPIView):
     model = Feed
     serializer_class = FeedSerializer
+    pagination_class = None
 
     def get_queryset(self):
         return self.model.objects.filter(
@@ -34,6 +35,7 @@ class FeedListView(ListCreateAPIView):
 class CollectionListView(ListCreateAPIView):
     model = Collection
     serializer_class = CollectionSerializer
+    pagination_class = None
 
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user).prefetch_related(
@@ -41,6 +43,24 @@ class CollectionListView(ListCreateAPIView):
                 "feeds", queryset=Feed.objects.filter(subscribers=self.request.user)
             )
         )
+
+
+class FeedListView(ListAPIView):
+    model = FeedItem
+    serializer_class = FeedItemSerializer
+
+    def get_queryset(self):
+        return self.model.objects.filter(feed__subscribers=self.request.user).prefetch_related("feed")
+
+
+class CollectionFeedListView(FeedListView):
+    def get_queryset(self):
+        return super().get_queryset().filter(collections=self.kwargs.get("pk"))
+
+
+class SubscriptionsFeedListView(FeedListView):
+    def get_queryset(self):
+        return super().get_queryset().filter(feed=self.kwargs.get("pk"))
 
 
 class FullFeedList(GenericFeedItemListView):

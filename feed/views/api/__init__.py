@@ -9,8 +9,11 @@ from .feed import (
     Favorites,
     ParsingStatus,
     CollectionFeed,
+    SubscriptionsListView,
+    CollectionListView,
     FeedListView,
-    CollectionListView
+    SubscriptionsFeedListView,
+    CollectionFeedListView,
 )
 from .feed_detail import FeedItemDetailView, FeedItemActionsView
 from .subscriptions import SubscriptionsView
@@ -29,6 +32,9 @@ __all__ = [
     "FeedItemDetailView",
     "SubscriptionsView",
     "CollectionFeed",
-    "FeedListView",
+    "SubscriptionsListView",
     "CollectionListView",
+    "FeedListView",
+    "SubscriptionsFeedListView",
+    "CollectionFeedListView",
 ]

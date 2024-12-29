@@ -13,8 +13,8 @@ import IconFolder from '@/components/icons/IconFolder.vue'
 const feedsStore = useFeedsStore()
 
 Promise.all([
-  fetch('/api/v1/feed/').then((res) => res.json()),
-  fetch('/api/v1/collection/').then((res) => res.json()),
+  fetch('/api/v1/subscriptions/').then((res) => res.json()),
+  fetch('/api/v1/collections/').then((res) => res.json()),
 ]).then(([feeds, collections]) => {
   feedsStore.setFeeds(feeds)
   feedsStore.setCollections(collections)
@@ -77,7 +77,7 @@ Promise.all([
           <Openable :key="collection.id" v-for="collection in feedsStore.feedsByCollection">
             <template v-slot:trigger>
               <RouterLink class="openable__link" :to="`/collection/${collection.slug}`">
-                {{collection.title}}
+                {{ collection.title }}
               </RouterLink>
             </template>
             <template v-slot:icon>
@@ -85,7 +85,7 @@ Promise.all([
             </template>
             <RouterLink
               v-for="feed in collection.feeds"
-              :to="feed.slug"
+              :to="`/${feed.slug}`"
               v-slot="{ href, navigate }"
               custom
             >
@@ -98,7 +98,7 @@ Promise.all([
           <RouterLink
             :key="feed.id"
             v-for="feed in feedsStore.feedsWithoutCollection"
-            :to="feed.slug"
+            :to="`/${feed.slug}`"
             v-slot="{ href, navigate }"
             custom
           >
@@ -116,7 +116,7 @@ Promise.all([
   </div>
 </template>
 
-<style scoped>
+<style>
 .root-container {
   display: grid;
   grid-template-columns: 300px 1fr;

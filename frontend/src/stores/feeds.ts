@@ -13,7 +13,18 @@ interface Feed {
 interface Collection {
   id: string
   title: string
+  slug: string
   feeds: number[]
+}
+
+interface FeedItem {
+  description: string
+  has_paid_content: boolean
+  link: string
+  preview: string
+  pub_date: string
+  title: string
+  id: number
 }
 
 interface FeedsState {
@@ -32,6 +43,24 @@ export const useFeedsStore = defineStore('feeds', {
         }
 
         return state.feeds.find((feed) => feed.slug === slug)
+      }
+    },
+    getFeedById(state) {
+      return (id: number) => {
+        if (state.isLoading) {
+          return null
+        }
+
+        return state.feeds.find((feed) => feed.id === id)
+      }
+    },
+    getCollectionBySlug(state) {
+      return (slug: string) => {
+        if (state.isLoading) {
+          return null
+        }
+
+        return state.collections.find((collection) => collection.slug === slug)
       }
     },
     feedsByCollection(state) {

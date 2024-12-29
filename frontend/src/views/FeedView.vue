@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed, watch, defineProps } from 'vue'
 import { useRoute } from 'vue-router'
 import { useFeedsStore } from '@/stores/feeds.ts'
 
@@ -7,7 +7,7 @@ const route = useRoute()
 
 const store = useFeedsStore()
 
-const feed = computed(() => store.getFeedBySlug(route.params.slug))
+const currentFeed = computed(() => store.getFeedBySlug(route.params.slug))
 </script>
 
 <template>
@@ -15,20 +15,19 @@ const feed = computed(() => store.getFeedBySlug(route.params.slug))
     <section id="feed-list-section" class="section list">
       <header class="feed-header">
         <div class="feed-description">
-          <h3 class="heading">{{ feed?.title }}</h3>
+          <h3 class="heading">{{ currentFeed?.title }}</h3>
           <p
-            v-if="feed?.description"
+            v-if="currentFeed?.description"
             class="paragraph feed-description__text"
-            title="{{ feed.description }}"
+            title="{{ currentFeed.description }}"
           >
-            {{ feed.description }}
+            {{ currentFeed.description }}
           </p>
         </div>
       </header>
+      <RouterView />
     </section>
-    <section class="detail-section">
-      <!--      <RouterView />-->
-    </section>
+    <section class="detail-section"></section>
   </div>
 </template>
 

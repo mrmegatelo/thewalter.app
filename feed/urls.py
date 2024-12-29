@@ -155,12 +155,36 @@ urlpatterns = [
         name="invite_accept_complete",
     ),
     # API URLs
+    # path(
+    #     "api/v1/subscriptions",
+    #     feed.views.api.SubscriptionsView.as_view(),
+    #     name="api_subscriptions",
+    # ),
     path(
-        "api/v1/subscriptions",
-        feed.views.api.SubscriptionsView.as_view(),
-        name="api_subscriptions",
+        "api/v1/collections/",
+        feed.views.api.CollectionListView.as_view(),
+        name="api_collection_list",
     ),
-    path("api/v1/feed/", feed.views.api.FeedListView.as_view(), name="api_feed_list"),
+    path(
+        "api/v1/collections/<int:pk>/feed/",
+        feed.views.api.CollectionFeedListView.as_view(),
+        name="api_collection_feed_list",
+    ),
+    path(
+        "api/v1/subscriptions/",
+        feed.views.api.SubscriptionsListView.as_view(),
+        name="api_subscriptions_list",
+    ),
+    path(
+        "api/v1/subscriptions/<int:pk>/feed/",
+        feed.views.api.SubscriptionsFeedListView.as_view(),
+        name="api_subscription_feed_list",
+    ),
+    path(
+        "api/v1/feed/",
+        feed.views.api.FeedListView.as_view(),
+        name="api_feed_list",
+    ),
     path(
         "api/v1/feed/articles",
         feed.views.api.UserFeedList.as_view(feed_type="articles"),
@@ -213,11 +237,6 @@ urlpatterns = [
         "api/v1/feed/parsing_status",
         feed.views.api.ParsingStatus.as_view(),
         name="api_feed_parsing_status",
-    ),
-    path(
-        "api/v1/collection/",
-        feed.views.api.CollectionListView.as_view(),
-        name="api_collection_list",
     ),
     path(
         "api/v1/collection/<int:collection_id>/feed/",

@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import FeedView from '@/views/FeedView.vue'
+import AboutView from '@/views/AboutView.vue'
+import FeedItemsView from '@/views/FeedItemsView.vue'
 
 const router = createRouter({
   history: createWebHistory('feed'),
@@ -10,44 +12,48 @@ const router = createRouter({
       component: FeedView,
       children: [
         {
+          path: '/',
+          name: 'feed',
+          component: FeedItemsView,
+          props: { feed_type: 'default' },
+        },
+        {
           path: '/favorites',
           name: 'favorites',
-          component: FeedView,
+          component: FeedItemsView,
+          props: { feed_type: 'favorites' },
         },
         {
           path: '/articles',
           name: 'articles',
-          component: FeedView,
+          component: FeedItemsView,
+          props: { feed_type: 'articles' },
         },
         {
           path: '/podcasts',
           name: 'podcasts',
-          component: FeedView,
+          component: FeedItemsView,
+          props: { feed_type: 'podcasts' },
         },
         {
           path: '/videos',
           name: 'videos',
-          component: FeedView,
+          component: FeedItemsView,
+          props: { feed_type: 'videos' },
         },
         {
           path: 'collection/:slug',
           name: 'collection_feed_list',
-          component: FeedView,
+          component: FeedItemsView,
+          props: { feed_type: 'collection' },
         },
         {
           path: '/:slug',
           name: 'feed_list',
-          component: FeedView,
+          component: FeedItemsView,
+          props: { feed_type: 'feed' },
         },
       ],
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
     },
   ],
 })
