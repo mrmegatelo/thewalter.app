@@ -8,19 +8,38 @@ from django.views.generic.base import ContextMixin
 from rest_framework.generics import ListCreateAPIView
 
 from feed.models import Feed, Collection, FeedItemAction, FeedItem
-from feed.serializers import FeedSerializer
+from feed.serializers import FeedSerializer, CollectionSerializer
 from feed.tasks import parse_feed_info
 from feed.utils.helpers import filter_by_feed_type
 from feed.views.generic.feed_items_list import FeedFiltersMixin, GenericFeedItemListView
 from feed.views.mixins import SidebarCacheCleaningMixin
+
 
 class FeedListView(ListCreateAPIView):
     model = Feed
     serializer_class = FeedSerializer
 
     def get_queryset(self):
-        return self.model.objects.filter(subscribers=self.request.user).prefetch_related(
-            Prefetch('collection_set', to_attr="collections")
+        return self.model.objects.filter(
+            subscribers=self.request.user
+        ).prefetch_related(
+            Prefetch(
+                "collection_set",
+                to_attr="collections",
+                queryset=Collection.objects.filter(user=self.request.user),
+            )
+        )
+
+
+class CollectionListView(ListCreateAPIView):
+    model = Collection
+    serializer_class = CollectionSerializer
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user).prefetch_related(
+            Prefetch(
+                "feeds", queryset=Feed.objects.filter(subscribers=self.request.user)
+            )
         )
 
 

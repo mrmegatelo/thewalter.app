@@ -215,6 +215,11 @@ urlpatterns = [
         name="api_feed_parsing_status",
     ),
     path(
+        "api/v1/collection/",
+        feed.views.api.CollectionListView.as_view(),
+        name="api_collection_list",
+    ),
+    path(
         "api/v1/collection/<int:collection_id>/feed/",
         feed.views.api.CollectionFeed.as_view(),
         name="api_collection_feed",

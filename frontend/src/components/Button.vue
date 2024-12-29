@@ -20,7 +20,7 @@ const sizeClass = computed(() => (size ? `button--${size}` : ''))
   </component>
 </template>
 
-<style scoped>
+<style>
 .button {
   position: relative;
   display: inline-flex;

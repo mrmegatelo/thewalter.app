@@ -33,7 +33,7 @@ const router = createRouter({
           path: '/:slug',
           name: 'feed_list',
           component: FeedView,
-        }
+        },
       ],
     },
     {

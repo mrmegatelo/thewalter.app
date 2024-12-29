@@ -1,39 +1,37 @@
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 import Button from '@/components/Button.vue'
 import IconHome from '@/components/icons/IconHome.vue'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
 import IconArticle from '@/components/icons/IconArticle.vue'
 import IconHeadphones from '@/components/icons/IconHeadphones.vue'
 import IconMovie from '@/components/icons/IconMovie.vue'
-import {reactive} from "vue";
+import { useFeedsStore } from '@/stores/feeds.ts'
+import Openable from '@/components/Openable.vue'
+import IconFolder from '@/components/icons/IconFolder.vue'
 
-const feedsStore = reactive({
-  feeds: [],
-  loading: true,
-  setFeeds(feeds: any[]) {
-    this.feeds = feeds
-  }
+const feedsStore = useFeedsStore()
+
+Promise.all([
+  fetch('/api/v1/feed/').then((res) => res.json()),
+  fetch('/api/v1/collection/').then((res) => res.json()),
+]).then(([feeds, collections]) => {
+  feedsStore.setFeeds(feeds)
+  feedsStore.setCollections(collections)
 })
-
-fetch('/api/v1/feed/')
-  .then((res) => res.json())
-  .then((res) => {
-    feedsStore.setFeeds(res)
-  })
 </script>
 
 <template>
   <div class="root-container">
     <aside id="sidebar" class="section sidebar">
       <a class="sidebar-logo" href="#">
-        <img alt="thewalter.app logo" class="logo" src="@/assets/logo.svg"/>
+        <img alt="thewalter.app logo" class="logo" src="@/assets/logo.svg" />
       </a>
       <div class="sidebar-block sidebar-block-content">
         <RouterLink to="/" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconHome/>
+              <IconHome />
             </template>
             Home
           </Button>
@@ -41,7 +39,7 @@ fetch('/api/v1/feed/')
         <RouterLink to="/favorites" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconFavorite filled/>
+              <IconFavorite filled />
             </template>
             Favorites
           </Button>
@@ -49,7 +47,7 @@ fetch('/api/v1/feed/')
         <RouterLink to="/articles" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconArticle/>
+              <IconArticle />
             </template>
             Articles
           </Button>
@@ -57,7 +55,7 @@ fetch('/api/v1/feed/')
         <RouterLink to="/podcasts" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconHeadphones/>
+              <IconHeadphones />
             </template>
             Podcasts
           </Button>
@@ -65,7 +63,7 @@ fetch('/api/v1/feed/')
         <RouterLink to="/videos" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
             <template v-slot:icon>
-              <IconMovie/>
+              <IconMovie />
             </template>
             Videos
           </Button>
@@ -76,9 +74,34 @@ fetch('/api/v1/feed/')
           <h4>Feeds:</h4>
         </div>
         <div class="sidebar-block-content">
-          <RouterLink v-for="feed in feedsStore.feeds" :to="feed.slug" v-slot="{ href, navigate }" custom>
+          <Openable :key="collection.id" v-for="collection in feedsStore.feedsByCollection">
+            <template v-slot:trigger>
+              <span>{{ collection.title }}</span>
+            </template>
+            <template v-slot:icon>
+              <IconFolder />
+            </template>
+            <RouterLink
+              v-for="feed in collection.feeds"
+              :to="feed.slug"
+              v-slot="{ href, navigate }"
+              custom
+            >
+              <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
+                <img width="20" height="20" :alt="feed.title" :src="feed.icon" />
+                {{ feed.title }}
+              </Button>
+            </RouterLink>
+          </Openable>
+          <RouterLink
+            :key="feed.id"
+            v-for="feed in feedsStore.feedsWithoutCollection"
+            :to="feed.slug"
+            v-slot="{ href, navigate }"
+            custom
+          >
             <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-              <img  width="20" height="20" :alt="feed.name" :src="feed.icon" />
+              <img width="20" height="20" :alt="feed.title" :src="feed.icon" />
               {{ feed.title }}
             </Button>
           </RouterLink>
@@ -86,7 +109,7 @@ fetch('/api/v1/feed/')
       </div>
     </aside>
     <main class="section main">
-      <RouterView/>
+      <RouterView />
     </main>
   </div>
 </template>
