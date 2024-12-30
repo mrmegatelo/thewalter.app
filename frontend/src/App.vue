@@ -14,12 +14,14 @@ import IconFolder from '@/components/icons/IconFolder.vue'
 const subscriptionsStore = useSubscriptionsStore()
 const collectionsStore = useCollectionsStore()
 
+subscriptionsStore.isLoading = true;
 Promise.all([
   fetch('/api/v1/subscriptions/').then((res) => res.json()),
   fetch('/api/v1/collections/').then((res) => res.json()),
 ]).then(([feeds, collections]) => {
-  subscriptionsStore.setSubscriptions(feeds)
-  collectionsStore.setCollections(collections)
+  subscriptionsStore.setSubscriptions(feeds);
+  collectionsStore.setCollections(collections);
+  subscriptionsStore.isLoading = false;
 })
 </script>
 

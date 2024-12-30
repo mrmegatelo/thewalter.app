@@ -23,6 +23,10 @@ const currentFeed = computed(() => {
 })
 
 function get_fetch_url_by_type() {
+  if (subscriptions.isLoading) {
+    return null
+  }
+
   switch (feed_type) {
     case 'feed':
       const feed = getFeedBySlug(route.params.slug as string)
@@ -51,9 +55,13 @@ async function fetchFeed(url: string) {
 }
 
 watch(get_fetch_url_by_type, (fetch_url) => {
+  if (!fetch_url) {
+    return
+  }
+
   feedStore.$reset()
   fetchFeed(fetch_url)
-})
+}, { immediate: true })
 
 function handleScroll(idx: number) {
   if (idx === feedStore.items.length - 1) {

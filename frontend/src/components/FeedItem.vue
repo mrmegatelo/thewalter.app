@@ -43,6 +43,18 @@ function getFeedLinkParams() {
     }
   }
 }
+
+function stripTags(htmlString: string) {
+  // Create a new DOMParser instance
+  const parser = new DOMParser()
+  // Parse the HTML string
+  const doc = parser.parseFromString(htmlString, 'text/html')
+  // Extract text content
+  const textContent = doc.body.textContent || ''
+  // Trim whitespace
+  return textContent.trim()
+}
+
 </script>
 
 <template>
@@ -64,7 +76,7 @@ function getFeedLinkParams() {
     </RouterLink>
     <div class="feed-links-list-item-body">
       <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-text">
-        <p class="feed-links-list-item__description">{{ feedItem.description }}</p>
+        <p class="feed-links-list-item__description">{{ stripTags(feedItem.description) }}</p>
       </RouterLink>
     </div>
     <RouterLink
