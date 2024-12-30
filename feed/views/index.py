@@ -12,7 +12,7 @@ class Index(TemplateView, PageMetaMixin):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('feed_index')
+            return redirect('/feed/')
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
