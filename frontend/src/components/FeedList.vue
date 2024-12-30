@@ -16,8 +16,7 @@ function handleScroll(idx: number) {
   }
 }
 
-async function fetchFeed(url: string) {
-  feedStore.isLoading = true
+async function fetchFeed(url: string | URL) {
   return fetch(url)
     .then((res) => res.json())
     .then((res) => {
@@ -28,8 +27,23 @@ async function fetchFeed(url: string) {
 }
 
 watchEffect(async () => {
+  if (!fetchUrl) {
+    return;
+  }
+
+  feedStore.isLoading = true
+  const url = new URL(fetchUrl, window.location.origin)
+  for (const [filter, values] of Object.entries(feedStore.filters)) {
+    if (Array.isArray(values)) {
+      values.forEach(value => {
+        url.searchParams.append(filter, value)
+      })
+    } else {
+      url.searchParams.append(filter, values)
+    }
+  }
   feedStore.$reset()
-  await fetchFeed(fetchUrl)
+  await fetchFeed(url)
 })
 </script>
 
@@ -47,8 +61,9 @@ watchEffect(async () => {
 
 <style scoped>
 .feed-list-loader {
-    padding: calc(var(--grid-step) * 2) calc(var(--grid-step) * 3);
+  padding: calc(var(--grid-step) * 2) calc(var(--grid-step) * 3);
 }
+
 .feed-list-wrapper {
   display: flex;
   flex-direction: column;

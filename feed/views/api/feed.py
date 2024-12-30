@@ -54,20 +54,46 @@ class FeedListView(ListAPIView):
             feed__subscribers=self.request.user
         ).prefetch_related("feed")
 
-        match self.request.GET.get("type"):
-            case "favorite":
-                queryset = queryset.filter(
-                    Q(actions__user=self.request.user)
-                    | Q(actions__type=FeedItemAction.Type.LIKE)
-                )
-            case "article":
-                queryset = filter_by_feed_type(queryset, "articles")
-            case "podcast":
-                queryset = filter_by_feed_type(queryset, "podcasts")
-            case "video":
-                queryset = filter_by_feed_type(queryset, "videos")
+        queryset = self.apply_type_filters(queryset)
+        queryset = self.apply_exclude_filters(queryset)
 
         return queryset
+
+    def apply_exclude_filters(self, queryset):
+        exclude = self.request.GET.get("exclude", default=[])
+
+        if "viewed" in exclude:
+            queryset = queryset.exclude(
+                Q(actions__user=self.request.user),
+                Q(actions__type=FeedItemAction.Type.VIEW)
+            )
+
+        if "not_interesting" in exclude:
+            queryset = queryset.exclude(
+                Q(actions__user=self.request.user),
+                Q(actions__type=FeedItemAction.Type.DISLIKE)
+            )
+
+        if "paid" in exclude:
+            queryset = queryset.exclude(has_paid_content=True)
+
+        return queryset
+
+    def apply_type_filters(self, queryset):
+        match self.request.GET.get("type"):
+            case "favorite":
+                return queryset.filter(
+                    Q(actions__user=self.request.user),
+                    Q(actions__type=FeedItemAction.Type.LIKE)
+                )
+            case "article":
+                return filter_by_feed_type(queryset, "articles")
+            case "podcast":
+                return filter_by_feed_type(queryset, "podcasts")
+            case "video":
+                return filter_by_feed_type(queryset, "videos")
+            case _:
+                return queryset
 
 
 class CollectionFeedListView(FeedListView):

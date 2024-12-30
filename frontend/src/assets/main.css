@@ -1,1 +1,8 @@
 @import './base.css';
+
+.heading {
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: -0.01em;
+}

@@ -11,20 +11,27 @@ interface FeedItem {
   id: number
 }
 
+type Filter = string | string[]
+
 interface FeedState {
   items: FeedItem[]
   total: number
+  filters: Record<string, Filter>
   isLoading: boolean
 }
 
 export const useFeedStore = defineStore('feed', {
-  state: () => ({ items: [], total: 0, isLoading: false }) as FeedState,
+  state: () => ({ items: [], total: 0, isLoading: false, filters: { exclude: ['viewed', 'not_interesting'] } }) as FeedState,
   getters: {
     getItemById: (state: FeedState) => (id: number) => state.items.find((item) => item.id === id),
+    filterEnabled: (state: FeedState) => (name: string) => state.filters[name],
   },
   actions: {
     setItems(items: FeedItem[]) {
       this.items = items
+    },
+    setFilters(filters: Record<string, Filter>) {
+      this.filters = filters
     },
     appendItems(items: FeedItem[]) {
       this.items = this.items.concat(items)

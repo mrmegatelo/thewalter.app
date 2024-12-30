@@ -32,7 +32,7 @@ const router = createRouter({
       children: [
         {
           path: 'items/:id',
-          name: 'feed_item_detail',
+          name: 'favorites_detail',
           component: FeedItemDetail
         }
       ]
@@ -45,7 +45,7 @@ const router = createRouter({
       children: [
         {
           path: 'items/:id',
-          name: 'feed_item_detail',
+          name: 'articles_detail',
           component: FeedItemDetail
         }
       ]
@@ -58,7 +58,7 @@ const router = createRouter({
       children: [
         {
           path: 'items/:id',
-          name: 'feed_item_detail',
+          name: 'podcasts_detail',
           component: FeedItemDetail
         }
       ]
@@ -71,7 +71,7 @@ const router = createRouter({
       children: [
         {
           path: 'items/:id',
-          name: 'feed_item_detail',
+          name: 'videos_detail',
           component: FeedItemDetail
         }
       ]

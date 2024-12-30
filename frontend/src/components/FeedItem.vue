@@ -28,7 +28,7 @@ onMounted(() => {
 function getDetailLinkParams() {
   const parentOrCurrentRoute = route.matched[0];
   const detailRoute  = parentOrCurrentRoute.children[0];
-
+  console.log({ detailRouteName: detailRoute.name, parentOrCurrentRoute, route });
   return {
     name: detailRoute.name,
     params: {
