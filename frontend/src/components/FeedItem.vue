@@ -26,10 +26,13 @@ onMounted(() => {
 })
 
 function getDetailLinkParams() {
+  const parentOrCurrentRoute = route.matched[0];
+  const detailRoute  = parentOrCurrentRoute.children[0];
+
   return {
-    name: 'feed_item_detail',
+    name: detailRoute.name,
     params: {
-      slug: feed?.slug,
+      slug: route.params.slug,
       id: feedItem.id
     }
   }

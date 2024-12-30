@@ -16,6 +16,13 @@ const router = createRouter({
       name: 'feed',
       component: FeedView,
       props: { feed_type: 'default' },
+      children: [
+        {
+          path: 'items/:id',
+          name: 'feed_item_detail',
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/favorites',
@@ -46,6 +53,13 @@ const router = createRouter({
       name: 'collection_feed_list',
       component: FeedView,
       props: { feed_type: 'collection' },
+      children: [
+        {
+          path: 'items/:id',
+          name: 'collection_feed_item_detail',
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/:slug',
@@ -55,7 +69,7 @@ const router = createRouter({
       children: [
         {
           path: 'items/:id',
-          name: 'feed_item_detail',
+          name: 'feed_list_item_detail',
           component: FeedItemDetail,
         },
       ],
