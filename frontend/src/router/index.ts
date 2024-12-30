@@ -5,7 +5,7 @@ import FeedItemDetail from '@/views/FeedItemDetail.vue'
 const router = createRouter({
   history: createWebHistory('feed'),
   scrollBehavior(to) {
-    const el = to.name === 'feed_item_detail' ? '#detail' : '#list'
+    const el = to.name?.toString().endsWith('_item_detail') ? '#detail' : '#list'
     // FIXME: this is a dirty hack for scroll because the default scroll behaviour does not work properly
     document.querySelector(el)?.scrollTo(0, 0)
     return false
