@@ -88,6 +88,8 @@ function stripTags(htmlString: string) {
       :title="feedItem.title"
     >
       <img
+        width="452"
+        height="226"
         v-if="feedItem.preview"
         class="feed-links-list-item-bloginfo-cover__image"
         :src="feedItem.preview"

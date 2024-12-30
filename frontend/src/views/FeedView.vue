@@ -2,18 +2,15 @@
 import { computed, defineProps, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
-import FeedItem from '@/components/FeedItem.vue'
 import { useFeedStore } from '@/stores/feed.ts'
 import { useCollectionsStore } from '@/stores/collections.ts'
+import FeedList from '@/components/FeedList.vue'
 
 const route = useRoute()
 const { feed_type } = defineProps({ feed_type: String })
-const feedStore = useFeedStore()
 const subscriptions = useSubscriptionsStore()
 const { getFeedBySlug } = subscriptions
 const { getCollectionBySlug } = useCollectionsStore()
-
-const nextLink = ref(null)
 
 const currentFeed = computed(() => {
   if (!route.params.slug) {
@@ -22,7 +19,7 @@ const currentFeed = computed(() => {
   return subscriptions.getFeedBySlug(route.params.slug as string)
 })
 
-function get_fetch_url_by_type() {
+const fetch_url = computed(() => {
   if (subscriptions.isLoading) {
     return null
   }
@@ -45,33 +42,8 @@ function get_fetch_url_by_type() {
     default:
       return '/api/v1/feed/?'
   }
-}
+})
 
-async function fetchFeed(url: string) {
-  return fetch(url)
-    .then((res) => res.json())
-    .then((res) => {
-      feedStore.appendItems(res.results)
-      nextLink.value = res.next
-    })
-}
-
-watch(get_fetch_url_by_type, (fetch_url) => {
-  if (!fetch_url) {
-    return
-  }
-
-  feedStore.$reset()
-  fetchFeed(fetch_url)
-}, { immediate: true })
-
-function handleScroll(idx: number) {
-  if (idx === feedStore.items.length - 1) {
-    if (nextLink.value) {
-      fetchFeed(nextLink.value)
-    }
-  }
-}
 </script>
 
 <template>
@@ -89,14 +61,7 @@ function handleScroll(idx: number) {
           </p>
         </div>
       </header>
-      <ul class="feed-list-wrapper">
-        <FeedItem
-          v-for="(feedItem, idx) in feedStore.items"
-          v-on:appear.once="handleScroll(idx)"
-          :key="feedItem.id"
-          :id="feedItem.id"
-        />
-      </ul>
+      <FeedList v-if="fetch_url" :fetch-url="fetch_url" />
     </section>
     <section id="detail" class="section">
       <RouterView />
@@ -131,13 +96,5 @@ function handleScroll(idx: number) {
   overflow: hidden;
   -webkit-line-clamp: 5;
   line-clamp: 5;
-}
-
-.feed-list-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 0 0 calc(var(--grid-step) * 4);
-  list-style: none;
 }
 </style>
