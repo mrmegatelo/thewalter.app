@@ -3,6 +3,7 @@ import { useFeedStore } from '@/stores/feed.ts'
 import { onMounted, useTemplateRef } from 'vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { useRoute } from 'vue-router'
+import IconPaid from '@/components/icons/IconPaid.vue'
 
 const emit = defineEmits(['appear'])
 
@@ -26,15 +27,15 @@ onMounted(() => {
 })
 
 function getDetailLinkParams() {
-  const parentOrCurrentRoute = route.matched[0];
-  const detailRoute  = parentOrCurrentRoute.children[0];
+  const parentOrCurrentRoute = route.matched[0]
+  const detailRoute = parentOrCurrentRoute.children[0]
 
   return {
     name: detailRoute.name,
     params: {
       slug: route.params.slug,
-      id: feedItem.id
-    }
+      id: feedItem.id,
+    },
   }
 }
 
@@ -42,8 +43,8 @@ function getFeedLinkParams() {
   return {
     name: 'feed_list',
     params: {
-      slug: feed?.slug
-    }
+      slug: feed?.slug,
+    },
   }
 }
 
@@ -57,7 +58,6 @@ function stripTags(htmlString: string) {
   // Trim whitespace
   return textContent.trim()
 }
-
 </script>
 
 <template>
@@ -75,7 +75,12 @@ function stripTags(htmlString: string) {
       </small>
     </div>
     <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-link">
-      <h4 class="heading feed-links-list-item__title">{{ feedItem.title }}</h4>
+      <h4 class="heading feed-links-list-item__title">
+        {{ feedItem.title }}
+        <span v-if="feedItem?.has_paid_content" class="feed-item-feature feed-item-feature--paid" title="There may be paid content">
+          <IconPaid />
+        </span>
+      </h4>
     </RouterLink>
     <div class="feed-links-list-item-body">
       <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-text">
@@ -248,4 +253,22 @@ function stripTags(htmlString: string) {
     pointer-events: auto;
   }
 }
+
+.feed-item-feature {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--grid-step) * 0.25);
+    color: var(--color-orange-800);
+    background-color: var(--color-orange-100);
+    border-radius: var(--grid-step);
+    width: calc(var(--grid-step) * 2.5);
+    height: calc(var(--grid-step) * 2.5);
+}
+
+.feed-item-feature--paid {
+    background-color: var(--color-yellow-200);
+    color: var(--color-yellow-800);
+}
+
 </style>

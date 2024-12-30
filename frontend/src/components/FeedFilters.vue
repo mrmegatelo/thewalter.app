@@ -13,7 +13,6 @@ function handleFilterChange(e: Event) {
   const formData = new FormData(form)
   emit('change', formData)
 }
-
 </script>
 
 <template>
@@ -21,10 +20,18 @@ function handleFilterChange(e: Event) {
     <h4 class="heading">Hide:</h4>
     <form @change="handleFilterChange" class="button-group">
       <div class="button-wrapper">
-        <input type="checkbox" class="feed-filters-item__checkbox" name="exclude" id="not_interesting"
-               value="not_interesting" checked>
-        <label for="not_interesting"
-               class="feed-filters-item__title  button button--primary button--xs button--outline">
+        <input
+          type="checkbox"
+          class="feed-filters-item__checkbox"
+          name="exclude"
+          id="not_interesting"
+          value="not_interesting"
+          checked
+        />
+        <label
+          for="not_interesting"
+          class="feed-filters-item__title button button--primary button--xs button--outline"
+        >
           <span class="button__icon">
             <IconThumbDown />
           </span>
@@ -32,10 +39,18 @@ function handleFilterChange(e: Event) {
         </label>
       </div>
       <div class="button-wrapper">
-        <input type="checkbox" class="feed-filters-item__checkbox" name="exclude" id="viewed" value="viewed"
-               checked>
-        <label for="viewed"
-               class="feed-filters-item__title button button--xs button--primary button--outline">
+        <input
+          type="checkbox"
+          class="feed-filters-item__checkbox"
+          name="exclude"
+          id="viewed"
+          value="viewed"
+          checked
+        />
+        <label
+          for="viewed"
+          class="feed-filters-item__title button button--xs button--primary button--outline"
+        >
           <span class="button__icon">
             <IconTaskAlt />
           </span>
@@ -43,8 +58,17 @@ function handleFilterChange(e: Event) {
         </label>
       </div>
       <div class="button-wrapper">
-        <input type="checkbox" class="feed-filters-item__checkbox" name="exclude" id="paid" value="paid">
-        <label for="paid" class="feed-filters-item__title button button--xs button--primary button--outline">
+        <input
+          type="checkbox"
+          class="feed-filters-item__checkbox"
+          name="exclude"
+          id="paid"
+          value="paid"
+        />
+        <label
+          for="paid"
+          class="feed-filters-item__title button button--xs button--primary button--outline"
+        >
           <span class="button__icon">
             <IconPaid />
           </span>
@@ -79,7 +103,6 @@ function handleFilterChange(e: Event) {
       &.button--xs {
         --border-radius: calc(var(--grid-step) * 1.25);
       }
-
     }
 
     & + & {

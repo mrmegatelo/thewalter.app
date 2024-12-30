@@ -28,14 +28,14 @@ async function fetchFeed(url: string | URL) {
 
 watchEffect(async () => {
   if (!fetchUrl) {
-    return;
+    return
   }
 
   feedStore.isLoading = true
   const url = new URL(fetchUrl, window.location.origin)
   for (const [filter, values] of Object.entries(feedStore.filters)) {
     if (Array.isArray(values)) {
-      values.forEach(value => {
+      values.forEach((value) => {
         url.searchParams.append(filter, value)
       })
     } else {

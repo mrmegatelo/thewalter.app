@@ -12,16 +12,15 @@ const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
 <template>
   <div class="feed-detail-container">
     <section v-if="feedItem?.preview" class="feed-detail-section">
-      <img class="feed-detail-preview"
-           :src="feedItem.preview"
-           :alt="feedItem.title"
-      />
+      <img class="feed-detail-preview" :src="feedItem.preview" :alt="feedItem.title" />
     </section>
     <section class="feed-detail-section">
       <h1>{{ feedItem?.title }}</h1>
     </section>
-    <section class="feed-detail-section feed-detail-description" v-html="feedItem?.description">
-    </section>
+    <section
+      class="feed-detail-section feed-detail-description"
+      v-html="feedItem?.description"
+    ></section>
   </div>
 </template>
 
@@ -46,43 +45,53 @@ const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
 }
 
 .feed-detail-section {
-  width: 100%
+  width: 100%;
 }
 
 .feed-detail-preview {
   max-width: 100%;
   max-height: 240px;
   margin: 0 auto;
-  border-radius: calc(var(--grid-step) * 1.25)
+  border-radius: calc(var(--grid-step) * 1.25);
 }
 
 .feed-detail-description {
-  h1, .h1 {
+  h1,
+  .h1 {
     margin-top: 1.5rem;
     margin-bottom: 3rem;
   }
 
-  h2, .h2 {
+  h2,
+  .h2 {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
-  h3, .h3 {
+  h3,
+  .h3 {
     margin-top: 1.5rem;
     margin-bottom: 0rem;
   }
 
-  h4, .h4 {
+  h4,
+  .h4 {
     margin-top: 1.5rem;
     margin-bottom: 0rem;
   }
 
-  h5, .h5 {
+  h5,
+  .h5 {
     margin-top: 1.5rem;
     margin-bottom: 0rem;
   }
 
-  p, ul, ol, pre, table, blockquote {
+  p,
+  ul,
+  ol,
+  pre,
+  table,
+  blockquote {
     margin-top: 0rem;
     margin-bottom: 1.5rem;
   }
@@ -94,7 +103,8 @@ const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
     overflow-x: auto;
   }
 
-  video, img {
+  video,
+  img {
     max-width: 100%;
     height: auto;
   }
@@ -105,16 +115,24 @@ const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
     line-height: 1rem;
   }
 
-  hr, .hr {
+  hr,
+  .hr {
     border: 1px solid;
     margin: 1rem 0;
   }
 
-  a, b, i, strong, em, small, code {
+  a,
+  b,
+  i,
+  strong,
+  em,
+  small,
+  code {
     line-height: 0;
   }
 
-  sub, sup {
+  sub,
+  sup {
     line-height: 0;
     position: relative;
     vertical-align: baseline;

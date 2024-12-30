@@ -54,7 +54,6 @@ function handleFiltersChange(formData: FormData) {
 
   feedStore.setFilters(filters)
 }
-
 </script>
 
 <template>

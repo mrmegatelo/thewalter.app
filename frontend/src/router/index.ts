@@ -20,9 +20,9 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'feed_item_detail',
-          component: FeedItemDetail
-        }
-      ]
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/favorites',
@@ -33,9 +33,9 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'favorites_detail',
-          component: FeedItemDetail
-        }
-      ]
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/articles',
@@ -46,9 +46,9 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'articles_detail',
-          component: FeedItemDetail
-        }
-      ]
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/podcasts',
@@ -59,9 +59,9 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'podcasts_detail',
-          component: FeedItemDetail
-        }
-      ]
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/videos',
@@ -72,9 +72,9 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'videos_detail',
-          component: FeedItemDetail
-        }
-      ]
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/collection/:slug',
@@ -85,9 +85,9 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'collection_feed_item_detail',
-          component: FeedItemDetail
-        }
-      ]
+          component: FeedItemDetail,
+        },
+      ],
     },
     {
       path: '/:slug',
@@ -98,11 +98,11 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'feed_list_item_detail',
-          component: FeedItemDetail
-        }
-      ]
-    }
-  ]
+          component: FeedItemDetail,
+        },
+      ],
+    },
+  ],
 })
 
 export default router
