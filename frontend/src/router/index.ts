@@ -20,33 +20,61 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'feed_item_detail',
-          component: FeedItemDetail,
-        },
-      ],
+          component: FeedItemDetail
+        }
+      ]
     },
     {
       path: '/favorites',
       name: 'favorites',
       component: FeedView,
       props: { feed_type: 'favorites' },
+      children: [
+        {
+          path: 'items/:id',
+          name: 'feed_item_detail',
+          component: FeedItemDetail
+        }
+      ]
     },
     {
       path: '/articles',
       name: 'articles',
       component: FeedView,
       props: { feed_type: 'articles' },
+      children: [
+        {
+          path: 'items/:id',
+          name: 'feed_item_detail',
+          component: FeedItemDetail
+        }
+      ]
     },
     {
       path: '/podcasts',
       name: 'podcasts',
       component: FeedView,
       props: { feed_type: 'podcasts' },
+      children: [
+        {
+          path: 'items/:id',
+          name: 'feed_item_detail',
+          component: FeedItemDetail
+        }
+      ]
     },
     {
       path: '/videos',
       name: 'videos',
       component: FeedView,
       props: { feed_type: 'videos' },
+      children: [
+        {
+          path: 'items/:id',
+          name: 'feed_item_detail',
+          component: FeedItemDetail
+        }
+      ]
     },
     {
       path: '/collection/:slug',
@@ -57,9 +85,9 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'collection_feed_item_detail',
-          component: FeedItemDetail,
-        },
-      ],
+          component: FeedItemDetail
+        }
+      ]
     },
     {
       path: '/:slug',
@@ -70,11 +98,11 @@ const router = createRouter({
         {
           path: 'items/:id',
           name: 'feed_list_item_detail',
-          component: FeedItemDetail,
-        },
-      ],
-    },
-  ],
+          component: FeedItemDetail
+        }
+      ]
+    }
+  ]
 })
 
 export default router

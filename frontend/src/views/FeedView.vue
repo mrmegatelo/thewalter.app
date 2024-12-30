@@ -35,13 +35,15 @@ function get_fetch_url_by_type() {
       const collection = getCollectionBySlug(route.params.slug as string)
       return `/api/v1/collections/${collection?.id}/feed/`
     case 'favorites':
-      return '/api/v1/favorites/'
+      return '/api/v1/feed/?type=favorite'
+    case 'articles':
+      return '/api/v1/feed/?type=article'
     case 'podcasts':
-      return '/api/v1/podcasts/'
+      return '/api/v1/feed/?type=podcast'
     case 'videos':
-      return '/api/v1/videos/'
+      return '/api/v1/feed/?type=video'
     default:
-      return '/api/v1/feed/'
+      return '/api/v1/feed/?'
   }
 }
 

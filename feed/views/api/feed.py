@@ -1,6 +1,6 @@
 from urllib.parse import urlparse, urlunparse
 
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 from django.http import QueryDict
 from django.urls import reverse
 from django.views.generic import TemplateView, DetailView
@@ -50,7 +50,24 @@ class FeedListView(ListAPIView):
     serializer_class = FeedItemSerializer
 
     def get_queryset(self):
-        return self.model.objects.filter(feed__subscribers=self.request.user).prefetch_related("feed")
+        queryset = self.model.objects.filter(
+            feed__subscribers=self.request.user
+        ).prefetch_related("feed")
+
+        match self.request.GET.get("type"):
+            case "favorite":
+                queryset = queryset.filter(
+                    Q(actions__user=self.request.user)
+                    | Q(actions__type=FeedItemAction.Type.LIKE)
+                )
+            case "article":
+                queryset = filter_by_feed_type(queryset, "articles")
+            case "podcast":
+                queryset = filter_by_feed_type(queryset, "podcasts")
+            case "video":
+                queryset = filter_by_feed_type(queryset, "videos")
+
+        return queryset
 
 
 class CollectionFeedListView(FeedListView):
