@@ -55,7 +55,7 @@ class FeedListView(ListAPIView):
 
 class CollectionFeedListView(FeedListView):
     def get_queryset(self):
-        return super().get_queryset().filter(collections=self.kwargs.get("pk"))
+        return super().get_queryset().filter(feed__collection=self.kwargs.get("pk"))
 
 
 class SubscriptionsFeedListView(FeedListView):
