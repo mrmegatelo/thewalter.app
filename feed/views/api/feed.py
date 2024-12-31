@@ -63,22 +63,23 @@ class FeedListView(ListAPIView):
         return queryset
 
     def apply_exclude_filters(self, queryset):
-        exclude = self.request.GET.get("exclude", default=[])
+        exclude_list = self.request.GET.getlist("exclude", default=[])
 
-        if "viewed" in exclude:
-            queryset = queryset.exclude(
-                Q(actions__user=self.request.user),
-                Q(actions__type=FeedItemAction.Type.VIEW),
-            )
+        for exclude in exclude_list:
+            if "viewed" in exclude:
+                queryset = queryset.exclude(
+                    Q(actions__user=self.request.user),
+                    Q(actions__type=FeedItemAction.Type.VIEW),
+                )
 
-        if "not_interesting" in exclude:
-            queryset = queryset.exclude(
-                Q(actions__user=self.request.user),
-                Q(actions__type=FeedItemAction.Type.DISLIKE),
-            )
+            if "not_interesting" in exclude:
+                queryset = queryset.exclude(
+                    Q(actions__user=self.request.user),
+                    Q(actions__type=FeedItemAction.Type.DISLIKE),
+                )
 
-        if "paid" in exclude:
-            queryset = queryset.exclude(has_paid_content=True)
+            if "paid" in exclude:
+                queryset = queryset.exclude(has_paid_content=True)
 
         return queryset
 
