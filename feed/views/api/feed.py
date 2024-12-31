@@ -1,11 +1,13 @@
 from urllib.parse import urlparse, urlunparse
 
 from django.db.models import Prefetch, Q
-from django.http import QueryDict
+from django.http import QueryDict, JsonResponse
 from django.urls import reverse
+from django.views import View
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from django.views.generic.detail import SingleObjectMixin
+from rest_framework.generics import ListCreateAPIView, ListAPIView, UpdateAPIView
 
 from feed.models import Feed, Collection, FeedItemAction, FeedItem
 from feed.serializers import FeedSerializer, CollectionSerializer, FeedItemSerializer
@@ -50,13 +52,14 @@ class FeedListView(ListAPIView):
     serializer_class = FeedItemSerializer
 
     def get_queryset(self):
-        queryset = self.model.objects.filter(
-            feed__subscribers=self.request.user
-        ).prefetch_related("feed")
+        queryset = (
+            self.model.objects.filter(feed__subscribers=self.request.user)
+            .prefetch_related("feed")
+            .prefetch_related("actions")
+        )
 
         queryset = self.apply_type_filters(queryset)
         queryset = self.apply_exclude_filters(queryset)
-
         return queryset
 
     def apply_exclude_filters(self, queryset):
@@ -65,13 +68,13 @@ class FeedListView(ListAPIView):
         if "viewed" in exclude:
             queryset = queryset.exclude(
                 Q(actions__user=self.request.user),
-                Q(actions__type=FeedItemAction.Type.VIEW)
+                Q(actions__type=FeedItemAction.Type.VIEW),
             )
 
         if "not_interesting" in exclude:
             queryset = queryset.exclude(
                 Q(actions__user=self.request.user),
-                Q(actions__type=FeedItemAction.Type.DISLIKE)
+                Q(actions__type=FeedItemAction.Type.DISLIKE),
             )
 
         if "paid" in exclude:
@@ -84,7 +87,7 @@ class FeedListView(ListAPIView):
             case "favorite":
                 return queryset.filter(
                     Q(actions__user=self.request.user),
-                    Q(actions__type=FeedItemAction.Type.LIKE)
+                    Q(actions__type=FeedItemAction.Type.LIKE),
                 )
             case "article":
                 return filter_by_feed_type(queryset, "articles")
@@ -124,6 +127,41 @@ class FullFeedList(GenericFeedItemListView):
             actions__user=self.request.user
         ).filter(actions__type=FeedItemAction.Type.DISLIKE)
         return context
+
+
+class FeedItemUpdateView(UpdateAPIView):
+    model = FeedItem
+    serializer_class = FeedItemSerializer
+
+    def get_queryset(self):
+        return self.model.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+
+class FeedItemActionView(View, SingleObjectMixin):
+    model = FeedItem
+    pk_url_kwarg = "feed_item_pk"
+    http_method_names = ["post", "delete"]
+
+    def post(self, request, *args, **kwargs):
+        action = self.kwargs.get('action').upper()
+        instance = self.get_object()
+        action = FeedItemAction(
+            type=FeedItemAction.Type[action],
+            user=request.user,
+            feed_item=instance,
+        )
+        action.save()
+        instance.actions.add(action)
+        instance.save()
+        return JsonResponse({"success": True})
+
+    def delete(self, request, *args, **kwargs):
+        action = self.kwargs.get("action").upper()
+        self.get_object().actions.filter(type=FeedItemAction.Type[action]).first().delete()
+        return JsonResponse({"success": True})
 
 
 class UserFeedList(FullFeedList):

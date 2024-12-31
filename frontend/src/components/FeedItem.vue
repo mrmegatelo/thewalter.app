@@ -58,6 +58,7 @@ function stripTags(htmlString: string) {
   // Trim whitespace
   return textContent.trim()
 }
+
 </script>
 
 <template>
@@ -77,7 +78,11 @@ function stripTags(htmlString: string) {
     <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-link">
       <h4 class="heading feed-links-list-item__title">
         {{ feedItem.title }}
-        <span v-if="feedItem?.has_paid_content" class="feed-item-feature feed-item-feature--paid" title="There may be paid content">
+        <span
+          v-if="feedItem?.has_paid_content"
+          class="feed-item-feature feed-item-feature--paid"
+          title="There may be paid content"
+        >
           <IconPaid />
         </span>
       </h4>
@@ -255,20 +260,19 @@ function stripTags(htmlString: string) {
 }
 
 .feed-item-feature {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: calc(var(--grid-step) * 0.25);
-    color: var(--color-orange-800);
-    background-color: var(--color-orange-100);
-    border-radius: var(--grid-step);
-    width: calc(var(--grid-step) * 2.5);
-    height: calc(var(--grid-step) * 2.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--grid-step) * 0.25);
+  color: var(--color-orange-800);
+  background-color: var(--color-orange-100);
+  border-radius: var(--grid-step);
+  width: calc(var(--grid-step) * 2.5);
+  height: calc(var(--grid-step) * 2.5);
 }
 
 .feed-item-feature--paid {
-    background-color: var(--color-yellow-200);
-    color: var(--color-yellow-800);
+  background-color: var(--color-yellow-200);
+  color: var(--color-yellow-800);
 }
-
 </style>

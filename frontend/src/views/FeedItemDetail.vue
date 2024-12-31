@@ -1,16 +1,75 @@
 <script setup lang="ts">
 import { useFeedStore } from '@/stores/feed.ts'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
+import IconThumbDown from '@/components/icons/IconThumbDown.vue'
+import IconFavorite from '@/components/icons/IconFavorite.vue'
 
 const route = useRoute()
 
 const feedStore = useFeedStore()
 const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts?.pop().split(';').shift()
+}
+
+function toggleAction(action: string) {
+  const appliedActionsSet = new Set(feedItem?.value?.actions)
+  const url = new URL('/api/v1/feed/' + route.params.id + '/actions/' + action + '/', window.location.origin)
+  const request = new Request(url, {
+    method: appliedActionsSet.has(action) ? 'DELETE' : 'POST'
+  })
+
+
+  request.headers.append('X-CSRFToken', getCookie('csrftoken'))
+
+  if (appliedActionsSet.has(action)) {
+    appliedActionsSet.delete(action)
+  } else {
+    appliedActionsSet.add(action)
+  }
+
+  fetch(request).then(res => res.json()).then((res) => {
+    feedStore.updateItem(feedItem.value?.id, { actions: Array.from(appliedActionsSet) })
+  })
+}
+
+watch(feedItem, (item, prevItem) => {
+  if (!item || item?.actions?.includes('view')) {
+    return
+  }
+
+  toggleAction('view')
+}, { immediate: true })
+
 </script>
 
 <template>
   <div class="feed-detail-container">
+    <div class="feed-links-list-item-controls">
+      <button
+        class="button button--ghost button--sm feed-links-list-item-controls__button"
+        title="Like"
+        @click="toggleAction('like')"
+      >
+        <span class="button__icon">
+          <IconFavorite :filled="feedItem?.actions.includes('like')" />
+        </span>
+      </button>
+      <button
+        class="button button--ghost button--sm feed-links-list-item-controls__button"
+        title="Not interesting"
+        type="submit"
+        @click="toggleAction('dislike')"
+      >
+        <span class="button__icon">
+          <IconThumbDown :filled="feedItem?.actions.includes('dislike')" />
+        </span>
+      </button>
+    </div>
     <section v-if="feedItem?.preview" class="feed-detail-section">
       <img class="feed-detail-preview" :src="feedItem.preview" :alt="feedItem.title" />
     </section>
@@ -157,5 +216,12 @@ const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
 
 .feed-detail__logo {
   opacity: 0.05;
+}
+
+
+.feed-links-list-item-controls {
+  display: flex;
+  gap: calc(var(--grid-step) * 1.5);
+  align-items: center;
 }
 </style>

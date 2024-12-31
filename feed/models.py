@@ -85,6 +85,9 @@ class FeedItemAction(models.Model):
     feed_item = models.ForeignKey(FeedItem, related_name="actions", on_delete=models.CASCADE)
     performed_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.get_type_display().lower()
+
     class Meta:
         unique_together = ("user", "feed_item", "type")
 

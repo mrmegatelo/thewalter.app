@@ -1,7 +1,21 @@
 from rest_framework import serializers
-from rest_framework.relations import PrimaryKeyRelatedField
+from rest_framework.relations import PrimaryKeyRelatedField, StringRelatedField
 
-from feed.models import Feed, Collection, FeedItem
+from feed.models import Feed, Collection, FeedItem, FeedItemAction
+
+
+class ExistenceCheckRelatedField(serializers.RelatedField):
+    queryset = FeedItemAction.objects.all()
+
+    def to_representation(self, instance):
+        print("Is bool: ", isinstance(instance, list))
+        if isinstance(instance, list):
+            return len(instance) > 0
+        return instance
+
+    def to_internal_value(self, data):
+        print(vars(self.context.get('request')))
+        return data
 
 
 class FeedSerializer(serializers.ModelSerializer):
@@ -22,6 +36,7 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 class FeedItemSerializer(serializers.ModelSerializer):
     feed = PrimaryKeyRelatedField(read_only=True)
+    actions = StringRelatedField(many=True)
 
     class Meta:
         model = FeedItem
@@ -33,5 +48,6 @@ class FeedItemSerializer(serializers.ModelSerializer):
             "has_paid_content",
             "link",
             "preview",
-            "feed"
+            "feed",
+            "actions",
         ]

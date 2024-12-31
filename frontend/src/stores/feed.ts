@@ -8,6 +8,7 @@ interface FeedItem {
   pub_date: string
   title: string
   feed: number
+  actions: string[]
   id: number
 }
 
@@ -26,11 +27,11 @@ export const useFeedStore = defineStore('feed', {
       items: [],
       total: 0,
       isLoading: false,
-      filters: { exclude: ['viewed', 'not_interesting'] },
+      filters: { exclude: ['viewed', 'not_interesting'] }
     }) as FeedState,
   getters: {
     getItemById: (state: FeedState) => (id: number) => state.items.find((item) => item.id === id),
-    filterEnabled: (state: FeedState) => (name: string) => state.filters[name],
+    filterEnabled: (state: FeedState) => (name: string) => state.filters[name]
   },
   actions: {
     setItems(items: FeedItem[]) {
@@ -39,8 +40,20 @@ export const useFeedStore = defineStore('feed', {
     setFilters(filters: Record<string, Filter>) {
       this.filters = filters
     },
+    updateItem(id: number, update: Partial<FeedItem>) {
+      this.items = this.items.map((item: FeedItem) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            ...update
+          }
+        }
+
+        return item
+      })
+    },
     appendItems(items: FeedItem[]) {
       this.items = this.items.concat(items)
-    },
-  },
+    }
+  }
 })

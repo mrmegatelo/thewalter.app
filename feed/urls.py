@@ -186,6 +186,16 @@ urlpatterns = [
         name="api_feed_list",
     ),
     path(
+        "api/v1/feed/<int:pk>/",
+        feed.views.api.FeedItemUpdateView.as_view(),
+        name="api_feed_item_update",
+    ),
+    path(
+        "api/v1/feed/<int:feed_item_pk>/actions/<str:action>/",
+        feed.views.api.FeedItemActionView.as_view(),
+        name="api_feed_item_actions",
+    ),
+    path(
         "api/v1/feed/articles",
         feed.views.api.UserFeedList.as_view(feed_type="articles"),
         name="api_feed_articles",
@@ -200,11 +210,11 @@ urlpatterns = [
         feed.views.api.UserFeedList.as_view(feed_type="videos"),
         name="api_feed_videos",
     ),
-    path(
-        "api/v1/feed/<int:feed_id>/",
-        feed.views.api.FeedItemListView.as_view(),
-        name="api_feed_feed_list",
-    ),
+    # path(
+    #     "api/v1/feed/<int:feed_id>/",
+    #     feed.views.api.FeedItemListView.as_view(),
+    #     name="api_feed_feed_list",
+    # ),
     path(
         "api/v1/feeds/detail/<int:pk>",
         views.api.feed_detail.FeedItemDetailView.as_view(),
