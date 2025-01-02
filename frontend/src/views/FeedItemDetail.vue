@@ -4,11 +4,26 @@ import { useRoute } from 'vue-router'
 import { computed, watch } from 'vue'
 import IconThumbDown from '@/components/icons/IconThumbDown.vue'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
+import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
+import IconLink from '@/components/icons/IconLink.vue'
 
 const route = useRoute()
 
 const feedStore = useFeedStore()
+const { getFeedById } = useSubscriptionsStore()
 const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
+const subscriptionUrl = computed(() => {
+  if (!feedItem.value) {
+    return null
+  }
+
+  const subscription = getFeedById(feedItem.value.feed)
+  if (!subscription) {
+    return null
+  }
+
+  return new URL(subscription.url).hostname
+})
 
 function getCookie(name) {
   const value = `; ${document.cookie}`
@@ -49,7 +64,7 @@ watch(feedItem, (item, prevItem) => {
 
 <template>
   <div class="feed-detail-container">
-    <div class="feed-links-list-item-controls">
+    <div v-if="feedItem" class="feed-links-list-item-controls">
       <button
         class="button button--ghost button--sm feed-links-list-item-controls__button"
         title="Like"
@@ -80,6 +95,13 @@ watch(feedItem, (item, prevItem) => {
       class="feed-detail-section feed-detail-description"
       v-html="feedItem?.description"
     ></section>
+    <div class="feed-detail-section">
+      <a v-if="feedItem && subscriptionUrl"
+         :href="feedItem.link"
+         class="button button--ghost button--sm button--outline"
+         target="_blank"
+      ><IconLink class="button__icon" />Read on {{  subscriptionUrl }}</a>
+    </div>
   </div>
 </template>
 
