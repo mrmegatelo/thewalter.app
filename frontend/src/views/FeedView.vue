@@ -78,31 +78,4 @@ function handleFiltersChange(filters: Record<string, string>) {
 </template>
 
 <style scoped>
-.feed-header {
-  position: sticky;
-  top: 0;
-  background-color: var(--color-white);
-  z-index: 20;
-  padding: calc(var(--grid-step) * 4) calc(var(--grid-step) * 3) calc(var(--grid-step) * 2);
-  border-bottom: 1px solid var(--color-grey-200);
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--grid-step) * 2);
-}
-
-.feed-description {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--grid-step) * 0.5);
-}
-
-.feed-description__text {
-  font-size: 0.833rem;
-  line-height: 1.25rem;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 5;
-  line-clamp: 5;
-}
 </style>

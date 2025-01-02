@@ -9,9 +9,9 @@
     {% endif %}
     {% load static %}
     {% entrypoint_assets %}
+    <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
 </head>
 <body>
 <div id="app"></div>
-{% csrf_token %}
 </body>
 </html>

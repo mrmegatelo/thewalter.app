@@ -60,15 +60,4 @@ watchEffect(async () => {
 </template>
 
 <style scoped>
-.feed-list-loader {
-  padding: calc(var(--grid-step) * 2) calc(var(--grid-step) * 3);
-}
-
-.feed-list-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 0 0 calc(var(--grid-step) * 4);
-  list-style: none;
-}
 </style>
