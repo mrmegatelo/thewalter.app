@@ -6,6 +6,7 @@ import { useFeedStore } from '@/stores/feed.ts'
 import { useCollectionsStore } from '@/stores/collections.ts'
 import FeedList from '@/components/FeedList.vue'
 import FeedFilters from '@/components/FeedFilters.vue'
+import FeedSearch from '@/components/FeedSearch.vue'
 
 const route = useRoute()
 const { feed_type } = defineProps({ feed_type: String })
@@ -46,12 +47,7 @@ const fetch_url = computed(() => {
   }
 })
 
-function handleFiltersChange(formData: FormData) {
-  const filters: Record<string, unknown> = {}
-  for (const key of formData.keys()) {
-    filters[key] = formData.getAll(key)
-  }
-
+function handleFiltersChange(filters: Record<string, string>) {
   feedStore.setFilters(filters)
 }
 </script>
@@ -60,6 +56,7 @@ function handleFiltersChange(formData: FormData) {
   <div class="section splitted">
     <section id="list" class="section list">
       <header class="feed-header">
+        <FeedSearch @change="handleFiltersChange" />
         <div class="feed-description">
           <h3 class="heading">{{ currentFeed?.title }}</h3>
           <p

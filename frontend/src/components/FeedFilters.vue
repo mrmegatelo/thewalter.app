@@ -11,7 +11,12 @@ const emit = defineEmits(['change'])
 function handleFilterChange(e: Event) {
   const form = e.currentTarget as HTMLFormElement
   const formData = new FormData(form)
-  emit('change', formData)
+  const filters: Record<string, unknown> = {}
+  for (const key of formData.keys()) {
+    filters[key] = formData.getAll(key)
+  }
+
+  emit('change', filters)
 }
 </script>
 

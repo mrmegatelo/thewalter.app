@@ -60,6 +60,7 @@ class FeedListView(ListAPIView):
 
         queryset = self.apply_type_filters(queryset)
         queryset = self.apply_exclude_filters(queryset)
+        queryset = self.apply_search_filter(queryset)
         return queryset
 
     def apply_exclude_filters(self, queryset):
@@ -98,6 +99,14 @@ class FeedListView(ListAPIView):
                 return filter_by_feed_type(queryset, "videos")
             case _:
                 return queryset
+
+    def apply_search_filter(self, queryset):
+        if self.request.GET.get("search") is None:
+            return queryset
+        return queryset.filter(
+            Q(title__icontains=self.request.GET.get("search"))
+            | Q(description__icontains=self.request.GET.get("search"))
+        )
 
 
 class CollectionFeedListView(FeedListView):
@@ -147,7 +156,7 @@ class FeedItemActionView(View, SingleObjectMixin):
     http_method_names = ["post", "delete"]
 
     def post(self, request, *args, **kwargs):
-        action = self.kwargs.get('action').upper()
+        action = self.kwargs.get("action").upper()
         instance = self.get_object()
         action = FeedItemAction(
             type=FeedItemAction.Type[action],
@@ -161,7 +170,9 @@ class FeedItemActionView(View, SingleObjectMixin):
 
     def delete(self, request, *args, **kwargs):
         action = self.kwargs.get("action").upper()
-        self.get_object().actions.filter(type=FeedItemAction.Type[action]).first().delete()
+        self.get_object().actions.filter(
+            type=FeedItemAction.Type[action]
+        ).first().delete()
         return JsonResponse({"success": True})
 
 
