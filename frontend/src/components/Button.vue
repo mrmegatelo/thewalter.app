@@ -8,11 +8,15 @@ interface Props {
 }
 
 const { as = 'button', variant = 'primary', size } = defineProps<Props>()
-const sizeClass = computed(() => (size ? `button--${size}` : ''))
+const classObj = computed(() => ({
+  'button': true,
+  [`button--${variant}`]: true,
+  ...(size && { [`button--${size}`]: true })
+}))
 </script>
 
 <template>
-  <component :is="as" :class="`button button--${variant} ${sizeClass}`">
+  <component :is="as" :class="classObj">
     <div v-if="$slots.icon" class="button__icon">
       <slot name="icon"></slot>
     </div>

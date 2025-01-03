@@ -24,7 +24,7 @@ const handleChangeDebounced = debounce(handleChange, 500)
 </script>
 
 <template>
-  <TextInput @keyup="handleChangeDebounced" name="search" placeholder="Search in feed..." />
+  <TextInput @keyup="handleChangeDebounced" name="search" placeholder="Search in feed..." size="sm" />
 </template>
 
 <style scoped>
