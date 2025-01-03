@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-interface Feed {
+export interface Subscription {
   id: number
   title: string
   url: string
@@ -10,13 +10,13 @@ interface Feed {
   collections: number[]
 }
 
-interface FeedsState {
-  list: Feed[]
+export interface SubscriptionsState {
+  list: Subscription[]
   isLoading: boolean
 }
 
 export const useSubscriptionsStore = defineStore('subscriptions', {
-  state: () => ({ list: [], isLoading: false }) as FeedsState,
+  state: () => ({ list: [], isLoading: false }) as SubscriptionsState,
   getters: {
     getFeedBySlug(state) {
       return (slug: string) => {
@@ -41,7 +41,7 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
     },
   },
   actions: {
-    setSubscriptions(feeds: Feed[]) {
+    setSubscriptions(feeds: Subscription[]) {
       this.list = feeds
     },
   },

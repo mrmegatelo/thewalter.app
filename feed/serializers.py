@@ -1,29 +1,23 @@
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField, StringRelatedField
 
-from feed.models import Feed, Collection, FeedItem, FeedItemAction
+from feed.models import Feed, Collection, FeedItem
 
 
 class ExistenceCheckRelatedField(serializers.RelatedField):
-    queryset = FeedItemAction.objects.all()
-
     def to_representation(self, instance):
-        print("Is bool: ", isinstance(instance, list))
         if isinstance(instance, list):
             return len(instance) > 0
         return instance
 
-    def to_internal_value(self, data):
-        print(vars(self.context.get('request')))
-        return data
-
 
 class FeedSerializer(serializers.ModelSerializer):
     collections = PrimaryKeyRelatedField(many=True, read_only=True)
+    is_subscribed = ExistenceCheckRelatedField(read_only=True)
 
     class Meta:
         model = Feed
-        fields = ["id", "title", "url", "description", "icon", "slug", "collections"]
+        fields = ["id", "title", "url", "description", "icon", "slug", "collections", "is_subscribed"]
 
 
 class CollectionSerializer(serializers.ModelSerializer):

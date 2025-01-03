@@ -6,6 +6,7 @@ import IconThumbDown from '@/components/icons/IconThumbDown.vue'
 import IconFavorite from '@/components/icons/IconFavorite.vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import IconLink from '@/components/icons/IconLink.vue'
+import { getCookie } from '@/utils/helpers.ts'
 
 const route = useRoute()
 
@@ -24,12 +25,6 @@ const subscriptionUrl = computed(() => {
 
   return new URL(subscription.url).hostname
 })
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts?.pop().split(';').shift()
-}
 
 function toggleAction(action: string) {
   const appliedActionsSet = new Set(feedItem?.value?.actions)

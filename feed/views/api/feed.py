@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, urlunparse
 
+from django.contrib.auth.models import User
 from django.db.models import Prefetch, Q
 from django.http import QueryDict, JsonResponse
 from django.urls import reverse
@@ -7,7 +8,9 @@ from django.views import View
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.response import Response
 
 from feed.models import Feed, Collection, FeedItemAction, FeedItem
 from feed.serializers import FeedSerializer, CollectionSerializer, FeedItemSerializer
@@ -23,13 +26,35 @@ class SubscriptionsListView(ListCreateAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        return self.model.objects.filter(
-            subscribers=self.request.user
-        ).prefetch_related(
+        queryset =  self.model.objects.filter(subscribers=self.request.user)
+        return self.get_prefetched_queryset(queryset)
+
+    def create(self, request, *args, **kwargs):
+        serializer_data = self.get_serializer_data(request)
+        serializer = self.get_serializer(serializer_data, many=True)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_serializer_data(self, request):
+        url = request.data.get("url")
+        parsed_feeds_ids = parse_feed_info.delay(url).get()
+        parsed_feeds = self.model.objects.filter(id__in=parsed_feeds_ids)
+        return self.get_prefetched_queryset(parsed_feeds)
+
+    def get_prefetched_queryset(self, queryset):
+        return queryset.prefetch_related(
             Prefetch(
                 "collection_set",
                 to_attr="collections",
                 queryset=Collection.objects.filter(user=self.request.user),
+            )
+        ).prefetch_related(
+            Prefetch(
+                "subscribers",
+                to_attr="is_subscribed",
+                queryset=User.objects.filter(pk=self.request.user.pk),
             )
         )
 

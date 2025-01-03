@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, useTemplateRef } from 'vue'
+import { onMounted, onUnmounted, useTemplateRef, defineProps, inject } from 'vue'
 
+interface Props {
+  name: string
+}
+
+const { name } = defineProps<Props>()
 const dialogRef = useTemplateRef('dialogRef')
+const dialogsController = inject('dialogsController')
 
 function open() {
   dialogRef.value?.showModal()
@@ -16,6 +22,15 @@ function handleClick(e: Event) {
 
 defineExpose({
   open
+})
+
+onMounted(() => {
+  console.log({ dialogsController })
+  dialogsController.addDialog(name, dialogRef.value)
+})
+
+onUnmounted(() => {
+  dialogsController.removeDialog(name)
 })
 
 </script>

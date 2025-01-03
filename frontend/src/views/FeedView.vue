@@ -15,7 +15,7 @@ const { getFeedBySlug } = subscriptions
 const { getCollectionBySlug } = useCollectionsStore()
 const feedStore = useFeedStore()
 
-const currentFeed = computed(() => {
+const currentSubscription = computed(() => {
   if (!route.params.slug) {
     return null
   }
@@ -57,14 +57,14 @@ function handleFiltersChange(filters: Record<string, string>) {
     <section id="list" class="section list">
       <header class="feed-header">
         <FeedSearch @change="handleFiltersChange" />
-        <div class="feed-description">
-          <h3 class="heading">{{ currentFeed?.title }}</h3>
+        <div v-if="currentSubscription?.description" class="feed-description">
+          <h3 class="heading">{{ currentSubscription?.title }}</h3>
           <p
-            v-if="currentFeed?.description"
+            v-if="currentSubscription?.description"
             class="paragraph feed-description__text"
-            title="{{ currentFeed.description }}"
+            title="{{ currentSubscription.description }}"
           >
-            {{ currentFeed.description }}
+            {{ currentSubscription.description }}
           </p>
         </div>
         <FeedFilters @change="handleFiltersChange" />

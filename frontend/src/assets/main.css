@@ -572,6 +572,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: calc(var(--grid-step) * 3);
+    padding: 0;
 }
 
 .feed-description {

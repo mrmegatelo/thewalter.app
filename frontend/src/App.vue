@@ -13,13 +13,13 @@ import IconFolder from '@/components/icons/IconFolder.vue'
 import IconPlusCircle from '@/components/icons/IconPlusCircle.vue'
 import IconFolderNew from '@/components/icons/IconFolderNew.vue'
 import Dialog from '@/components/Dialog.vue'
-import { useTemplateRef } from 'vue'
+import SubscriptionDialog from '@/components/dialogs/SubscriptionDialog.vue'
+import { inject, useTemplateRef } from 'vue'
 
 const subscriptionsStore = useSubscriptionsStore()
 const collectionsStore = useCollectionsStore()
 
-const subscriptionDialog = useTemplateRef('subscriptionDialog')
-const collectionDialog = useTemplateRef('collectionDialog')
+const dialogsController = inject('dialogsController')
 
 subscriptionsStore.isLoading = true
 Promise.all([
@@ -30,6 +30,14 @@ Promise.all([
   collectionsStore.setCollections(collections)
   subscriptionsStore.isLoading = false
 })
+
+function openSubscriptionDialog() {
+  dialogsController.showDialog('subscription-dialog')
+}
+
+function showCollectionDialog() {
+  dialogsController.showDialog('collection-dialog')
+}
 
 </script>
 
@@ -85,12 +93,12 @@ Promise.all([
         <div class="sidebar-block-header">
           <h4>Feeds:</h4>
           <div class="sidebar-block-header-buttons">
-            <Button @click="collectionDialog?.open()" size="sm" variant="text">
+            <Button @click="showCollectionDialog" size="sm" variant="text">
               <template v-slot:icon>
                 <IconFolderNew />
               </template>
             </Button>
-            <Button @click="subscriptionDialog?.open()" size="sm" variant="text">
+            <Button @click="openSubscriptionDialog" size="sm" variant="text">
               <template v-slot:icon>
                 <IconPlusCircle />
               </template>
@@ -139,10 +147,10 @@ Promise.all([
       <RouterView />
     </main>
   </div>
-  <Dialog ref="subscriptionDialog">
+  <SubscriptionDialog>
     Subscription Dialog
-  </Dialog>
-  <Dialog ref="collectionDialog">
+  </SubscriptionDialog>
+  <Dialog name="collection-dialog">
     Collection Dialog
   </Dialog>
 </template>

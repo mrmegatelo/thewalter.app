@@ -75,10 +75,10 @@ class RSSFeedParser(AbstractFeedParser):
 
 
 class HTMLFeedParser(RSSFeedParser):
-    def parse(self, url: str) -> Generator[FeedMeta]:
+    def parse(self, url: str) -> [FeedMeta]:
         for rss_link in self.articulo.rss:
             normalized_url = normalize_url(rss_link, url)
-            return super().parse(normalized_url)
+            yield from super().parse(normalized_url)
 
 
 def get_form_parser(content_type, articulo):

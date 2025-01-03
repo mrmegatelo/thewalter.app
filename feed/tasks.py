@@ -231,16 +231,18 @@ def parse_feeds_by_url(url):
         parser = get_form_parser(content_type, articulo)
 
         feeds = []
-
         for link_meta in parser.parse(url):
-            feed = Feed(
-                title=link_meta.title,
-                url=link_meta.url,
-                description=link_meta.description,
-                rss_url=link_meta.rss_url,
-                icon=link_meta.icon_url,
-            )
-            feed.save()
+            if Feed.objects.filter(url=link_meta.url).exists():
+                feed = Feed.objects.get(url=link_meta.url)
+            else:
+                feed = Feed(
+                    title=link_meta.title,
+                    url=link_meta.url,
+                    description=link_meta.description,
+                    rss_url=link_meta.rss_url,
+                    icon=link_meta.icon_url,
+                )
+                feed.save()
             feeds.append(feed.id)
         return feeds
     except HTTPError:
