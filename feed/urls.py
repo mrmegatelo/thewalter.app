@@ -166,6 +166,11 @@ urlpatterns = [
         name="api_collection_list",
     ),
     path(
+        "api/v1/collections/<int:pk>/",
+        feed.views.api.CollectionUpdateView.as_view(),
+        name="api_collection_update",
+    ),
+    path(
         "api/v1/collections/<int:pk>/feed/",
         feed.views.api.CollectionFeedListView.as_view(),
         name="api_collection_feed_list",

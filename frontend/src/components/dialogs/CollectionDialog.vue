@@ -22,8 +22,10 @@ defineExpose({ setCollection })
 function handleSubmit(e: Event) {
   e.preventDefault()
   const formData = new FormData(e.target as HTMLFormElement)
-  const request = new Request('/api/v1/collections/', {
-    method: 'POST',
+  const url = currentCollection.value ? `/api/v1/collections/${currentCollection.value.id}/` : '/api/v1/collections/'
+  const method = currentCollection.value ? 'PATCH' : 'POST'
+  const request = new Request(url, {
+    method,
     body: formData,
   })
 
@@ -32,14 +34,18 @@ function handleSubmit(e: Event) {
   fetch(request)
     .then((res) => res.json())
     .then((res) => {
-      collections.addCollection(res)
+      currentCollection.value ? collections.update(res) : collections.addCollection(res)
       dialogsController?.hideDialog(DIALOG_NAME)
     })
+}
+
+function resetCollection() {
+  currentCollection.value = undefined
 }
 </script>
 
 <template>
-  <Dialog :name="DIALOG_NAME">
+  <Dialog @close="resetCollection" :name="DIALOG_NAME">
     <form @submit="handleSubmit" class="form flex-column-button-container">
       <div class="form-inline-row">
         <div class="form-row">
@@ -75,7 +81,7 @@ function handleSubmit(e: Event) {
             </div>
           </fieldset>
         </div>
-        <Button size="sm" type="submit">Create</Button>
+        <Button size="sm" type="submit">{{currentCollection ? "Update" : "Create"}}</Button>
       </div>
     </form>
   </Dialog>

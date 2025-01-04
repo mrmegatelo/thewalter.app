@@ -15,7 +15,8 @@ from .feed import (
     SubscriptionsFeedListView,
     CollectionFeedListView,
     FeedItemUpdateView,
-    FeedItemActionView
+    FeedItemActionView,
+    CollectionUpdateView,
 )
 from .feed_detail import FeedItemDetailView, FeedItemActionsView
 from .subscriptions import SubscriptionsView
@@ -41,4 +42,5 @@ __all__ = [
     "CollectionFeedListView",
     "FeedItemUpdateView",
     "FeedItemActionView",
+    "CollectionUpdateView",
 ]

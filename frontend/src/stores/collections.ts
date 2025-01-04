@@ -53,5 +53,14 @@ export const useCollectionsStore = defineStore('collections', {
         subscriptions.updateCollections(subId, [collection.id])
       }
     },
+    update(collection: Collection) {
+      const idx = this.list.findIndex((el) => el.id === collection.id)
+      if (idx >= 0) {
+        this.list[idx] = {
+          ...this.list[idx],
+          ...collection,
+        }
+      }
+    }
   },
 })

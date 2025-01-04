@@ -87,6 +87,22 @@ class CollectionListView(ListCreateAPIView):
         )
 
 
+class CollectionUpdateView(UpdateAPIView):
+    model = Collection
+    serializer_class = CollectionSerializer
+
+    def get_queryset(self):
+        return (
+            self.model.objects.filter(user=self.request.user)
+            .prefetch_related(
+                Prefetch(
+                    "feeds", queryset=Feed.objects.filter(subscribers=self.request.user)
+                )
+            )
+            .prefetch_related("user")
+        )
+
+
 class FeedListView(ListAPIView):
     model = FeedItem
     serializer_class = FeedItemSerializer
