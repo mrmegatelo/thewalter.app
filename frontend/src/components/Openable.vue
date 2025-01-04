@@ -14,6 +14,7 @@ import IconFolder from '@/components/icons/IconFolder.vue'
         <slot name="icon"></slot>
       </span>
       <slot name="trigger"></slot>
+      <slot name="right"></slot>
     </Button>
     <div class="openable-body">
       <slot></slot>

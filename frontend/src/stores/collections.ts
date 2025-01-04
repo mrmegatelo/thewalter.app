@@ -28,14 +28,14 @@ export const useCollectionsStore = defineStore('collections', {
     feedsByCollection(state) {
       return state.list.map((collection) => {
         const feeds = collection.feeds.map((id) =>
-          useSubscriptionsStore().list.find((feed) => feed.id === id)
+          useSubscriptionsStore().list.find((feed) => feed.id === id),
         )
         return {
           ...collection,
-          feeds
+          feeds,
         }
       })
-    }
+    },
   },
   actions: {
     setCollections(collections: Collection[]) {
@@ -48,5 +48,5 @@ export const useCollectionsStore = defineStore('collections', {
         subscriptions.updateCollections(subId, [collection.id])
       }
     },
-  }
+  },
 })

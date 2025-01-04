@@ -48,7 +48,7 @@ function handleClose() {
             class="input"
           />
         </div>
-        <button class="button button--primary button--sm" type="submit">Add feed</button>
+        <Button size="sm" type="submit">Add feed</Button>
       </div>
     </form>
     <ul class="feeds-list" v-for="feed in results.list" :key="feed.id">

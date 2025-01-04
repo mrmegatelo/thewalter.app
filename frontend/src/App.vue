@@ -12,15 +12,16 @@ import Openable from '@/components/Openable.vue'
 import IconFolder from '@/components/icons/IconFolder.vue'
 import IconPlusCircle from '@/components/icons/IconPlusCircle.vue'
 import IconFolderNew from '@/components/icons/IconFolderNew.vue'
-import Dialog from '@/components/Dialog.vue'
 import SubscriptionDialog from '@/components/dialogs/SubscriptionDialog.vue'
 import { inject, useTemplateRef } from 'vue'
 import CollectionDialog from '@/components/dialogs/CollectionDialog.vue'
+import IconSettings from '@/components/icons/IconSettings.vue'
+import { Injection } from '@/utils/constants.ts'
 
 const subscriptionsStore = useSubscriptionsStore()
 const collectionsStore = useCollectionsStore()
 
-const dialogsController = inject('dialogsController')
+const dialogsController = inject(Injection.DialogController)
 
 subscriptionsStore.isLoading = true
 Promise.all([
@@ -33,11 +34,11 @@ Promise.all([
 })
 
 function openSubscriptionDialog() {
-  dialogsController.showDialog('subscription-dialog')
+  dialogsController?.showDialog('subscription-dialog')
 }
 
 function showCollectionDialog() {
-  dialogsController.showDialog('collection-dialog')
+  dialogsController?.showDialog('collection-dialog')
 }
 </script>
 
@@ -114,6 +115,13 @@ function showCollectionDialog() {
             </template>
             <template v-slot:icon>
               <IconFolder />
+            </template>
+            <template v-slot:right>
+              <Button variant="text" size="sm" title="Edit collection">
+                <template v-slot:icon>
+                  <IconSettings class="openable-control__icon" />
+                </template>
+              </Button>
             </template>
             <RouterLink
               :key="feed?.slug"

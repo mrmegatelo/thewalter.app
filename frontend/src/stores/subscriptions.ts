@@ -49,12 +49,9 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
       if (index > -1) {
         this.list[index] = {
           ...this.list[index],
-          collections: [
-            ...this.list[index].collections,
-            ...(collections ?? []),
-          ]
+          collections: [...this.list[index].collections, ...(collections ?? [])],
         }
       }
-    }
+    },
   },
 })

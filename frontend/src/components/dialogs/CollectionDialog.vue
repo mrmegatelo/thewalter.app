@@ -4,8 +4,9 @@ import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { getCookie } from '@/utils/helpers.ts'
 import { useCollectionsStore } from '@/stores/collections.ts'
 import { inject } from 'vue'
+import { Injection } from '@/utils/constants'
 
-const dialogsController = inject('dialogsController')
+const dialogsController = inject(Injection.DialogController)
 const subscriptions = useSubscriptionsStore()
 const collections = useCollectionsStore()
 
@@ -14,29 +15,34 @@ function handleSubmit(e: Event) {
   const formData = new FormData(e.target as HTMLFormElement)
   const request = new Request('/api/v1/collections/', {
     method: 'POST',
-    body: formData
+    body: formData,
   })
 
   request.headers.append('X-CSRFToken', getCookie('csrftoken'))
 
-  fetch(request).then((res) => res.json()).then((res) => {
-    collections.addCollection(res)
-    dialogsController.hideDialog("collection-dialog")
-  })
+  fetch(request)
+    .then((res) => res.json())
+    .then((res) => {
+      collections.addCollection(res)
+      dialogsController?.hideDialog('collection-dialog')
+    })
 }
-
 </script>
 
 <template>
   <Dialog name="collection-dialog">
-    <form
-      @submit="handleSubmit"
-      class="form flex-column-button-container"
-    >
+    <form @submit="handleSubmit" class="form flex-column-button-container">
       <div class="form-inline-row">
         <div class="form-row">
-          <input type="text" name="title" maxlength="200" required id="id_title" class="input"
-                 placeholder="Collection title" />
+          <input
+            type="text"
+            name="title"
+            maxlength="200"
+            required
+            id="id_title"
+            class="input"
+            placeholder="Collection title"
+          />
         </div>
 
         <div class="form-row">
@@ -59,7 +65,7 @@ function handleSubmit(e: Event) {
             </div>
           </fieldset>
         </div>
-        <button class="button button--primary button--sm" type="submit">Create</button>
+        <Button size="sm" type="submit">Create</Button>
       </div>
     </form>
   </Dialog>
