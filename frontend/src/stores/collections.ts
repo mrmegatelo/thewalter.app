@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
+import { type Subscription, useSubscriptionsStore } from '@/stores/subscriptions.ts'
 
-interface Collection {
+export interface Collection {
   id: number
   title: string
   slug: string
@@ -29,13 +29,18 @@ export const useCollectionsStore = defineStore('collections', {
       return state.list.map((collection) => {
         const feeds = collection.feeds.map((id) =>
           useSubscriptionsStore().list.find((feed) => feed.id === id),
-        )
+        ) as Subscription[]
         return {
           ...collection,
           feeds,
         }
       })
     },
+    getById(state) {
+      return (id: number) => {
+        return state.list.find((feed) => feed.id === id)
+      }
+    }
   },
   actions: {
     setCollections(collections: Collection[]) {

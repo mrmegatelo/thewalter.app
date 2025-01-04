@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import Dialog from '@/components/Dialog.vue'
+import Button from '@/components/Button.vue'
 import { getCookie } from '@/utils/helpers.ts'
 import type { Subscription } from '@/stores/subscriptions.ts'
 

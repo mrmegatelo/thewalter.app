@@ -7,7 +7,7 @@ import IconArticle from '@/components/icons/IconArticle.vue'
 import IconHeadphones from '@/components/icons/IconHeadphones.vue'
 import IconMovie from '@/components/icons/IconMovie.vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions'
-import { useCollectionsStore } from '@/stores/collections.ts'
+import { type Collection, useCollectionsStore } from '@/stores/collections.ts'
 import Openable from '@/components/Openable.vue'
 import IconFolder from '@/components/icons/IconFolder.vue'
 import IconPlusCircle from '@/components/icons/IconPlusCircle.vue'
@@ -20,6 +20,7 @@ import { Injection } from '@/utils/constants.ts'
 
 const subscriptionsStore = useSubscriptionsStore()
 const collectionsStore = useCollectionsStore()
+const collectionsDialogRef = useTemplateRef("collectionDialog")
 
 const dialogsController = inject(Injection.DialogController)
 
@@ -37,8 +38,11 @@ function openSubscriptionDialog() {
   dialogsController?.showDialog('subscription-dialog')
 }
 
-function showCollectionDialog() {
+function showCollectionDialog(id?: number) {
   dialogsController?.showDialog('collection-dialog')
+  if (id) {
+    collectionsDialogRef.value?.setCollection(collectionsStore.getById(id) as Collection)
+  }
 }
 </script>
 
@@ -94,12 +98,12 @@ function showCollectionDialog() {
         <div class="sidebar-block-header">
           <h4>Feeds:</h4>
           <div class="sidebar-block-header-buttons">
-            <Button @click="showCollectionDialog" size="sm" variant="text">
+            <Button @click="showCollectionDialog()" size="sm" variant="text">
               <template v-slot:icon>
                 <IconFolderNew />
               </template>
             </Button>
-            <Button @click="openSubscriptionDialog" size="sm" variant="text">
+            <Button @click="openSubscriptionDialog()" size="sm" variant="text">
               <template v-slot:icon>
                 <IconPlusCircle />
               </template>
@@ -117,7 +121,7 @@ function showCollectionDialog() {
               <IconFolder />
             </template>
             <template v-slot:right>
-              <Button variant="text" size="sm" title="Edit collection">
+              <Button @click="showCollectionDialog(collection.id)" variant="text" size="sm" title="Edit collection">
                 <template v-slot:icon>
                   <IconSettings class="openable-control__icon" />
                 </template>
@@ -156,7 +160,7 @@ function showCollectionDialog() {
     </main>
   </div>
   <SubscriptionDialog />
-  <CollectionDialog />
+  <CollectionDialog ref="collectionDialog" />
 </template>
 
 <style></style>

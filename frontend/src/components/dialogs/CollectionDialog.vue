@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import Dialog from '@/components/Dialog.vue'
+import Button from '@/components/Button.vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { getCookie } from '@/utils/helpers.ts'
-import { useCollectionsStore } from '@/stores/collections.ts'
-import { inject } from 'vue'
+import { type Collection, useCollectionsStore } from '@/stores/collections.ts'
+import { inject, ref, defineExpose } from 'vue'
 import { Injection } from '@/utils/constants'
 
+const DIALOG_NAME = 'collection-dialog'
 const dialogsController = inject(Injection.DialogController)
 const subscriptions = useSubscriptionsStore()
 const collections = useCollectionsStore()
+const currentCollection = ref<Collection>()
+
+function setCollection(collection: Collection) {
+  currentCollection.value = collection
+}
+
+defineExpose({ setCollection })
 
 function handleSubmit(e: Event) {
   e.preventDefault()
@@ -24,13 +33,13 @@ function handleSubmit(e: Event) {
     .then((res) => res.json())
     .then((res) => {
       collections.addCollection(res)
-      dialogsController?.hideDialog('collection-dialog')
+      dialogsController?.hideDialog(DIALOG_NAME)
     })
 }
 </script>
 
 <template>
-  <Dialog name="collection-dialog">
+  <Dialog :name="DIALOG_NAME">
     <form @submit="handleSubmit" class="form flex-column-button-container">
       <div class="form-inline-row">
         <div class="form-row">
@@ -42,6 +51,7 @@ function handleSubmit(e: Event) {
             id="id_title"
             class="input"
             placeholder="Collection title"
+            :value="currentCollection?.title"
           />
         </div>
 
@@ -56,7 +66,7 @@ function handleSubmit(e: Event) {
                     type="checkbox"
                     name="feeds"
                     :value="subscription.id"
-                    :label="subscription.title"
+                    :checked="currentCollection?.feeds.includes(subscription.id)"
                     class="input"
                   />
                   {{ subscription.title }}
