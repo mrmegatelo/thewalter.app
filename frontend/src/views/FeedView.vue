@@ -77,5 +77,4 @@ function handleFiltersChange(filters: Record<string, string>) {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

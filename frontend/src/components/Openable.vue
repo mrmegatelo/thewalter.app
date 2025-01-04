@@ -21,5 +21,4 @@ import IconFolder from '@/components/icons/IconFolder.vue'
   </details>
 </template>
 
-<style>
-</style>
+<style></style>

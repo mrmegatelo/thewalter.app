@@ -93,7 +93,7 @@ class FeedItemAction(models.Model):
 
 class Collection(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200)
+    slug = models.SlugField(max_length=200, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     feeds = models.ManyToManyField(Feed, blank=True)
 

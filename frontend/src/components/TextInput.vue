@@ -9,7 +9,7 @@ const { size } = defineProps<Props>()
 
 const classObj = computed(() => ({
   input: true,
-   ...(size && ({ [`input--${size}`]: true })),
+  ...(size && { [`input--${size}`]: true }),
 }))
 </script>
 
@@ -17,5 +17,4 @@ const classObj = computed(() => ({
   <input :class="classObj" />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

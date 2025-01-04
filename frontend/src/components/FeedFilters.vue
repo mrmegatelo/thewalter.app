@@ -84,5 +84,4 @@ function handleFilterChange(e: Event) {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

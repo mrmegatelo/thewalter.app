@@ -44,5 +44,17 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
     setSubscriptions(feeds: Subscription[]) {
       this.list = feeds
     },
+    updateCollections(id: number, collections: number[]) {
+      const index = this.list.findIndex((el) => el.id === id)
+      if (index > -1) {
+        this.list[index] = {
+          ...this.list[index],
+          collections: [
+            ...this.list[index].collections,
+            ...(collections ?? []),
+          ]
+        }
+      }
+    }
   },
 })

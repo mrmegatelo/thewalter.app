@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 
 interface Collection {
-  id: string
+  id: number
   title: string
   slug: string
   feeds: number[]
@@ -28,18 +28,25 @@ export const useCollectionsStore = defineStore('collections', {
     feedsByCollection(state) {
       return state.list.map((collection) => {
         const feeds = collection.feeds.map((id) =>
-          useSubscriptionsStore().list.find((feed) => feed.id === id),
+          useSubscriptionsStore().list.find((feed) => feed.id === id)
         )
         return {
           ...collection,
-          feeds,
+          feeds
         }
       })
-    },
+    }
   },
   actions: {
     setCollections(collections: Collection[]) {
       this.list = collections
     },
-  },
+    addCollection(collection: Collection) {
+      this.list.push(collection)
+      const subscriptions = useSubscriptionsStore()
+      for (const subId of collection.feeds) {
+        subscriptions.updateCollections(subId, [collection.id])
+      }
+    },
+  }
 })

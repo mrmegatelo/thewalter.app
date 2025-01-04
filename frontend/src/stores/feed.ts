@@ -27,11 +27,11 @@ export const useFeedStore = defineStore('feed', {
       items: [],
       total: 0,
       isLoading: false,
-      filters: { exclude: ['viewed', 'not_interesting'] }
+      filters: { exclude: ['viewed', 'not_interesting'] },
     }) as FeedState,
   getters: {
     getItemById: (state: FeedState) => (id: number) => state.items.find((item) => item.id === id),
-    filterEnabled: (state: FeedState) => (name: string) => state.filters[name]
+    filterEnabled: (state: FeedState) => (name: string) => state.filters[name],
   },
   actions: {
     setItems(items: FeedItem[]) {
@@ -45,7 +45,7 @@ export const useFeedStore = defineStore('feed', {
         if (item.id === id) {
           return {
             ...item,
-            ...update
+            ...update,
           }
         }
 
@@ -54,6 +54,6 @@ export const useFeedStore = defineStore('feed', {
     },
     appendItems(items: FeedItem[]) {
       this.items = this.items.concat(items)
-    }
-  }
+    },
+  },
 })

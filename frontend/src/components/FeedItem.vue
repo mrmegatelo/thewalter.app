@@ -58,7 +58,6 @@ function stripTags(htmlString: string) {
   // Trim whitespace
   return textContent.trim()
 }
-
 </script>
 
 <template>
@@ -109,5 +108,4 @@ function stripTags(htmlString: string) {
   </li>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

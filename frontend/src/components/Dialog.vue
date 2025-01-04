@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, useTemplateRef, defineProps, inject } from 'vue'
+import { onMounted, onUnmounted, useTemplateRef, defineProps, defineEmits, inject } from 'vue'
 
 interface Props {
   name: string
 }
 
 const { name } = defineProps<Props>()
+const emit = defineEmits(['close'])
 const dialogRef = useTemplateRef('dialogRef')
 const dialogsController = inject('dialogsController')
 
@@ -20,19 +21,23 @@ function handleClick(e: Event) {
   }
 }
 
+function handleDialogClose(e: Event) {
+  emit('close')
+}
+
 defineExpose({
-  open
+  open,
 })
 
 onMounted(() => {
-  console.log({ dialogsController })
   dialogsController.addDialog(name, dialogRef.value)
+  dialogRef.value?.addEventListener('close', handleDialogClose)
 })
 
 onUnmounted(() => {
   dialogsController.removeDialog(name)
+  dialogRef.value?.removeEventListener('close', handleDialogClose)
 })
-
 </script>
 
 <template>
@@ -43,6 +48,4 @@ onUnmounted(() => {
   </dialog>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

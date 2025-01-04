@@ -1,42 +1,54 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import Dialog from '@/components/Dialog.vue'
 import { getCookie } from '@/utils/helpers.ts'
 import type { Subscription } from '@/stores/subscriptions.ts'
 
+const url = ref('')
+
 const results = reactive({
-  list: [] as Subscription[]
+  list: [] as Subscription[],
 })
 
 function handleFormSubmit(e: Event) {
-
   e.preventDefault()
   const formData = new FormData(e.target as HTMLFormElement)
 
   const request = new Request('/api/v1/subscriptions/', {
     body: formData,
-    method: 'POST'
+    method: 'POST',
   })
 
   request.headers.append('X-CSRFToken', getCookie('csrftoken'))
 
-  fetch(request).then((res) => res.json()).then((res) => {
-    results.list = res
-  })
+  fetch(request)
+    .then((res) => res.json())
+    .then((res) => {
+      results.list = res
+    })
 }
 
+function handleClose() {
+  results.list = [] as Subscription[]
+  url.value = ''
+}
 </script>
 
 <template>
-  <Dialog name="subscription-dialog">
+  <Dialog @close="handleClose" name="subscription-dialog">
     <form @submit="handleFormSubmit" class="form flex-column-button-container">
       <div class="form-inline-row">
         <div class="form-row">
-          <input type="url" name="url" placeholder="Feed or Site URL" required class="input">
+          <input
+            v-model="url"
+            type="url"
+            name="url"
+            placeholder="Feed or Site URL"
+            required
+            class="input"
+          />
         </div>
-        <button class="button button--primary button--sm" type="submit">
-          Add feed
-        </button>
+        <button class="button button--primary button--sm" type="submit">Add feed</button>
       </div>
     </form>
     <ul class="feeds-list" v-for="feed in results.list" :key="feed.id">
@@ -46,12 +58,12 @@ function handleFormSubmit(e: Event) {
             {{ feed.title }}
           </a>
         </h4>
-        <p v-if="feed.description" class="paragraph feed-description__text">{{ feed.description }}</p>
+        <p v-if="feed.description" class="paragraph feed-description__text">
+          {{ feed.description }}
+        </p>
       </li>
     </ul>
   </Dialog>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

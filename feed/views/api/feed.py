@@ -26,7 +26,7 @@ class SubscriptionsListView(ListCreateAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        queryset =  self.model.objects.filter(subscribers=self.request.user)
+        queryset = self.model.objects.filter(subscribers=self.request.user)
         return self.get_prefetched_queryset(queryset)
 
     def create(self, request, *args, **kwargs):
@@ -65,10 +65,25 @@ class CollectionListView(ListCreateAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        return self.model.objects.filter(user=self.request.user).prefetch_related(
-            Prefetch(
-                "feeds", queryset=Feed.objects.filter(subscribers=self.request.user)
+        return (
+            self.model.objects.filter(user=self.request.user)
+            .prefetch_related(
+                Prefetch(
+                    "feeds", queryset=Feed.objects.filter(subscribers=self.request.user)
+                )
             )
+            .prefetch_related("user")
+        )
+
+    def create(self, request, *args, **kwargs):
+        data = request.data.copy()
+        data["user"] = request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
 
 

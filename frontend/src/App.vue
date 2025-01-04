@@ -15,6 +15,7 @@ import IconFolderNew from '@/components/icons/IconFolderNew.vue'
 import Dialog from '@/components/Dialog.vue'
 import SubscriptionDialog from '@/components/dialogs/SubscriptionDialog.vue'
 import { inject, useTemplateRef } from 'vue'
+import CollectionDialog from '@/components/dialogs/CollectionDialog.vue'
 
 const subscriptionsStore = useSubscriptionsStore()
 const collectionsStore = useCollectionsStore()
@@ -24,7 +25,7 @@ const dialogsController = inject('dialogsController')
 subscriptionsStore.isLoading = true
 Promise.all([
   fetch('/api/v1/subscriptions/').then((res) => res.json()),
-  fetch('/api/v1/collections/').then((res) => res.json())
+  fetch('/api/v1/collections/').then((res) => res.json()),
 ]).then(([feeds, collections]) => {
   subscriptionsStore.setSubscriptions(feeds)
   collectionsStore.setCollections(collections)
@@ -38,7 +39,6 @@ function openSubscriptionDialog() {
 function showCollectionDialog() {
   dialogsController.showDialog('collection-dialog')
 }
-
 </script>
 
 <template>
@@ -147,14 +147,8 @@ function showCollectionDialog() {
       <RouterView />
     </main>
   </div>
-  <SubscriptionDialog>
-    Subscription Dialog
-  </SubscriptionDialog>
-  <Dialog name="collection-dialog">
-    Collection Dialog
-  </Dialog>
+  <SubscriptionDialog />
+  <CollectionDialog />
 </template>
 
-<style>
-
-</style>
+<style></style>

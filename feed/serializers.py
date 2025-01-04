@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField, StringRelatedField
 
@@ -21,11 +22,12 @@ class FeedSerializer(serializers.ModelSerializer):
 
 
 class CollectionSerializer(serializers.ModelSerializer):
-    feeds = PrimaryKeyRelatedField(many=True, read_only=True)
+    feeds = PrimaryKeyRelatedField(many=True, queryset=Feed.objects.all())
+    user = PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = Collection
-        fields = ["id", "title", "slug", "feeds"]
+        fields = ["id", "title", "slug", "feeds", "user"]
 
 
 class FeedItemSerializer(serializers.ModelSerializer):

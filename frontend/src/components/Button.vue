@@ -9,9 +9,9 @@ interface Props {
 
 const { as = 'button', variant = 'primary', size } = defineProps<Props>()
 const classObj = computed(() => ({
-  'button': true,
+  button: true,
   [`button--${variant}`]: true,
-  ...(size && { [`button--${size}`]: true })
+  ...(size && { [`button--${size}`]: true }),
 }))
 </script>
 
@@ -24,5 +24,4 @@ const classObj = computed(() => ({
   </component>
 </template>
 
-<style>
-</style>
+<style></style>

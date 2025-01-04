@@ -28,11 +28,13 @@ const subscriptionUrl = computed(() => {
 
 function toggleAction(action: string) {
   const appliedActionsSet = new Set(feedItem?.value?.actions)
-  const url = new URL('/api/v1/feed/' + route.params.id + '/actions/' + action + '/', window.location.origin)
+  const url = new URL(
+    '/api/v1/feed/' + route.params.id + '/actions/' + action + '/',
+    window.location.origin,
+  )
   const request = new Request(url, {
-    method: appliedActionsSet.has(action) ? 'DELETE' : 'POST'
+    method: appliedActionsSet.has(action) ? 'DELETE' : 'POST',
   })
-
 
   request.headers.append('X-CSRFToken', getCookie('csrftoken'))
 
@@ -42,19 +44,24 @@ function toggleAction(action: string) {
     appliedActionsSet.add(action)
   }
 
-  fetch(request).then(res => res.json()).then((res) => {
-    feedStore.updateItem(feedItem.value?.id, { actions: Array.from(appliedActionsSet) })
-  })
+  fetch(request)
+    .then((res) => res.json())
+    .then((res) => {
+      feedStore.updateItem(feedItem.value?.id, { actions: Array.from(appliedActionsSet) })
+    })
 }
 
-watch(feedItem, (item, prevItem) => {
-  if (!item || item?.actions?.includes('view')) {
-    return
-  }
+watch(
+  feedItem,
+  (item, prevItem) => {
+    if (!item || item?.actions?.includes('view')) {
+      return
+    }
 
-  toggleAction('view')
-}, { immediate: true })
-
+    toggleAction('view')
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -91,14 +98,15 @@ watch(feedItem, (item, prevItem) => {
       v-html="feedItem?.description"
     ></section>
     <div class="feed-detail-section">
-      <a v-if="feedItem && subscriptionUrl"
-         :href="feedItem.link"
-         class="button button--ghost button--sm button--outline"
-         target="_blank"
-      ><IconLink class="button__icon" />Read on {{  subscriptionUrl }}</a>
+      <a
+        v-if="feedItem && subscriptionUrl"
+        :href="feedItem.link"
+        class="button button--ghost button--sm button--outline"
+        target="_blank"
+        ><IconLink class="button__icon" />Read on {{ subscriptionUrl }}</a
+      >
     </div>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
