@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from django_registration.backends.activation.views import RegistrationView as BaseRegistrationView
 from django.conf import settings
 
-from feed.forms.registration import RegistrationForm
+from frontend.forms.registration import RegistrationForm
 
 
 class RegistrationView(BaseRegistrationView):
