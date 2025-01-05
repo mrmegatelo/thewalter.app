@@ -155,11 +155,6 @@ urlpatterns = [
         name="invite_accept_complete",
     ),
     # API URLs
-    # path(
-    #     "api/v1/subscriptions",
-    #     feed.views.api.SubscriptionsView.as_view(),
-    #     name="api_subscriptions",
-    # ),
     path(
         "api/v1/collections/",
         feed.views.api.CollectionListView.as_view(),
@@ -199,83 +194,5 @@ urlpatterns = [
         "api/v1/feed/<int:feed_item_pk>/actions/<str:action>/",
         feed.views.api.FeedItemActionView.as_view(),
         name="api_feed_item_actions",
-    ),
-    path(
-        "api/v1/feed/articles",
-        feed.views.api.UserFeedList.as_view(feed_type="articles"),
-        name="api_feed_articles",
-    ),
-    path(
-        "api/v1/feed/podcasts",
-        feed.views.api.UserFeedList.as_view(feed_type="podcasts"),
-        name="api_feed_podcasts",
-    ),
-    path(
-        "api/v1/feed/videos",
-        feed.views.api.UserFeedList.as_view(feed_type="videos"),
-        name="api_feed_videos",
-    ),
-    # path(
-    #     "api/v1/feed/<int:feed_id>/",
-    #     feed.views.api.FeedItemListView.as_view(),
-    #     name="api_feed_feed_list",
-    # ),
-    path(
-        "api/v1/feeds/detail/<int:pk>",
-        views.api.feed_detail.FeedItemDetailView.as_view(),
-        name="api_feed_detail",
-    ),
-    path(
-        "api/v1/feed/favorites",
-        feed.views.api.Favorites.as_view(),
-        name="api_feed_favorites",
-    ),
-    path(
-        "api/v1/feed/filters/",
-        feed.views.api.FeedFilters.as_view(),
-        name="api_feed_filters",
-    ),
-    path(
-        "api/v1/feed/types/", feed.views.api.FeedTypes.as_view(), name="api_feed_types"
-    ),
-    path(
-        "api/v1/feed/<int:feed_id>/<str:action>",
-        feed.views.api.FeedUnsubscribe.as_view(),
-        name="api_feed_action",
-    ),
-    path(
-        "api/v1/feed/actions/<int:pk>/<str:action>",
-        views.api.FeedItemActionsView.as_view(),
-        name="api_feed_item_toggle_interesting",
-    ),
-    path(
-        "api/v1/feed/parsing_status",
-        feed.views.api.ParsingStatus.as_view(),
-        name="api_feed_parsing_status",
-    ),
-    path(
-        "api/v1/collection/<int:collection_id>/feed/",
-        feed.views.api.CollectionFeed.as_view(),
-        name="api_collection_feed",
-    ),
-    path(
-        "api/v1/dialog/hide",
-        views.api.dialogs.DialogHide.as_view(),
-        name="api_dialog_hide",
-    ),
-    path(
-        "api/v1/dialog/feed/new",
-        views.api.dialogs.NewFeed.as_view(),
-        name="api_dialog_feed_new",
-    ),
-    path(
-        "api/v1/dialog/collection/new",
-        views.api.dialogs.NewCollectionView.as_view(),
-        name="api_dialog_collection_new",
-    ),
-    path(
-        "api/v1/dialog/collection/<int:collection_id>/update",
-        views.api.dialogs.CollectionUpdateView.as_view(),
-        name="api_dialog_collection_edit",
     ),
 ]
