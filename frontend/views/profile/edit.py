@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.views.generic import FormView
 from django.utils.translation import gettext_noop as _
 
-from feed.views.mixins import PageMetaMixin
+from frontend.views.mixins import PageMetaMixin
 
 
 class ProfileEditForm(ModelForm):
