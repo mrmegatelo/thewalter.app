@@ -4,6 +4,7 @@ import Dialog from '@/components/Dialog.vue'
 import Button from '@/components/Button.vue'
 import { getCookie } from '@/utils/helpers.ts'
 import type { Subscription } from '@/stores/subscriptions.ts'
+import FeedSubscription from '@/components/FeedSubscription.vue'
 
 const url = ref('')
 
@@ -62,6 +63,7 @@ function handleClose() {
         <p v-if="feed.description" class="paragraph feed-description__text">
           {{ feed.description }}
         </p>
+        <FeedSubscription :feed-id="feed.id" />
       </li>
     </ul>
   </Dialog>

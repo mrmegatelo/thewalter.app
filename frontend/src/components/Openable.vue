@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Button from '@/components/Button.vue'
 import IconChevronRight from '@/components/icons/IconChevronRight.vue'
-import IconFolder from '@/components/icons/IconFolder.vue'
 </script>
 
 <template>

@@ -30,6 +30,11 @@ urlpatterns = [
         name="api_subscription_feed_list",
     ),
     path(
+        "api/v1/subscriptions/<int:pk>/subscription/",
+        views.api.Subscription.as_view(),
+        name="api_feed_item_subscription",
+    ),
+    path(
         "api/v1/feed/",
         views.api.FeedListView.as_view(),
         name="api_feed_list",

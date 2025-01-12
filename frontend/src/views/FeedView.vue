@@ -7,6 +7,7 @@ import { useCollectionsStore } from '@/stores/collections.ts'
 import FeedList from '@/components/FeedList.vue'
 import FeedFilters from '@/components/FeedFilters.vue'
 import FeedSearch from '@/components/FeedSearch.vue'
+import FeedSubscription from '@/components/FeedSubscription.vue'
 
 const route = useRoute()
 const { feed_type } = defineProps({ feed_type: String })
@@ -66,6 +67,9 @@ function handleFiltersChange(filters: Record<string, string>) {
           >
             {{ currentSubscription.description }}
           </p>
+        </div>
+        <div v-if="currentSubscription">
+          <FeedSubscription :feedId="currentSubscription.id" />
         </div>
         <FeedFilters @change="handleFiltersChange" />
       </header>

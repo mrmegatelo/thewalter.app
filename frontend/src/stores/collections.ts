@@ -28,11 +28,11 @@ export const useCollectionsStore = defineStore('collections', {
     feedsByCollection(state) {
       return state.list.map((collection) => {
         const feeds = collection.feeds.map((id) =>
-          useSubscriptionsStore().list.find((feed) => feed.id === id),
-        ) as Subscription[]
+          useSubscriptionsStore().userFeed.find((feed) => feed.id === id)
+        ).filter(Boolean) as Subscription[]
         return {
           ...collection,
-          feeds,
+          feeds
         }
       })
     },
@@ -58,9 +58,9 @@ export const useCollectionsStore = defineStore('collections', {
       if (idx >= 0) {
         this.list[idx] = {
           ...this.list[idx],
-          ...collection,
+          ...collection
         }
       }
     }
-  },
+  }
 })

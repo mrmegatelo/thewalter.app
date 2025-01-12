@@ -8,6 +8,7 @@ export interface Subscription {
   icon: string
   slug: string
   collections: number[]
+  is_subscribed: boolean;
 }
 
 export interface SubscriptionsState {
@@ -18,6 +19,9 @@ export interface SubscriptionsState {
 export const useSubscriptionsStore = defineStore('subscriptions', {
   state: () => ({ list: [], isLoading: false }) as SubscriptionsState,
   getters: {
+    userFeed(state: SubscriptionsState) {
+      return state.list.filter((item) => item.is_subscribed)
+    },
     getFeedBySlug(state) {
       return (slug: string) => {
         if (state.isLoading) {
@@ -36,9 +40,9 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
         return state.list.find((feed) => feed.id === id)
       }
     },
-    feedsWithoutCollection(state) {
-      return state.list.filter((feed) => feed.collections.length === 0)
-    },
+    feedsWithoutCollection() {
+      return this.userFeed.filter((feed) => feed.collections.length === 0)
+    }
   },
   actions: {
     setSubscriptions(feeds: Subscription[]) {
@@ -49,9 +53,22 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
       if (index > -1) {
         this.list[index] = {
           ...this.list[index],
-          collections: [...this.list[index].collections, ...(collections ?? [])],
+          collections: [...this.list[index].collections, ...(collections ?? [])]
         }
       }
     },
-  },
+    unsubscribe(id: number) {
+      const index = this.list.findIndex((el) => el.id === id)
+      this.list[index].is_subscribed = false
+    },
+    subscribe(subscription: Subscription) {
+      const index = this.list.findIndex((el) => el.id === subscription.id)
+      if (index > -1) {
+        this.list.splice(index, 1, subscription)
+      } else {
+        this.list.push(subscription)
+        this.list.sort((a, b) => a.title.localeCompare(b.title))
+      }
+    }
+  }
 })
