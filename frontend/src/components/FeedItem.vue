@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFeedStore } from '@/stores/feed.ts'
-import { onMounted, useTemplateRef } from 'vue'
+import { computed, onMounted, useTemplateRef } from 'vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { useRoute } from 'vue-router'
 import IconPaid from '@/components/icons/IconPaid.vue'
@@ -11,11 +11,27 @@ const route = useRoute()
 const { id } = defineProps({ id: Number })
 const { getFeedById } = useSubscriptionsStore()
 const feedStore = useFeedStore()
-const feedItem = feedStore.getItemById(id)
-const feed = getFeedById(feedItem.feed)
+const feedItem = computed(() => {
+  if (!id) {
+    return
+  }
+
+  return feedStore.getItemById(id)
+})
+const feed = computed(() => {
+  if (!feedItem.value) {
+    return;
+  }
+
+  return getFeedById(feedItem.value.feed)
+})
 const feedItemRef = useTemplateRef('feed-item')
 
 onMounted(() => {
+  if (!feedItemRef.value) {
+    return
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -23,6 +39,7 @@ onMounted(() => {
       }
     })
   })
+
   observer.observe(feedItemRef.value)
 })
 
@@ -34,8 +51,8 @@ function getDetailLinkParams() {
     name: detailRoute.name,
     params: {
       slug: route.params.slug,
-      id: feedItem.id,
-    },
+      id: feedItem.value?.id
+    }
   }
 }
 
@@ -43,8 +60,8 @@ function getFeedLinkParams() {
   return {
     name: 'feed_list',
     params: {
-      slug: feed?.slug,
-    },
+      slug: feed.value?.slug
+    }
   }
 }
 
@@ -61,9 +78,10 @@ function stripTags(htmlString: string) {
 </script>
 
 <template>
-  <li ref="feed-item" class="feed-links-list-item" :key="feedItem.id">
+  <li v-if="feedItem" ref="feed-item" class="feed-links-list-item" :key="feedItem.id">
     <div class="feed-links-list-item-bloginfo">
       <RouterLink
+        v-if="feed"
         :to="getFeedLinkParams()"
         class="feed-links-list-item-bloginfo__link link paragraph"
       >

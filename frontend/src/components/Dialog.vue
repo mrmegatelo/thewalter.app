@@ -31,7 +31,7 @@ defineExpose({
 })
 
 onMounted(() => {
-  dialogsController?.addDialog(name, dialogRef.value as HTMLDivElement)
+  dialogsController?.addDialog(name, dialogRef.value as HTMLDialogElement)
   dialogRef.value?.addEventListener('close', handleDialogClose)
 })
 

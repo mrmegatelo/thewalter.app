@@ -41,6 +41,7 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
       }
     },
     feedsWithoutCollection() {
+      // @ts-ignore
       return this.userFeed.filter((feed) => feed.collections.length === 0)
     }
   },

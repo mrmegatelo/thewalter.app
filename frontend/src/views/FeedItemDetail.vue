@@ -27,6 +27,10 @@ const subscriptionUrl = computed(() => {
 })
 
 function toggleAction(action: string) {
+  if (!feedItem.value) {
+    return;
+  }
+
   const appliedActionsSet = new Set(feedItem?.value?.actions)
   const url = new URL(
     '/api/v1/feed/' + route.params.id + '/actions/' + action + '/',
@@ -46,7 +50,8 @@ function toggleAction(action: string) {
 
   fetch(request)
     .then((res) => res.json())
-    .then((res) => {
+    .then(() => {
+      // @ts-ignore
       feedStore.updateItem(feedItem.value?.id, { actions: Array.from(appliedActionsSet) })
     })
 }

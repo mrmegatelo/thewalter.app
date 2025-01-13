@@ -10,6 +10,10 @@ const subscriptions = useSubscriptionsStore()
 const isSubscribed = computed(() => feedId && subscriptions.getFeedById(feedId)?.is_subscribed)
 
 function handleSubmit(e: Event) {
+  if (!feedId) {
+    return;
+  }
+
   e.preventDefault()
   const method = isSubscribed.value ? 'DELETE' : 'POST'
   const request = new Request(`/api/v1/subscriptions/${feedId}/subscription/`, {
