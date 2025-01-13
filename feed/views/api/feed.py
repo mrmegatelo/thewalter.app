@@ -139,7 +139,7 @@ class FeedListView(ListAPIView):
                 return queryset.filter(
                     Q(actions__user=self.request.user),
                     Q(actions__type=FeedItemAction.Type.LIKE),
-                )
+                ).order_by("-actions__performed_at")
             case "article":
                 return filter_by_feed_type(queryset, "articles")
             case "podcast":
