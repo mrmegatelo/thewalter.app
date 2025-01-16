@@ -1,12 +1,31 @@
 <script setup lang="ts">
 import FeedItem from '@/components/FeedItem.vue'
 import { useFeedStore } from '@/stores/feed.ts'
-import { ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
 
 const { fetchUrl } = defineProps({ fetchUrl: String })
 const nextLink = ref(null)
-
+const route = useRoute()
 const feedStore = useFeedStore()
+
+const requestUrl = computed(() => {
+  if (!fetchUrl) {
+    return
+  }
+  const url = new URL(fetchUrl, window.location.origin)
+  for (const [filter, values] of Object.entries(feedStore.getFilters(route.name as string))) {
+    if (Array.isArray(values)) {
+      values.forEach((value) => {
+        url.searchParams.append(filter, value)
+      })
+    } else {
+      url.searchParams.append(filter, values)
+    }
+  }
+
+  return url.href
+})
 
 function handleScroll(idx: number) {
   if (idx === feedStore.items.length - 1) {
@@ -27,23 +46,13 @@ async function fetchFeed(url: string | URL) {
 }
 
 watchEffect(async () => {
-  if (!fetchUrl) {
+  if (!requestUrl.value) {
     return
   }
 
   feedStore.isLoading = true
-  const url = new URL(fetchUrl, window.location.origin)
-  for (const [filter, values] of Object.entries(feedStore.filters)) {
-    if (Array.isArray(values)) {
-      values.forEach((value) => {
-        url.searchParams.append(filter, value)
-      })
-    } else {
-      url.searchParams.append(filter, values)
-    }
-  }
-  feedStore.$reset()
-  await fetchFeed(url)
+  feedStore.setItems([]);
+  await fetchFeed(requestUrl.value)
 })
 </script>
 

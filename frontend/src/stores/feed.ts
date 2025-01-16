@@ -13,11 +13,12 @@ interface FeedItem {
 }
 
 type Filter = string | string[]
+type FilterRecord = Record<string, Filter>
 
 interface FeedState {
   items: FeedItem[]
   total: number
-  filters: Record<string, Filter>
+  filters: Record<'default' | string, FilterRecord>
   isLoading: boolean
 }
 
@@ -27,25 +28,47 @@ export const useFeedStore = defineStore('feed', {
       items: [],
       total: 0,
       isLoading: false,
-      filters: { exclude: ['viewed', 'not_interesting'] },
+      filters: {
+        default: { exclude: ['viewed', 'not_interesting'] },
+        favorites: { exclude: ['not_interesting'] },
+        favorites_detail: { exclude: ['not_interesting'] }
+      }
     }) as FeedState,
   getters: {
     getItemById: (state: FeedState) => (id: number) => state.items.find((item) => item.id === id),
     filterEnabled: (state: FeedState) => (name: string) => state.filters[name],
+    getFilters: (state: FeedState) => (category: string) => {
+      if (!state.filters[category]) {
+        return state.filters.default
+      }
+
+      return state.filters[category]
+    },
+    isFilterEnabled: (state: FeedState) => (category: string, name: string, value: string) => {
+      if (!state.filters[category]) {
+        category = 'default'
+      }
+
+      if (!state.filters[category][name]) {
+        return false
+      }
+
+      return state.filters[category][name].includes(value)
+    }
   },
   actions: {
     setItems(items: FeedItem[]) {
       this.items = items
     },
-    setFilters(filters: Record<string, Filter>) {
-      this.filters = filters
+    setFilters(category: string, filters: Record<string, Filter>) {
+      this.filters[category] = filters
     },
     updateItem(id: number, update: Partial<FeedItem>) {
       this.items = this.items.map((item: FeedItem) => {
         if (item.id === id) {
           return {
             ...item,
-            ...update,
+            ...update
           }
         }
 
@@ -54,6 +77,6 @@ export const useFeedStore = defineStore('feed', {
     },
     appendItems(items: FeedItem[]) {
       this.items = this.items.concat(items)
-    },
-  },
+    }
+  }
 })

@@ -49,7 +49,7 @@ const fetch_url = computed(() => {
 })
 
 function handleFiltersChange(filters: Record<string, string>) {
-  feedStore.setFilters(filters)
+  feedStore.setFilters(route.name as string, filters)
 }
 </script>
 
