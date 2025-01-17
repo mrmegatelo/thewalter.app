@@ -28,16 +28,16 @@ const subscriptionUrl = computed(() => {
 
 function toggleAction(action: string) {
   if (!feedItem.value) {
-    return;
+    return
   }
 
   const appliedActionsSet = new Set(feedItem?.value?.actions)
   const url = new URL(
     '/api/v1/feed/' + route.params.id + '/actions/' + action + '/',
-    window.location.origin,
+    window.location.origin
   )
   const request = new Request(url, {
-    method: appliedActionsSet.has(action) ? 'DELETE' : 'POST',
+    method: appliedActionsSet.has(action) ? 'DELETE' : 'POST'
   })
 
   request.headers.append('X-CSRFToken', getCookie('csrftoken'))
@@ -65,7 +65,7 @@ watch(
 
     toggleAction('view')
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 
@@ -92,8 +92,22 @@ watch(
         </span>
       </button>
     </div>
-    <section v-if="feedItem?.preview" class="feed-detail-section">
+    <section v-if="feedItem?.preview && !feedItem.attachments.length" class="feed-detail-section">
       <img class="feed-detail-preview" :src="feedItem.preview" :alt="feedItem.title" />
+    </section>
+    <section v-else-if="feedItem?.attachments.length" class="feed-detail-section">
+      <div class="feed-detail-preview" :key="file.url" v-for="file in feedItem.attachments">
+        <iframe v-if="file.type === 'embed'" class="feed-links-list-item__attachment embed"
+                height="240"
+                type="text/html"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                :src="file.url"
+        ></iframe>
+        <audio v-else-if="file.type === 'audio'" :src="file.url" controls></audio>
+      </div>
     </section>
     <section class="feed-detail-section">
       <h1>{{ feedItem?.title }}</h1>
@@ -108,7 +122,9 @@ watch(
         :href="feedItem.link"
         class="button button--ghost button--sm button--outline"
         target="_blank"
-        ><IconLink class="button__icon" />Read on {{ subscriptionUrl }}</a
+      >
+        <IconLink class="button__icon" />
+        Read on {{ subscriptionUrl }}</a
       >
     </div>
   </div>

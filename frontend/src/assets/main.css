@@ -1018,6 +1018,7 @@ a:hover {
   max-height: 240px;
   margin: 0 auto;
   border-radius: calc(var(--grid-step) * 1.25);
+  overflow: hidden;
 }
 
 .feed-detail-description {

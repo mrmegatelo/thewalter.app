@@ -1,6 +1,12 @@
 import { defineStore } from 'pinia'
 
+interface Attachment {
+  url: string;
+  type: 'audio' | 'video' | 'embed'
+}
+
 interface FeedItem {
+  attachments: Attachment[]
   description: string
   has_paid_content: boolean
   link: string

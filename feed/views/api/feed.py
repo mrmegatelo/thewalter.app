@@ -105,6 +105,7 @@ class FeedListView(ListAPIView):
             self.model.objects.filter(feed__subscribers=self.request.user)
             .prefetch_related("feed")
             .prefetch_related("actions")
+            .prefetch_related("attachments")
         )
 
         queryset = self.apply_type_filters(queryset)

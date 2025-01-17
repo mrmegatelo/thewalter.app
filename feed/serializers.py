@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField, StringRelatedField
 
-from feed.models import Feed, Collection, FeedItem
+from feed.models import Feed, Collection, FeedItem, Attachment
 
 
 class ExistenceCheckRelatedField(serializers.RelatedField):
@@ -30,9 +30,19 @@ class CollectionSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "slug", "feeds", "user"]
 
 
+class AttachmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attachment
+        fields = [
+            "type",
+            "url"
+        ]
+
+
 class FeedItemSerializer(serializers.ModelSerializer):
     feed = PrimaryKeyRelatedField(read_only=True)
     actions = StringRelatedField(many=True)
+    attachments = AttachmentSerializer(many=True, read_only=True)
 
     class Meta:
         model = FeedItem
@@ -46,4 +56,5 @@ class FeedItemSerializer(serializers.ModelSerializer):
             "preview",
             "feed",
             "actions",
+            "attachments"
         ]
