@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useFeedStore } from '@/stores/feed.ts'
-import { computed, onMounted, useTemplateRef } from 'vue'
+import { computed, inject, onMounted, useTemplateRef } from 'vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { useRoute } from 'vue-router'
 import IconPaid from '@/components/icons/IconPaid.vue'
+import { Injection } from '@/utils/constants.ts'
+import type { IntlService } from '@/services/intl.ts'
 
 const emit = defineEmits(['appear'])
+const intlService = inject(Injection.Intl) as IntlService
 
 const route = useRoute()
 const { id } = defineProps({ id: Number })
@@ -89,7 +92,7 @@ function stripTags(htmlString: string) {
         <small>{{ feed.title }}</small>
       </RouterLink>
       <small class="paragraph">
-        {{ feedItem.pub_date }}
+        {{ intlService.formatDate(new Date(feedItem.pub_date)) }}
       </small>
     </div>
     <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-link">

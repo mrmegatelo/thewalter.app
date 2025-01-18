@@ -67,7 +67,10 @@ export const useFeedStore = defineStore('feed', {
       this.items = items
     },
     setFilters(category: string, filters: Record<string, Filter>) {
-      this.filters[category] = filters
+      this.filters[category] = {
+        ...this.filters[category],
+        ...filters,
+      }
     },
     updateItem(id: number, update: Partial<FeedItem>) {
       this.items = this.items.map((item: FeedItem) => {
