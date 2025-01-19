@@ -181,7 +181,7 @@ def get_url_content(url, on_error=None, **kwargs):
 
         status_code = e.response.status_code
         match status_code:
-            case 403 | 406:
+            case 403 | 404 | 406 :
                 return on_error(url, **kwargs)
             case _:
                 raise e
@@ -195,7 +195,7 @@ def get_url_content_with_fake_browser(url, **kwargs):
 def get_url_content_with_headers(url, **kwargs):
     headers = {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3",
-        "Accept": "text/html, text/xml, application/xml, application/rss+xml, application/atom+xml",
+        "Accept": "text/html, text/xml, application/xhtml+xml, application/rss+xml, application/atom+xml",
     }
 
     return get_url_content(url, headers=headers, on_error=get_url_content_with_proxy, **kwargs)
