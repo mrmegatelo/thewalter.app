@@ -10,7 +10,12 @@ import { filter } from 'minimatch'
 const route = useRoute()
 const feedStore = useFeedStore()
 const emit = defineEmits(['change'])
-const filtersState = computed(() => feedStore.getFilters(route.name as string))
+const filtersState = computed(() => {
+  if (route.matched[0]?.name) {
+    feedStore.getFilters(route.matched[0].name as string)
+  }
+  return feedStore.getFilters(route.name as string)
+})
 
 function handleFilterChange(e: Event) {
   const form = e.currentTarget as HTMLFormElement

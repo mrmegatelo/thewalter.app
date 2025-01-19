@@ -49,7 +49,8 @@ const fetch_url = computed(() => {
 })
 
 function handleFiltersChange(filters: Record<string, string>) {
-  feedStore.setFilters(route.name as string, filters)
+  const key = route.matched[0]?.name || route.name
+  feedStore.setFilters(key as string, filters)
 }
 </script>
 

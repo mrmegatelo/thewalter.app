@@ -14,7 +14,8 @@ const requestUrl = computed(() => {
     return
   }
   const url = new URL(fetchUrl, window.location.origin)
-  for (const [filter, values] of Object.entries(feedStore.getFilters(route.name as string))) {
+  const filtersKey = route.matched[0]?.name || route.name
+  for (const [filter, values] of Object.entries(feedStore.getFilters(filtersKey as string))) {
     if (Array.isArray(values)) {
       values.forEach((value) => {
         url.searchParams.append(filter, value)
