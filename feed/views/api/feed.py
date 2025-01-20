@@ -194,8 +194,6 @@ class FeedItemActionView(View, SingleObjectMixin):
             feed_item=instance,
         )
         action.save()
-        instance.actions.add(action)
-        instance.save()
         return JsonResponse({"success": True})
 
     def delete(self, request, *args, **kwargs):
