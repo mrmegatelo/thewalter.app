@@ -525,21 +525,6 @@ python-crontab = ">=2.3.4"
 tzdata = "*"
 
 [[package]]
-name = "django-celery-results"
-version = "2.5.1"
-description = "Celery result backends for Django."
-optional = false
-python-versions = "*"
-files = [
-    {file = "django_celery_results-2.5.1-py3-none-any.whl", hash = "sha256:0da4cd5ecc049333e4524a23fcfc3460dfae91aa0a60f1fae4b6b2889c254e01"},
-    {file = "django_celery_results-2.5.1.tar.gz", hash = "sha256:3ecb7147f773f34d0381bac6246337ce4cf88a2ea7b82774ed48e518b67bb8fd"},
-]
-
-[package.dependencies]
-celery = ">=5.2.7,<6.0"
-Django = ">=3.2.18"
-
-[[package]]
 name = "django-debug-toolbar"
 version = "4.4.6"
 description = "A configurable set of panels that display various debug information about the current request/response."
@@ -2011,4 +1996,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.10.9"
-content-hash = "02c5930c4352d9933f22c368040dabb3cbd0c636a22040c5fe806b91bd09a127"
+content-hash = "a4e78993068c59def99591cdbe256d7a374f5f7a5e9dd83ac3726343aed218bf"
