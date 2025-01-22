@@ -174,6 +174,9 @@ CACHES = {
     }
 }
 
+# Session settings
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+
 # Debug toolbar config
 DEBUG_TOOLBAR_CONFIG = {
     "ROOT_TAG_EXTRA_ATTRS": "hx-preserve",
