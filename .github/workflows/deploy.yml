@@ -8,15 +8,18 @@ on:
 
 jobs:
   build:
-    name: Build image
+    name: Build docker images
     runs-on: ubuntu-latest
     environment: production
+    strategy:
+      matrix:
+        image_name: ['django', 'frontend', 'nginx']
     steps:
       - uses: actions/checkout@master
       - run: docker login ghcr.io -u $GITHUB_ACTOR -p ${{ secrets.GHCR_TOKEN }}
-      - run: docker build -f ./infra/production/django/Dockerfile -t ghcr.io/$GITHUB_ACTOR/walter:latest -t ghcr.io/$GITHUB_ACTOR/walter:$GITHUB_SHA .
-      - run: docker image push ghcr.io/$GITHUB_ACTOR/walter:$GITHUB_SHA
-      - run: docker image push ghcr.io/$GITHUB_ACTOR/walter:latest
+      - run: docker build -f ./infra/production/${{matrix.image_name}}/Dockerfile -t ghcr.io/$GITHUB_ACTOR/walter-${{matrix.image_name}}:latest -t ghcr.io/$GITHUB_ACTOR/walter-${{matrix.image_name}}:$GITHUB_SHA .
+      - run: docker image push ghcr.io/$GITHUB_ACTOR/walter-${{matrix.image_name}}:$GITHUB_SHA
+      - run: docker image push ghcr.io/$GITHUB_ACTOR/walter-${{matrix.image_name}}:latest
 
   deploy:
     name: Deploy
@@ -59,4 +62,4 @@ jobs:
       - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY_PATH }} -r $(pwd)/* ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/walter/walter
       - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY_PATH }} .env ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/walter/walter/.env
       - run: scp -o StrictHostKeyChecking=no -i ${{ env.SSH_KEY_PATH }} docker-compose.prod.yml ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }}:/home/walter/walter/docker-compose.prod.yml
-      - run: ssh -i ${{ env.SSH_KEY_PATH }} ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }} "cd /home/walter/walter && docker login ghcr.io -u $GITHUB_ACTOR -p ${{ secrets.GHCR_TOKEN }} && docker pull ghcr.io/$GITHUB_ACTOR/walter:$GITHUB_SHA && docker compose -f docker-compose.prod.yml up -d --build && docker system prune --all --force"
+      - run: ssh -i ${{ env.SSH_KEY_PATH }} ${{ secrets.PRODUCTION_SSH_USERNAME }}@${{ secrets.PRODUCTION_SSH_HOST }} "cd /home/walter/walter && docker login ghcr.io -u $GITHUB_ACTOR -p ${{ secrets.GHCR_TOKEN }} && docker pull ghcr.io/$GITHUB_ACTOR/walter-django:$GITHUB_SHA && docker pull ghcr.io/$GITHUB_ACTOR/walter-frontend:$GITHUB_SHA && docker pull ghcr.io/$GITHUB_ACTOR/walter-nginx:$GITHUB_SHA && docker compose -f docker-compose.prod.yml up -d && docker system prune --all --force"

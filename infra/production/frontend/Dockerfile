@@ -7,4 +7,5 @@ COPY ./frontend/package-lock.json ./package-lock.json
 
 RUN npm i
 
+COPY ./frontend .
 ENTRYPOINT ["npm", "run"]

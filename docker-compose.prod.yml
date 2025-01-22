@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   nginx:
-    build: ./infra/production/nginx
+    image: ghcr.io/mrmegatelo/walter-nginx:${GITHUB_SHA:-latest}
     volumes:
       - staticfiles:/app/staticfiles
       - mediafiles:/app/mediafiles
@@ -24,11 +24,10 @@ services:
       - ./certbot/conf/:/etc/letsencrypt/:rw
 
   web:
-    build:
-      context: .
-      dockerfile: infra/production/django/Dockerfile
+    image: ghcr.io/mrmegatelo/walter-django:${GITHUB_SHA:-latest}
     command: /start
     volumes:
+      - ./frontend/static:/app/frontend/static
       - staticfiles:/app/staticfiles
       - mediafiles:/app/mediafiles
     env_file:
@@ -44,12 +43,10 @@ services:
         condition: service_started
 
   frontend:
-    build:
-      context: .
-      dockerfile: ./infra/local/frontend/Dockerfile
-    command: build
+    image: ghcr.io/mrmegatelo/walter-frontend:${GITHUB_SHA:-latest}
+    command: format
     volumes:
-      - ./frontend:/app
+      - ./frontend/static:/app/static
       - /app/node_modules
 
   db:
@@ -65,10 +62,7 @@ services:
     image: redis:7-alpine
 
   celery_worker:
-    build:
-      context: .
-      dockerfile: infra/production/django/Dockerfile
-    image: walter_celery_worker
+    image: ghcr.io/mrmegatelo/walter-django:${GITHUB_SHA:-latest}
     command: /start-celeryworker
     volumes:
       - staticfiles:/app/staticfiles
@@ -80,10 +74,7 @@ services:
       - db
 
   celery_beat:
-    build:
-      context: .
-      dockerfile: infra/production/django/Dockerfile
-    image: walter_celery_beat
+    image: ghcr.io/mrmegatelo/walter-django:${GITHUB_SHA:-latest}
     command: /start-celerybeat
     volumes:
       - staticfiles:/app/staticfiles
@@ -95,10 +86,7 @@ services:
       - db
 
   flower:
-    build:
-      context: .
-      dockerfile: infra/production/django/Dockerfile
-    image: walter_celery_flower
+    image: ghcr.io/mrmegatelo/walter-django:${GITHUB_SHA:-latest}
     command: /start-flower
     volumes:
       - staticfiles:/app/staticfiles
