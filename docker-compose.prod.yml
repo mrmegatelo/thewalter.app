@@ -44,7 +44,7 @@ services:
 
   frontend:
     image: ghcr.io/mrmegatelo/walter-frontend:${GITHUB_SHA:-latest}
-    command: format
+    command: build
     volumes:
       - ./frontend/static:/app/static
       - /app/node_modules
