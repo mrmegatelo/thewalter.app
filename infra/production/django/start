@@ -8,4 +8,4 @@ python /app/manage.py collectstatic --noinput
 python /app/manage.py migrate
 django-admin compilemessages
 
-python -m gunicorn walter.asgi:application -k uvicorn_worker.UvicornWorker --bind 0.0.0.0:8000 --workers 5
+python -m gunicorn walter.asgi:application -k uvicorn_worker.UvicornWorker --bind 0.0.0.0:8000 --workers 9
