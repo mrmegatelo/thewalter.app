@@ -42,7 +42,6 @@ export const useFeedStore = defineStore('feed', {
     }) as FeedState,
   getters: {
     getItemById: (state: FeedState) => (id: number) => state.items.find((item) => item.id === id),
-    filterEnabled: (state: FeedState) => (name: string) => state.filters[name],
     getFilters: (state: FeedState) => (category: string) => {
       if (!state.filters[category]) {
         return state.filters.default
@@ -50,17 +49,6 @@ export const useFeedStore = defineStore('feed', {
 
       return state.filters[category]
     },
-    isFilterEnabled: (state: FeedState) => (category: string, name: string, value: string) => {
-      if (!state.filters[category]) {
-        category = 'default'
-      }
-
-      if (!state.filters[category][name]) {
-        return false
-      }
-
-      return state.filters[category][name].includes(value)
-    }
   },
   actions: {
     setItems(items: FeedItem[]) {

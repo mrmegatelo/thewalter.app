@@ -95,6 +95,11 @@ class CollectionUpdateView(UpdateAPIView):
             .prefetch_related("user")
         )
 
+    def perform_update(self, serializer):
+        if 'feeds' not in serializer.validated_data:
+            serializer.validated_data['feeds'] = []
+        super().perform_update(serializer)
+
 
 class FeedListView(ListAPIView):
     model = FeedItem
