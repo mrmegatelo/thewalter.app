@@ -55,7 +55,20 @@ export const useCollectionsStore = defineStore('collections', {
     },
     update(collection: Collection) {
       const idx = this.list.findIndex((el) => el.id === collection.id)
+      const subscriptions = useSubscriptionsStore()
+
       if (idx >= 0) {
+        const feedsToUpdate = collection.feeds.filter((feed) => !this.list[idx].feeds.includes(feed))
+        const feedsToRemove = this.list[idx].feeds.filter((feed) => !collection.feeds.includes(feed))
+
+        for (const subId of feedsToUpdate) {
+          subscriptions.updateCollections(subId, [collection.id])
+        }
+
+        for (const subId of feedsToRemove) {
+          subscriptions.updateCollections(subId, [])
+        }
+
         this.list[idx] = {
           ...this.list[idx],
           ...collection
