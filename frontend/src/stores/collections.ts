@@ -16,7 +16,7 @@ interface FeedsState {
 export const useCollectionsStore = defineStore('collections', {
   state: () => ({ list: [], isLoading: false }) as FeedsState,
   getters: {
-    getCollectionBySlug(state) {
+    getBySlug(state) {
       return (slug: string) => {
         if (state.isLoading) {
           return null
@@ -43,10 +43,10 @@ export const useCollectionsStore = defineStore('collections', {
     }
   },
   actions: {
-    setCollections(collections: Collection[]) {
+    setList(collections: Collection[]) {
       this.list = collections
     },
-    addCollection(collection: Collection) {
+    add(collection: Collection) {
       this.list.push(collection)
       const subscriptions = useSubscriptionsStore()
       for (const subId of collection.feeds) {

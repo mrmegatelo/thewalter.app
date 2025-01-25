@@ -34,7 +34,8 @@ function handleSubmit(e: Event) {
   fetch(request)
     .then((res) => res.json())
     .then((res) => {
-      currentCollection.value ? collections.update(res) : collections.addCollection(res)
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      currentCollection.value ? collections.update(res) : collections.add(res)
       dialogsController?.hideDialog(DIALOG_NAME)
     })
 }

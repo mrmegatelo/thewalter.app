@@ -30,7 +30,7 @@ Promise.all([
   fetch('/api/v1/collections/').then((res) => res.json()),
 ]).then(([feeds, collections]) => {
   subscriptionsStore.setSubscriptions(feeds)
-  collectionsStore.setCollections(collections)
+  collectionsStore.setList(collections)
   subscriptionsStore.isLoading = false
 })
 
