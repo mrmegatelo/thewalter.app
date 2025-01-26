@@ -49,6 +49,7 @@ export const useFeedStore = defineStore('feed', {
 
       return state.filters[category]
     },
+    isEmpty: (state: FeedState) => state.items.length === 0,
   },
   actions: {
     setItems(items: FeedItem[]) {
