@@ -7,13 +7,15 @@ import IconChevronRight from '@/components/icons/IconChevronRight.vue'
   <details class="openable">
     <Button as="summary" class="openable-control" variant="ghost" size="sm">
       <span class="button__icon openable-control__icon openable-control__indicator">
-        <IconChevronRight />
+        <IconChevronRight width="20" height="20" />
       </span>
-      <span v-if="$slots.icon" class="button__icon">
+      <template v-if="$slots.icon" #icon-left>
         <slot name="icon"></slot>
-      </span>
+      </template>
       <slot name="trigger"></slot>
-      <slot name="right"></slot>
+      <template #icon-right>
+        <slot name="right"></slot>
+      </template>
     </Button>
     <div class="openable-body">
       <slot></slot>

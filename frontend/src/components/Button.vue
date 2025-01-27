@@ -17,10 +17,13 @@ const classObj = computed(() => ({
 
 <template>
   <component :is="as" :class="classObj">
-    <div v-if="$slots.icon" class="button__icon">
-      <slot name="icon"></slot>
+    <div v-if="$slots['icon-left']" class="button__icon">
+      <slot name="icon-left"></slot>
     </div>
-    <slot></slot>
+    <span v-if="$slots.default"><slot></slot></span>
+    <div v-if="$slots['icon-right']" class="button__right">
+      <slot name="icon-right"></slot>
+    </div>
   </component>
 </template>
 

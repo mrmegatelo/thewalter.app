@@ -20,14 +20,14 @@ import { Injection } from '@/utils/constants.ts'
 
 const subscriptionsStore = useSubscriptionsStore()
 const collectionsStore = useCollectionsStore()
-const collectionsDialogRef = useTemplateRef("collectionDialog")
+const collectionsDialogRef = useTemplateRef('collectionDialog')
 
 const dialogsController = inject(Injection.DialogController)
 
 subscriptionsStore.isLoading = true
 Promise.all([
   fetch('/api/v1/subscriptions/').then((res) => res.json()),
-  fetch('/api/v1/collections/').then((res) => res.json()),
+  fetch('/api/v1/collections/').then((res) => res.json())
 ]).then(([feeds, collections]) => {
   subscriptionsStore.setSubscriptions(feeds)
   collectionsStore.setList(collections)
@@ -55,7 +55,7 @@ function showCollectionDialog(id?: number) {
       <div class="sidebar-block sidebar-block-content">
         <RouterLink to="/" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-            <template v-slot:icon>
+            <template #icon-left>
               <IconHome />
             </template>
             Home
@@ -63,7 +63,7 @@ function showCollectionDialog(id?: number) {
         </RouterLink>
         <RouterLink to="/favorites" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-            <template v-slot:icon>
+            <template #icon-left>
               <IconFavorite filled />
             </template>
             Favorites
@@ -71,7 +71,7 @@ function showCollectionDialog(id?: number) {
         </RouterLink>
         <RouterLink to="/articles" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-            <template v-slot:icon>
+            <template #icon-left>
               <IconArticle />
             </template>
             Articles
@@ -79,7 +79,7 @@ function showCollectionDialog(id?: number) {
         </RouterLink>
         <RouterLink to="/podcasts" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-            <template v-slot:icon>
+            <template #icon>
               <IconHeadphones />
             </template>
             Podcasts
@@ -87,7 +87,7 @@ function showCollectionDialog(id?: number) {
         </RouterLink>
         <RouterLink to="/videos" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-            <template v-slot:icon>
+            <template #icon-left>
               <IconMovie />
             </template>
             Videos
@@ -99,12 +99,12 @@ function showCollectionDialog(id?: number) {
           <h4>Feeds:</h4>
           <div class="sidebar-block-header-buttons">
             <Button @click="showCollectionDialog()" size="sm" variant="text">
-              <template v-slot:icon>
+              <template #icon-left>
                 <IconFolderNew />
               </template>
             </Button>
             <Button @click="openSubscriptionDialog()" size="sm" variant="text">
-              <template v-slot:icon>
+              <template #icon-left>
                 <IconPlusCircle />
               </template>
             </Button>
@@ -112,17 +112,17 @@ function showCollectionDialog(id?: number) {
         </div>
         <div class="sidebar-block-content">
           <Openable :key="collection.id" v-for="collection in collectionsStore.feedsByCollection">
-            <template v-slot:trigger>
+            <template #trigger>
               <RouterLink class="openable__link" :to="`/collection/${collection.slug}`">
                 {{ collection.title }}
               </RouterLink>
             </template>
-            <template v-slot:icon>
+            <template #icon>
               <IconFolder />
             </template>
-            <template v-slot:right>
+            <template #right>
               <Button @click="showCollectionDialog(collection.id)" variant="text" size="sm" title="Edit collection">
-                <template v-slot:icon>
+                <template #icon-left>
                   <IconSettings class="openable-control__icon" />
                 </template>
               </Button>
@@ -135,7 +135,9 @@ function showCollectionDialog(id?: number) {
               custom
             >
               <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-                <img width="20" height="20" :alt="feed?.title" :src="feed?.icon" />
+                <template #icon-left>
+                  <img width="20" height="20" :alt="feed?.title" :src="feed?.icon" />
+                </template>
                 {{ feed?.title }}
               </Button>
             </RouterLink>
@@ -148,7 +150,9 @@ function showCollectionDialog(id?: number) {
             custom
           >
             <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-              <img width="20" height="20" :alt="feed.title" :src="feed.icon" />
+              <template #icon-left>
+                <img width="20" height="20" :alt="feed.title" :src="feed.icon" />
+              </template>
               {{ feed.title }}
             </Button>
           </RouterLink>
