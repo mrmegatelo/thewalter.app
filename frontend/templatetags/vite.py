@@ -16,14 +16,24 @@ def hmr_client():
     return mark_safe('<script type="module" src="http://localhost:5173/static/@vite/client"></script>')
 
 @register.simple_tag()
-def entrypoint_assets():
+def spa_entrypoint():
     if settings.DEBUG:
         return _get_static_entrypoint()
+    app_path = apps.get_app_config('frontend').path
+    manifest_path = os.path.join(app_path, 'static', '.vite', 'manifest.json')
+    with open(manifest_path) as f:
+        manifest = json.load(f)
+        manifest_entrypoint = manifest['src/main.ts']
+        entrypoint_path = static(manifest_entrypoint['file'])
+        return mark_safe(f"<script type=\"module\" src=\"{entrypoint_path}\"></script>")
 
+
+
+@register.simple_tag()
+def entrypoint_assets():
     assets = []
     for asset in _get_entrypoint_from_manifest():
         assets.append(asset)
-        pass
     return mark_safe("\n".join(assets))
 
 def _get_static_entrypoint():
@@ -36,8 +46,6 @@ def _get_entrypoint_from_manifest():
     with open(manifest_path) as f:
         manifest = json.load(f)
         manifest_entrypoint = manifest['src/main.ts']
-        entrypoint_path = static(manifest_entrypoint['file'])
-        result.append(f"<script type=\"module\" src=\"{entrypoint_path}\"></script>")
         for css in manifest_entrypoint['css']:
             result.append(f"<link rel=\"stylesheet\" crossorigin href=\"{static(css)}\">")
 

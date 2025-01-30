@@ -6,7 +6,7 @@ from django.utils.translation import gettext_noop as _
 class PageMetaMixin(ContextMixin):
     title = "thewalter.app"
     description = _("The only feed you need.")
-    cover = "feed/img/cover.jpg"
+    cover = "img/cover.jpg"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

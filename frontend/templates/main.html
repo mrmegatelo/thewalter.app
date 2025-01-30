@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  <link rel="preconnect" href="https://rsms.me" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.js"
+          integrity="sha384-Xh+GLLi0SMFPwtHQjT72aPG19QvKB8grnyRbYBNIdHWc2NkCrz65jlU7YrzO6qRp"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
+{% endblock %}
+
+{% block body %}
+  <header class="header subgrid spread">
+    <span class="cols-3">
+        <a href="{% if user.is_authenticated %}{% url 'feed_index' %}{% else %}{% url 'index' %}{% endif %}">
+            <img src="{% static 'img/logo.svg' %}" alt="thewalter.app" class="logo">
+        </a>
+    </span>
+    {% if user.is_authenticated %}
+      {% include 'blocks/header/authenticated.html' %}
+    {% else %}
+      {% include 'blocks/header/anonym.html' %}
+    {% endif %}
+  </header>
+  <main class="content">
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer class="spread">
+    <footer class="footer">
+      © {% now "Y" %} | thewalter.app by
+      <a href="https://www.linkedin.com/in/mivanov24/" target="_blank" class="link medium">Mikhail Ivanov</a>
+    </footer>
+  </footer>
+{% endblock %}

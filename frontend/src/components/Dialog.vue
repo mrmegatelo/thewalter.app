@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, useTemplateRef, defineProps, defineEmits, inject } from 'vue'
+import { onMounted, onUnmounted, useTemplateRef, inject } from 'vue'
 import { Injection } from '@/utils/constants.ts'
 
 interface Props {
