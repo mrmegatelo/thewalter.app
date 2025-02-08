@@ -50,6 +50,7 @@ const fetch_url = computed(() => {
 
 function handleFiltersChange(filters: Record<string, string>) {
   const key = route.matched[0]?.name || route.name
+  console.log("Handle search change", { filters })
   feedStore.setFilters(key as string, filters)
 }
 </script>

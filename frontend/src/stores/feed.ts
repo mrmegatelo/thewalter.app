@@ -49,16 +49,30 @@ export const useFeedStore = defineStore('feed', {
 
       return state.filters[category]
     },
-    isEmpty: (state: FeedState) => state.items.length === 0,
+    isEmpty: (state: FeedState) => state.items.length === 0
   },
   actions: {
     setItems(items: FeedItem[]) {
       this.items = items
     },
     setFilters(category: string, filters: Record<string, Filter>) {
-      this.filters[category] = {
-        ...this.filters[category],
-        ...filters,
+
+      if (!this.filters[category]) {
+        this.filters[category] = {
+          ...this.filters.default,
+          ...filters
+        }
+      } else {
+        for (const key of Object.keys(filters)) {
+          if (filters[key] !== null) {
+            this.filters[category] = {
+              ...this.filters[category],
+              [key]: filters[key],
+            }
+          } else {
+            delete this.filters[category][key]
+          }
+        }
       }
     },
     updateItem(id: number, update: Partial<FeedItem>) {

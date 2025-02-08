@@ -824,6 +824,11 @@ a:hover {
         position: absolute;
         top: 4px;
         right: 4px;
+
+        &.button--xs {
+            top: 5px;
+            right: 6px;
+        }
     }
 }
 
