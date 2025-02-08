@@ -18,7 +18,8 @@ interface FeedItem {
   id: number
 }
 
-type Filter = null | string | string[]
+type Filter = string | string[]
+type NullableFilter = Filter | null
 type FilterRecord = Record<string, Filter>
 
 interface FeedState {
@@ -55,12 +56,12 @@ export const useFeedStore = defineStore('feed', {
     setItems(items: FeedItem[]) {
       this.items = items
     },
-    setFilters(category: string, filters: Record<string, Filter>) {
+    setFilters(category: string, filters: Record<string, NullableFilter>) {
 
       if (!this.filters[category]) {
         this.filters[category] = {
           ...this.filters.default,
-          ...filters
+          ...filters as FilterRecord,
         }
       } else {
         for (const key of Object.keys(filters)) {
