@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { useFeedStore } from '@/stores/feed.ts'
@@ -48,11 +48,14 @@ const fetch_url = computed(() => {
   }
 })
 
-function handleFiltersChange(filters: Record<string, string>) {
+function handleFiltersChange(filters: Record<string, string | null>) {
   const key = route.matched[0]?.name || route.name
-  console.log("Handle search change", { filters })
   feedStore.setFilters(key as string, filters)
 }
+
+watch(() => route.matched[0]?.name || route.name, (_, prevName) => {
+  feedStore.setFilters(prevName as string, { search: null })
+})
 </script>
 
 <template>

@@ -18,7 +18,7 @@ interface FeedItem {
   id: number
 }
 
-type Filter = string | string[]
+type Filter = null | string | string[]
 type FilterRecord = Record<string, Filter>
 
 interface FeedState {
