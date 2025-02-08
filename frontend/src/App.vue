@@ -79,7 +79,7 @@ function showCollectionDialog(id?: number) {
         </RouterLink>
         <RouterLink to="/podcasts" v-slot="{ href, navigate }" custom>
           <Button :as="'a'" @click="navigate" :href="href" variant="ghost" size="sm">
-            <template #icon>
+            <template #icon-left>
               <IconHeadphones />
             </template>
             Podcasts
