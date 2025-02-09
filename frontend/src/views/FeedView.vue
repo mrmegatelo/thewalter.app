@@ -8,12 +8,14 @@ import FeedList from '@/components/feed/List.vue'
 import FeedFilters from '@/components/feed/Filters.vue'
 import FeedSearch from '@/components/feed/Search.vue'
 import FeedSubscription from '@/components/feed/Subscription.vue'
+import FeedListLoader from '@/components/feed/Loader.vue'
 
 const route = useRoute()
 const { feed_type } = defineProps({ feed_type: String })
 const subscriptions = useSubscriptionsStore()
 const collections = useCollectionsStore()
 const feedStore = useFeedStore()
+const isLoading = computed(() => subscriptions.isLoading || collections.isLoading)
 
 const currentSubscription = computed(() => {
   if (!route.params.slug) {
@@ -77,7 +79,8 @@ watch(() => route.matched[0]?.name || route.name, (_, prevName) => {
         </div>
         <FeedFilters @change="handleFiltersChange" />
       </header>
-      <FeedList v-if="fetch_url" :fetch-url="fetch_url" />
+      <FeedListLoader v-if="isLoading" />
+      <FeedList v-else-if="fetch_url" :fetch-url="fetch_url" />
     </section>
     <section id="detail" class="section">
       <RouterView />

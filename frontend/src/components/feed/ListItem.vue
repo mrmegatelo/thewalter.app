@@ -107,7 +107,7 @@ function stripTags(htmlString: string) {
         </span>
       </h4>
     </RouterLink>
-    <div class="feed-links-list-item-body">
+    <div v-if="feedItem.description" class="feed-links-list-item-body">
       <RouterLink :to="getDetailLinkParams()" class="feed-links-list-item-text">
         <p class="feed-links-list-item__description">{{ stripTags(feedItem.description) }}</p>
       </RouterLink>

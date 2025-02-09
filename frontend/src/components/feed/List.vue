@@ -4,6 +4,7 @@ import { useFeedStore } from '@/stores/feed.ts'
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import IconInboxEmpty from '@/components/icons/IconInboxEmpty.vue'
+import Loader from '@/components/feed/Loader.vue'
 
 const { fetchUrl } = defineProps({ fetchUrl: String })
 const nextLink = ref(null)
@@ -60,7 +61,7 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <div class="feed-list-loader" v-if="feedStore.isLoading">Loading...</div>
+  <Loader v-if="feedStore.isLoading" />
   <div v-else-if="feedStore.isEmpty" class="feed-list-empty-container">
     <div class="feed-list-empty">
       <IconInboxEmpty class="feed-list-empty-icon" />
