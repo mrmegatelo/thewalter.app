@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Button from '@/components/Button.vue'
+import Button from '@/components/ui/Button.vue'
 import { computed } from 'vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { getCookie } from '@/utils/helpers.ts'

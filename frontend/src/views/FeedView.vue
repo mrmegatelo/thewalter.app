@@ -4,10 +4,10 @@ import { useRoute } from 'vue-router'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { useFeedStore } from '@/stores/feed.ts'
 import { useCollectionsStore } from '@/stores/collections.ts'
-import FeedList from '@/components/FeedList.vue'
-import FeedFilters from '@/components/FeedFilters.vue'
-import FeedSearch from '@/components/FeedSearch.vue'
-import FeedSubscription from '@/components/FeedSubscription.vue'
+import FeedList from '@/components/feed/List.vue'
+import FeedFilters from '@/components/feed/Filters.vue'
+import FeedSearch from '@/components/feed/Search.vue'
+import FeedSubscription from '@/components/feed/Subscription.vue'
 
 const route = useRoute()
 const { feed_type } = defineProps({ feed_type: String })

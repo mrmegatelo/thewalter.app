@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import Button from '@/components/Button.vue'
+import Button from '@/components/ui/Button.vue'
 
 interface Props {
   size?: 'sm' | 'xs'

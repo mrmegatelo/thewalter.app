@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TextInput from '@/components/TextInput.vue'
+import TextInput from '@/components/ui/TextInput.vue'
 import { debounce } from '@/utils/helpers.ts'
 import IconClose from '@/components/icons/IconClose.vue'
 import { ref, watch } from 'vue'

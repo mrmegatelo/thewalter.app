@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import Dialog from '@/components/Dialog.vue'
-import Button from '@/components/Button.vue'
+import Dialog from '@/components/ui/Dialog.vue'
+import Button from '@/components/ui/Button.vue'
 import { getCookie } from '@/utils/helpers.ts'
 import type { Subscription } from '@/stores/subscriptions.ts'
-import FeedSubscription from '@/components/FeedSubscription.vue'
+import FeedSubscription from '@/components/feed/Subscription.vue'
 
 const url = ref('')
 

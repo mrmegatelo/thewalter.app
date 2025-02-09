@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Dialog from '@/components/Dialog.vue'
-import Button from '@/components/Button.vue'
+import Dialog from '@/components/ui/Dialog.vue'
+import Button from '@/components/ui/Button.vue'
 import { useSubscriptionsStore } from '@/stores/subscriptions.ts'
 import { getCookie } from '@/utils/helpers.ts'
 import { type Collection, useCollectionsStore } from '@/stores/collections.ts'

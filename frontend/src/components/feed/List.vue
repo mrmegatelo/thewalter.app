@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FeedItem from '@/components/FeedItem.vue'
+import ListItem from '@/components//feed/ListItem.vue'
 import { useFeedStore } from '@/stores/feed.ts'
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
@@ -68,7 +68,7 @@ watchEffect(async () => {
     </div>
   </div>
   <ul v-else class="feed-list-wrapper">
-    <FeedItem
+    <ListItem
       v-for="(feedItem, idx) in feedStore.items"
       v-on:appear.once="handleScroll(idx)"
       :key="feedItem.id"
