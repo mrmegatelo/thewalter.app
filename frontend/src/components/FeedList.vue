@@ -56,6 +56,7 @@ watchEffect(async () => {
   feedStore.setItems([]);
   await fetchFeed(requestUrl.value)
 })
+
 </script>
 
 <template>

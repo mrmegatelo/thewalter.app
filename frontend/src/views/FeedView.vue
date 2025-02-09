@@ -12,15 +12,14 @@ import FeedSubscription from '@/components/FeedSubscription.vue'
 const route = useRoute()
 const { feed_type } = defineProps({ feed_type: String })
 const subscriptions = useSubscriptionsStore()
-const { getFeedBySlug } = subscriptions
-const { getBySlug } = useCollectionsStore()
+const collections = useCollectionsStore()
 const feedStore = useFeedStore()
 
 const currentSubscription = computed(() => {
   if (!route.params.slug) {
     return null
   }
-  return subscriptions.getFeedBySlug(route.params.slug as string)
+  return subscriptions.getBySlug(route.params.slug as string)
 })
 
 const fetch_url = computed(() => {
@@ -30,10 +29,10 @@ const fetch_url = computed(() => {
 
   switch (feed_type) {
     case 'feed':
-      const feed = getFeedBySlug(route.params.slug as string)
+      const feed = subscriptions.getBySlug(route.params.slug as string)
       return `/api/v1/subscriptions/${feed?.id}/feed/`
     case 'collection':
-      const collection = getBySlug(route.params.slug as string)
+      const collection = collections.getBySlug(route.params.slug as string)
       return `/api/v1/collections/${collection?.id}/feed/`
     case 'favorites':
       return '/api/v1/feed/?type=favorite'

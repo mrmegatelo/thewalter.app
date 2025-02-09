@@ -22,7 +22,7 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
     userFeed(state: SubscriptionsState) {
       return state.list.filter((item) => item.is_subscribed)
     },
-    getFeedBySlug(state) {
+    getBySlug(state) {
       return (slug: string) => {
         if (state.isLoading) {
           return null
@@ -31,7 +31,7 @@ export const useSubscriptionsStore = defineStore('subscriptions', {
         return state.list.find((feed) => feed.slug === slug)
       }
     },
-    getFeedById(state) {
+    getById(state) {
       return (id: number) => {
         if (state.isLoading) {
           return null

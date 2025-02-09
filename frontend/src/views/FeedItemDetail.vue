@@ -11,14 +11,14 @@ import { getCookie } from '@/utils/helpers.ts'
 const route = useRoute()
 
 const feedStore = useFeedStore()
-const { getFeedById } = useSubscriptionsStore()
+const subscriptions = useSubscriptionsStore()
 const feedItem = computed(() => feedStore.getItemById(Number(route.params.id)))
 const subscriptionUrl = computed(() => {
   if (!feedItem.value) {
     return null
   }
 
-  const subscription = getFeedById(feedItem.value.feed)
+  const subscription = subscriptions.getById(feedItem.value.feed)
   if (!subscription) {
     return null
   }

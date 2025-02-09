@@ -25,6 +25,7 @@ const collectionsDialogRef = useTemplateRef('collectionDialog')
 const dialogsController = inject(Injection.DialogController)
 
 subscriptionsStore.isLoading = true
+collectionsStore.isLoading = true
 Promise.all([
   fetch('/api/v1/subscriptions/').then((res) => res.json()),
   fetch('/api/v1/collections/').then((res) => res.json())
@@ -32,6 +33,7 @@ Promise.all([
   subscriptionsStore.setSubscriptions(feeds)
   collectionsStore.setList(collections)
   subscriptionsStore.isLoading = false
+  collectionsStore.isLoading = false
 })
 
 function openSubscriptionDialog() {

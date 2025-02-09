@@ -7,7 +7,7 @@ import { getCookie } from '@/utils/helpers.ts'
 const { feedId } = defineProps({ feedId: Number })
 const subscriptions = useSubscriptionsStore()
 
-const isSubscribed = computed(() => feedId && subscriptions.getFeedById(feedId)?.is_subscribed)
+const isSubscribed = computed(() => feedId && subscriptions.getById(feedId)?.is_subscribed)
 
 function handleSubmit(e: Event) {
   if (!feedId) {

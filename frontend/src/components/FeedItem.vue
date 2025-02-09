@@ -12,7 +12,7 @@ const intlService = inject(Injection.Intl) as IntlService
 
 const route = useRoute()
 const { id } = defineProps({ id: Number })
-const { getFeedById } = useSubscriptionsStore()
+const subscriptions = useSubscriptionsStore()
 const feedStore = useFeedStore()
 const feedItem = computed(() => {
   if (!id) {
@@ -26,7 +26,7 @@ const feed = computed(() => {
     return;
   }
 
-  return getFeedById(feedItem.value.feed)
+  return subscriptions.getById(feedItem.value.feed)
 })
 const feedItemRef = useTemplateRef('feed-item')
 
