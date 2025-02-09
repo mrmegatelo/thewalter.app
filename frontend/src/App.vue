@@ -13,14 +13,16 @@ import IconFolder from '@/components/icons/IconFolder.vue'
 import IconPlusCircle from '@/components/icons/IconPlusCircle.vue'
 import IconFolderNew from '@/components/icons/IconFolderNew.vue'
 import SubscriptionDialog from '@/components/dialogs/SubscriptionDialog.vue'
-import { inject, useTemplateRef } from 'vue'
+import { computed, inject, useTemplateRef } from 'vue'
 import CollectionDialog from '@/components/dialogs/CollectionDialog.vue'
 import IconSettings from '@/components/icons/IconSettings.vue'
 import { Injection } from '@/utils/constants.ts'
+import SubscriptionsLoader from '@/components/subscriptions/Loader.vue'
 
 const subscriptionsStore = useSubscriptionsStore()
 const collectionsStore = useCollectionsStore()
 const collectionsDialogRef = useTemplateRef('collectionDialog')
+const isLoading = computed(() => subscriptionsStore.isLoading || collectionsStore.isLoading)
 
 const dialogsController = inject(Injection.DialogController)
 
@@ -113,7 +115,8 @@ function showCollectionDialog(id?: number) {
           </div>
         </div>
         <div class="sidebar-block-content">
-          <Openable :key="collection.id" v-for="collection in collectionsStore.feedsByCollection">
+          <SubscriptionsLoader v-if="isLoading" />
+          <Openable v-else :key="collection.id" v-for="collection in collectionsStore.feedsByCollection">
             <template #trigger>
               <RouterLink class="openable__link" :to="`/collection/${collection.slug}`">
                 {{ collection.title }}
