@@ -1,13 +1,13 @@
 <script setup lang="ts">
   interface CircleProps {
     type: 'circle';
-    radius: string;
+    radius?: string;
   }
 
   interface SquareProps {
     type: 'square'
-    width: string;
-    height: string;
+    width?: string;
+    height?: string;
   }
 
   type Props = SquareProps | CircleProps;

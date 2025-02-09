@@ -3,12 +3,11 @@ import TextInput from '@/components/ui/TextInput.vue'
 import { debounce } from '@/utils/helpers.ts'
 import IconClose from '@/components/icons/IconClose.vue'
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
 
 const MIN_SEARCH_TERM_LENGTH = 2
+const { fetchUrl } = defineProps(['fetchUrl'])
 const emit = defineEmits(['change'])
 const search = ref("")
-const route = useRoute()
 
 function handleChange(e: Event) {
   const searchTerm = (e.target as HTMLInputElement).value.trim()
@@ -30,7 +29,7 @@ watch(search, (searchTerm) => {
   })
 })
 
-watch(route, () => {
+watch(() => fetchUrl, () => {
   search.value = '';
 })
 

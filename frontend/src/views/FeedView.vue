@@ -63,7 +63,7 @@ watch(() => route.matched[0]?.name || route.name, (_, prevName) => {
   <div class="section splitted">
     <section id="list" class="section list">
       <header class="feed-header">
-        <FeedSearch @change="handleFiltersChange" />
+        <FeedSearch :fetchUrl="fetch_url" @change="handleFiltersChange" />
         <div v-if="currentSubscription?.description" class="feed-description">
           <h3 class="heading">{{ currentSubscription?.title }}</h3>
           <p
