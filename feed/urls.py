@@ -15,19 +15,9 @@ urlpatterns = [
         name="api_collection_update",
     ),
     path(
-        "api/v1/collections/<int:pk>/feed/",
-        views.api.CollectionFeedListView.as_view(),
-        name="api_collection_feed_list",
-    ),
-    path(
         "api/v1/subscriptions/",
         views.api.SubscriptionsListView.as_view(),
         name="api_subscriptions_list",
-    ),
-    path(
-        "api/v1/subscriptions/<int:pk>/feed/",
-        views.api.SubscriptionsFeedListView.as_view(),
-        name="api_subscription_feed_list",
     ),
     path(
         "api/v1/subscriptions/<int:pk>/subscription/",

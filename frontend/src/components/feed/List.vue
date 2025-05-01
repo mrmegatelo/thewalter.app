@@ -5,6 +5,7 @@ import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import IconInboxEmpty from '@/components/icons/IconInboxEmpty.vue'
 import Loader from '@/components/feed/Loader.vue'
+import { buildUrlWithParams } from '@/utils/helpers.ts'
 
 const { fetchUrl } = defineProps({ fetchUrl: String })
 const nextLink = ref(null)
@@ -15,47 +16,27 @@ const requestUrl = computed(() => {
   if (!fetchUrl) {
     return
   }
-  const url = new URL(fetchUrl, window.location.origin)
-  const filtersKey = route.matched[0]?.name || route.name
-  for (const [filter, values] of Object.entries(feedStore.getFilters(filtersKey as string))) {
-    if (Array.isArray(values)) {
-      values.forEach((value) => {
-        url.searchParams.append(filter, value)
-      })
-    } else {
-      url.searchParams.append(filter, values)
-    }
-  }
 
-  return url.href
+  const filtersKey = route.matched[0]?.name || route.name
+  return buildUrlWithParams(fetchUrl, feedStore.getFilters(filtersKey as string))
 })
 
 function handleScroll(idx: number) {
   if (idx === feedStore.items.length - 1) {
     if (nextLink.value) {
-      fetchFeed(nextLink.value)
+      feedStore.fetchByUrl(nextLink.value, false).then((response) => {
+          nextLink.value = response.next
+      })
     }
   }
-}
-
-async function fetchFeed(url: string | URL) {
-  return fetch(url)
-    .then((res) => res.json())
-    .then((res) => {
-      feedStore.appendItems(res.results)
-      nextLink.value = res.next
-      feedStore.isLoading = false
-    })
 }
 
 watchEffect(async () => {
   if (!requestUrl.value) {
     return
   }
-
-  feedStore.isLoading = true
-  feedStore.setItems([]);
-  await fetchFeed(requestUrl.value)
+  const response = await feedStore.fetchByUrl(requestUrl.value)
+  nextLink.value = response.next
 })
 
 </script>

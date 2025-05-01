@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import type { FeedType } from '@/utils/types.ts'
+import { getFeedBaseUrl } from '@/utils/helpers.ts'
 
 interface Attachment {
   url: string;
@@ -26,7 +28,9 @@ interface FeedState {
   items: FeedItem[]
   total: number
   filters: Record<'default' | string, FilterRecord>
-  isLoading: boolean
+  isLoading: boolean,
+  type: FeedType,
+  url: string,
 }
 
 export const useFeedStore = defineStore('feed', {
@@ -35,6 +39,8 @@ export const useFeedStore = defineStore('feed', {
       items: [],
       total: 0,
       isLoading: false,
+      type: 'generic',
+      url: getFeedBaseUrl('generic'),
       filters: {
         default: { exclude: ['viewed', 'not_interesting'] },
         favorites: { exclude: ['not_interesting'] },
@@ -60,19 +66,18 @@ export const useFeedStore = defineStore('feed', {
 
       if (!this.filters[category]) {
         this.filters[category] = {
-          ...this.filters.default,
-          ...filters as FilterRecord,
+          ...this.filters.default
         }
-      } else {
-        for (const key of Object.keys(filters)) {
-          if (filters[key] !== null) {
-            this.filters[category] = {
-              ...this.filters[category],
-              [key]: filters[key],
-            }
-          } else {
-            delete this.filters[category][key]
+      }
+
+      for (const key of Object.keys(filters)) {
+        if (filters[key] !== null) {
+          this.filters[category] = {
+            ...this.filters[category],
+            [key]: filters[key]
           }
+        } else {
+          delete this.filters[category][key]
         }
       }
     },
@@ -90,6 +95,27 @@ export const useFeedStore = defineStore('feed', {
     },
     appendItems(items: FeedItem[]) {
       this.items = this.items.concat(items)
+    },
+    async fetchByUrl(url: string, initial: boolean = true) {
+      if (initial) {
+        this.isLoading = true
+        this.items = []
+      }
+
+      const response = await fetch(url)
+        .then(response => response.json())
+
+      if (initial) {
+        this.items = response.results
+      } else {
+        this.items = this.items.concat(response.results)
+      }
+
+      if (initial) {
+        this.isLoading = false
+      }
+
+      return response
     }
   }
 })

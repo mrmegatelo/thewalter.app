@@ -9,9 +9,15 @@ import FeedFilters from '@/components/feed/Filters.vue'
 import FeedSearch from '@/components/feed/Search.vue'
 import FeedSubscription from '@/components/feed/Subscription.vue'
 import FeedListLoader from '@/components/feed/Loader.vue'
+import type { FeedType } from '@/utils/types.ts'
+import { getFeedBaseUrl } from '@/utils/helpers.ts'
+
+interface Props {
+  feedType: FeedType
+}
 
 const route = useRoute()
-const { feed_type } = defineProps({ feed_type: String })
+const { feedType } = defineProps<Props>()
 const subscriptions = useSubscriptionsStore()
 const collections = useCollectionsStore()
 const feedStore = useFeedStore()
@@ -24,29 +30,33 @@ const currentSubscription = computed(() => {
   return subscriptions.getBySlug(route.params.slug as string)
 })
 
+const getEntityId = (feedType: FeedType): string | undefined => {
+  if (feedType === 'subscription') {
+    return subscriptions.getBySlug(route.params.slug as string)?.id?.toString()
+  }
+
+  if (feedType === 'collection') {
+    return collections.getBySlug(route.params.slug as string)?.id?.toString()
+  }
+
+  return
+}
+
 const fetch_url = computed(() => {
   if (subscriptions.isLoading) {
     return null
   }
 
-  switch (feed_type) {
-    case 'feed':
-      const feed = subscriptions.getBySlug(route.params.slug as string)
-      return `/api/v1/subscriptions/${feed?.id}/feed/`
+  switch(feedType) {
+    case 'subscription':
+      handleFiltersChange({ subscription_id: getEntityId(feedType) || null });
+      break;
     case 'collection':
-      const collection = collections.getBySlug(route.params.slug as string)
-      return `/api/v1/collections/${collection?.id}/feed/`
-    case 'favorites':
-      return '/api/v1/feed/?type=favorite'
-    case 'articles':
-      return '/api/v1/feed/?type=article'
-    case 'podcasts':
-      return '/api/v1/feed/?type=podcast'
-    case 'videos':
-      return '/api/v1/feed/?type=video'
-    default:
-      return '/api/v1/feed/?'
+      handleFiltersChange({ collection_id: getEntityId(feedType) || null });
+      break;
   }
+
+  return getFeedBaseUrl(feedType, getEntityId(feedType))
 })
 
 function handleFiltersChange(filters: Record<string, string | null>) {
@@ -55,7 +65,7 @@ function handleFiltersChange(filters: Record<string, string | null>) {
 }
 
 watch(() => route.matched[0]?.name || route.name, (_, prevName) => {
-  feedStore.setFilters(prevName as string, { search: null })
+  feedStore.setFilters(prevName as string, { search: null, subscription_id: null, collection_id: null });
 })
 </script>
 

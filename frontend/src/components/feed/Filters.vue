@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineEmits } from 'vue'
+import { computed } from 'vue'
 import { useFeedStore } from '@/stores/feed.ts'
 import IconThumbDown from '@/components/icons/IconThumbDown.vue'
 import IconTaskAlt from '@/components/icons/IconTaskAlt.vue'

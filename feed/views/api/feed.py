@@ -116,6 +116,8 @@ class FeedListView(ListAPIView):
         queryset = self.apply_type_filters(queryset)
         queryset = self.apply_exclude_filters(queryset)
         queryset = self.apply_search_filter(queryset)
+        queryset = self.apply_collection_filter(queryset)
+        queryset = self.apply_subscription_filter(queryset)
         return queryset
 
     def apply_exclude_filters(self, queryset):
@@ -163,15 +165,17 @@ class FeedListView(ListAPIView):
             | Q(description__icontains=self.request.GET.get("search"))
         )
 
+    def apply_collection_filter(self, queryset):
+        collection_id = self.request.GET.get("collection_id")
+        if collection_id is None:
+            return queryset
+        return queryset.filter(feed__collections=collection_id)
 
-class CollectionFeedListView(FeedListView):
-    def get_queryset(self):
-        return super().get_queryset().filter(feed__collections=self.kwargs.get("pk"))
-
-
-class SubscriptionsFeedListView(FeedListView):
-    def get_queryset(self):
-        return super().get_queryset().filter(feed=self.kwargs.get("pk"))
+    def apply_subscription_filter(self, queryset):
+        subscription_id = self.request.GET.get("subscription_id")
+        if subscription_id is None:
+            return queryset
+        return queryset.filter(feed=subscription_id)
 
 
 class FeedItemUpdateView(UpdateAPIView):
