@@ -1,9 +1,6 @@
 FROM python:3.10.9-slim
 
-ENV PYTHONUNBUFFERED=1 \
-    POETRY_VERSION=1.5.1 \
-    POETRY_HOME=/opt/poetry \
-    PATH="/opt/poetry/bin:${PATH}"
+ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -21,12 +18,11 @@ RUN addgroup --system django \
 RUN mkdir -p /app/staticfiles /app/mediafiles /app/flower_db
 WORKDIR /app
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-COPY poetry.lock pyproject.toml ./
+COPY uv.lock pyproject.toml ./
 
-RUN poetry config virtualenvs.create false \
-    && poetry install --only main --no-interaction --no-ansi
+RUN uv sync
 
 COPY ./infra/production/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint \

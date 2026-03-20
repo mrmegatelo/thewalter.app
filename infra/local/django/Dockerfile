@@ -2,8 +2,6 @@ FROM python:3.10.9-slim-buster
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV POETRY_VERSION=1.5.1
-ENV POETRY_HOME="/opt/poetry"
 
 RUN apt-get update \
   # dependencies for building Python packages
@@ -18,16 +16,11 @@ RUN apt-get update \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Add Poetry to PATH
-ENV PATH="${PATH}:${POETRY_HOME}/bin"
+COPY uv.lock pyproject.toml ./
 
-# Requirements are installed here to ensure they will be cached.
-COPY poetry.lock pyproject.toml ./
-RUN poetry config virtualenvs.create false
-RUN poetry install --only main
+RUN uv sync
 
 COPY ./infra/local/django/entrypoint /entrypoint
 RUN sed -i 's/\r$//g' /entrypoint
