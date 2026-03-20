@@ -18,7 +18,12 @@ RUN addgroup --system django \
 RUN mkdir -p /app/staticfiles /app/mediafiles /app/flower_db
 WORKDIR /app
 
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+# Download the latest installer
+ADD https://astral.sh/uv/install.sh /uv-installer.sh
+# Run the installer then remove it
+RUN sh /uv-installer.sh && rm /uv-installer.sh
+# Ensure the installed binary is on the `PATH`
+ENV PATH="/root/.local/bin/:$PATH"
 
 COPY uv.lock pyproject.toml ./
 
